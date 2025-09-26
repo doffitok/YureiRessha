@@ -1,0 +1,13 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:VisualElement style="flex-grow: 1; position: absolute; top: 0; left: 0; right: 0; bottom: 0;">
+        <ui:VisualElement name="VisualElement" style="flex-grow: 1; position: absolute; height: 264px; width: 286px; background-color: rgba(101, 75, 75, 0.62); background-image: url(&quot;project://database/Assets/Sprites/HUD-BETA/indicador%20rojo.png?fileID=2800000&amp;guid=eb2fc4c9a6687524daf45c24573c1e6b&amp;type=3#indicador rojo&quot;); top: -6px; left: 34px;" />
+        <ui:VisualElement name="Container" style="flex-grow: 1; align-items: center; justify-content: space-evenly; flex-basis: 120%; flex-direction: row; width: 495px; top: 925px; position: absolute; height: 142px; background-color: rgba(55, 55, 55, 0.42); border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); align-self: center; align-content: stretch; left: 18px;">
+            <ui:Button text="Inventario" name="Inventario" selectable="true" parse-escape-sequences="false" />
+            <ui:Button text="Empezar" name="EmpezarTerminar" selectable="true" />
+        </ui:VisualElement>
+        <ui:VisualElement name="Tienda" style="flex-grow: 1; align-items: stretch; justify-content: space-evenly; flex-basis: 120%; flex-direction: row; width: 98px; top: 415px; position: absolute; height: 320px; background-color: rgba(55, 55, 55, 0.42); border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); align-self: center; align-content: stretch; left: 1789px;">
+            <ui:Button text="Tienda" name="TiendaBoton" selectable="true" />
+        </ui:VisualElement>
+        <ui:VisualElement name="Engimono" style="flex-grow: 1; align-items: center; justify-content: space-evenly; flex-basis: 120%; flex-direction: row; width: 1153px; top: 13px; position: absolute; height: 153px; background-color: rgba(55, 55, 55, 0.42); border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); align-self: center; align-content: stretch; left: 381px;" />
+    </ui:VisualElement>
+</ui:UXML>

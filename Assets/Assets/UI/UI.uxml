@@ -1,0 +1,27 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:VisualElement name="VisualElement" style="flex-grow: 1; position: absolute; top: 0; left: 0; right: 0; bottom: 0; -unity-text-align: upper-center; justify-content: center; width: 1980px; height: 1080px;">
+        <ui:VisualElement name="VisualElement" style="flex-grow: 1; position: absolute; height: 264px; width: 286px; background-color: rgba(101, 75, 75, 0.62); background-image: url(&quot;project://database/Assets/Sprites/HUD-BETA/indicador%20rojo.png?fileID=2800000&amp;guid=eb2fc4c9a6687524daf45c24573c1e6b&amp;type=3#indicador rojo&quot;); top: -6px; left: 34px;" />
+        <ui:VisualElement name="Container" style="flex-grow: 1; align-items: center; justify-content: center; flex-basis: 120%; flex-direction: row; width: 201px; top: 1015px; position: absolute; height: 57px; background-color: rgba(55, 55, 55, 0.42); border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); align-self: stretch; align-content: stretch; left: 6px; opacity: 1;">
+            <ui:Button text="Inventario" name="Inventario" selectable="true" parse-escape-sequences="false" />
+            <ui:Button text="Empezar" name="EmpezarTerminar" selectable="true" />
+        </ui:VisualElement>
+        <ui:VisualElement name="Engimono" style="flex-grow: 1; align-items: center; justify-content: space-evenly; flex-basis: 120%; flex-direction: row; width: 1153px; top: 13px; position: absolute; height: 153px; background-color: rgba(55, 55, 55, 0.42); border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); align-self: center; align-content: stretch; left: 381px;" />
+        <ui:VisualElement name="Tienda" style="flex-grow: 1; align-items: stretch; justify-content: space-evenly; flex-basis: 120%; flex-direction: row; width: 98px; top: 415px; position: absolute; height: 320px; background-color: rgba(55, 55, 55, 0.42); border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); align-self: center; align-content: stretch; left: 1789px;">
+            <ui:Button text="Tienda" name="TiendaBoton" selectable="true" />
+        </ui:VisualElement>
+        <ui:Label text="Tiempo transcurrido: 0" name="timeLabel" style="width: 755px; height: 106px; font-size: 59px; -unity-font-style: bold; white-space: pre; position: absolute; top: 324px; left: 34px; color: rgb(255, 255, 255);" />
+        <ui:VisualElement name="TiendaAbierta" style="flex-grow: 1; width: 290px; height: 405px; min-width: 0; min-height: 0; max-height: none; position: absolute; top: 358px; left: 1618px; background-color: rgb(120, 112, 112); visibility: visible;">
+            <ui:Button text="Button" name="Bebida" style="position: absolute; top: 23px; left: 18px; height: 64px; width: 97px;" />
+            <ui:Button text="Button" name="PapasFritas" style="position: absolute; top: 23px; left: 131px; height: 64px; width: 97px;" />
+            <ui:Button text="Button" name="Soimai" style="position: absolute; top: 102px; left: 18px; height: 64px; width: 97px;" />
+            <ui:Button text="Button" name="Slime" style="position: absolute; top: 102px; left: 132px; height: 64px; width: 97px;" />
+            <ui:Button text="Button" name="Sushi" style="position: absolute; top: 188px; left: 20px; height: 64px; width: 97px;" />
+            <ui:Button text="Button" name="Langosta" style="position: absolute; top: 190px; left: 135px; height: 64px; width: 97px;" />
+            <ui:Button text="Button" name="Onigiri" style="position: absolute; top: 270px; left: 24px; height: 64px; width: 97px;" />
+            <ui:Button text="Salir" name="Exit" style="position: absolute; top: 270px; left: 133px; height: 64px; width: 97px;" />
+        </ui:VisualElement>
+        <ui:VisualElement name="InventarioBox" style="flex-grow: 1; position: absolute; height: 305px; width: 334px; top: 766px; left: 7px; background-color: rgb(67, 61, 61); visibility: visible;">
+            <ui:Button text="Button" name="CerrarInventario" style="position: absolute; top: 3px; left: 252px;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

@@ -7,7 +7,7 @@ public class HUD : MonoBehaviour
     public DayLogic dayLogic;
 
     // Label del HUD
-    private Label timeLabel;
+    private Label tiempoTranscurrido;
 
     private void OnEnable()
     {
@@ -15,7 +15,7 @@ public class HUD : MonoBehaviour
         var root = GetComponent<UIDocument>().rootVisualElement;
 
         // Label del tiempo
-        timeLabel = root.Q<Label>("timeLabel");
+        tiempoTranscurrido = root.Q<Label>("tiempoTranscurrido");
 
         // Buscar todos los botones dentro del HUD
         var buttons = root.Query<Button>().ToList();
@@ -64,9 +64,9 @@ public class HUD : MonoBehaviour
     private void Update()
     {
         // Actualizar el Label con el tiempo
-        if (dayLogic != null && timeLabel != null)
+        if (dayLogic != null && tiempoTranscurrido != null)
         {
-            timeLabel.text = "Tiempo transcurrido: " + dayLogic.currentSecond.ToString();
+            tiempoTranscurrido.text = "Tiempo transcurrido: " + dayLogic.currentSecond.ToString();
         }
     }
 }

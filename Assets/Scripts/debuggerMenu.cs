@@ -3,90 +3,104 @@ using UnityEngine.UIElements;
 
 public class DebuggerMenu : MonoBehaviour
 {
-    public GameStats stats;
+    [Header("Referencias Opcionales")]
+    public UIDocument uiDocument; // 🔹 Si el script no está en el mismo GameObject que el UIDocument, arrastra la referencia aquí
+
+    private GameStats stats;
+    private DayLogic dayLogic;
+    private PassengerPlacementLogic passengerLogic;
 
     private TextField ratingField;
     private TextField dineroField;
     private TextField suerteField;
+    private Button reiniciarDiaButton;
 
-    void OnEnable()
+    private void OnEnable()
     {
-        UIDocument doc = GetComponent<UIDocument>() ?? FindObjectOfType<UIDocument>();
+        // Obtener rootVisualElement desde UIDocument
+        UIDocument doc = uiDocument != null ? uiDocument : GetComponent<UIDocument>();
         if (doc == null)
         {
-            Debug.LogError("[DebuggerMenu] No se encontro UIDocument en la escena.");
+            Debug.LogWarning("[DebuggerMenu] No se encontro UIDocument en la escena ni referencia asignada.");
             return;
         }
-
         var root = doc.rootVisualElement;
+
+        // Referencias a los TextFields (respetando exactamente los nombres)
         ratingField = root.Q<TextField>("debuggerRating");
         dineroField = root.Q<TextField>("debuggerDinero");
         suerteField = root.Q<TextField>("debuggerSuerte");
 
-        if (stats == null)
+        // Botón para reiniciar el día
+        reiniciarDiaButton = root.Q<Button>("debuggerReiniciarDia");
+        if (reiniciarDiaButton != null)
         {
-            stats = FindObjectOfType<GameStats>();
-            if (stats == null)
-            {
-                Debug.LogWarning("[DebuggerMenu] No se encontro GameStats en la escena.");
-                return;
-            }
-        }
-
-        // Inicializamos campos
-        UpdateFieldsFromStats();
-
-        // Suscribimos eventos de cambio
-        if (ratingField != null) ratingField.RegisterValueChangedCallback(evt => OnRatingChanged(evt.newValue));
-        if (dineroField != null) dineroField.RegisterValueChangedCallback(evt => OnDineroChanged(evt.newValue));
-        if (suerteField != null) suerteField.RegisterValueChangedCallback(evt => OnSuerteChanged(evt.newValue));
-    }
-
-    public void UpdateFieldsFromStats()
-    {
-        if (stats == null) return;
-
-        if (ratingField != null) ratingField.SetValueWithoutNotify(stats.rating.ToString());
-        if (dineroField != null) dineroField.SetValueWithoutNotify(stats.dinero.ToString());
-        if (suerteField != null) suerteField.SetValueWithoutNotify(stats.suerte.ToString());
-    }
-
-    private void OnRatingChanged(string input)
-    {
-        if (int.TryParse(input, out int value))
-        {
-            stats.rating = Mathf.Clamp(value, 1, 5);
-            UpdateFieldsFromStats(); // Refrescar valor corregido si se paso del limite
+            reiniciarDiaButton.clicked += OnReiniciarDiaClicked;
         }
         else
         {
-            UpdateFieldsFromStats(); // Revertir si el input no fue valido
+            Debug.LogWarning("[DebuggerMenu] No se encontro el boton 'debuggerReiniciarDia'.");
         }
+
+        // Buscamos los objetos necesarios en la escena
+        stats = FindFirstObjectByType<GameStats>();
+        dayLogic = FindFirstObjectByType<DayLogic>();
+        passengerLogic = FindFirstObjectByType<PassengerPlacementLogic>();
+
+        if (stats == null) Debug.LogWarning("[DebuggerMenu] No se encontro GameStats en la escena.");
+        if (dayLogic == null) Debug.LogWarning("[DebuggerMenu] No se encontro DayLogic en la escena.");
+        if (passengerLogic == null) Debug.LogWarning("[DebuggerMenu] No se encontro PassengerPlacementLogic en la escena.");
+
+        // Inicializamos valores en los TextFields
+        if (stats != null)
+        {
+            ratingField.value = stats.rating.ToString();
+            dineroField.value = stats.dinero.ToString();
+            suerteField.value = stats.suerte.ToString();
+        }
+
+        // Suscribimos eventos de cambio de texto
+        ratingField.RegisterValueChangedCallback(evt => UpdateStatValue(evt.newValue, ref stats.rating, 1, 60, ratingField));
+        dineroField.RegisterValueChangedCallback(evt => UpdateStatValue(evt.newValue, ref stats.dinero, 0, 10000, dineroField));
+        suerteField.RegisterValueChangedCallback(evt => UpdateStatValue(evt.newValue, ref stats.suerte, 0, 100, suerteField));
     }
 
-    private void OnDineroChanged(string input)
+    private void UpdateStatValue(string input, ref int stat, int min, int max, TextField field)
     {
-        if (int.TryParse(input, out int value))
+        int parsedValue;
+        if (int.TryParse(input, out parsedValue))
         {
-            stats.dinero = Mathf.Clamp(value, 0, 10000);
-            UpdateFieldsFromStats();
+            parsedValue = Mathf.Clamp(parsedValue, min, max);
+            stat = parsedValue;
+            field.value = stat.ToString(); // Refrescar el campo
         }
         else
         {
-            UpdateFieldsFromStats();
+            field.value = stat.ToString(); // Si no es válido, mantener valor actual
         }
     }
 
-    private void OnSuerteChanged(string input)
+    private void OnReiniciarDiaClicked()
     {
-        if (int.TryParse(input, out int value))
+        // Reiniciar día y timer
+        if (dayLogic != null)
         {
-            stats.suerte = Mathf.Clamp(value, 0, 100);
-            UpdateFieldsFromStats();
+            dayLogic.ResetDay();
+            dayLogic.StartDay(); // 🔹 Asegura que el tiempo vuelva a contar
         }
-        else
+
+        // Regenerar pasajeros
+        if (passengerLogic != null)
         {
-            UpdateFieldsFromStats();
+            passengerLogic.SpawnPassengers();
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (reiniciarDiaButton != null)
+        {
+            reiniciarDiaButton.clicked -= OnReiniciarDiaClicked;
         }
     }
 }

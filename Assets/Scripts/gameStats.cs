@@ -8,7 +8,7 @@ public class GameStats : MonoBehaviour
 {
     // rating: calificacion del tren
     [Header("Rating")]
-    [Range(1,5)] // Rango minimo y maximo
+    [Range(0,60)] // Rango minimo y maximo
     public int rating = 3; // Valor por defecto
 
     // dinero: dinero disponible del tren

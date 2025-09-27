@@ -275,7 +275,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1dfefeaff8b085b458661faf2ba77e50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rating: 5
+  rating: 40
   dinero: 10000
   suerte: 10
 --- !u!1 &654956562
@@ -690,7 +690,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 562f88a390bb45c4997029f7a309d42e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stats: {fileID: 648572419}
+  uiDocument: {fileID: 1594326482}
 --- !u!1001 &1247527256
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1264,10 +1264,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1594326481}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa2fb98a04b5c0341a050a9b2d1493a5, type: 3}
+  m_Script: {fileID: 11500000, guid: 562f88a390bb45c4997029f7a309d42e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stats: {fileID: 0}
+  uiDocument: {fileID: 1594326482}
 --- !u!1 &1610057702
 GameObject:
   m_ObjectHideFlags: 0

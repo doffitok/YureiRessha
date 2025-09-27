@@ -18,6 +18,6 @@ public class GameStats : MonoBehaviour
 
     // suerte: factor aleatorio que puede alterar probabilidades
     [Header("Suerte")]
-    [Range(0,10)] // Rango minimo y maximo
+    [Range(0,100)] // Rango minimo y maximo
     public int suerte = 1; // Valor por defecto
 }

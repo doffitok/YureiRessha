@@ -17,12 +17,13 @@ public class UIManager : MonoBehaviour
     {
         var root = GetComponent<UIDocument>().rootVisualElement;
 
-        // =================
-        // Inventario
-        // =================
         inventarioBox = root.Q<VisualElement>("InventarioBox");
         btnInventario = root.Q<Button>("Inventario");
         btnCerrarInventario = root.Q<Button>("CerrarInventario");
+
+        Debug.Log($"InventarioBox: {inventarioBox}");
+        Debug.Log($"btnInventario: {btnInventario}");
+        Debug.Log($"btnCerrarInventario: {btnCerrarInventario}");
 
         if (inventarioBox != null)
             inventarioBox.style.display = DisplayStyle.None;

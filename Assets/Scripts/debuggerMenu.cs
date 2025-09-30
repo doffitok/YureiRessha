@@ -14,6 +14,12 @@ public class DebuggerMenu : MonoBehaviour
     private TextField dineroField;
     private TextField suerteField;
     private Button reiniciarDiaButton;
+    private Slider debuggerTiempo;
+
+    // NUEVO: botón y contenedor del menú
+    private Button debuggerMenuButton;
+    private VisualElement debuggerMenuItems;
+    private bool menuVisible = false;
 
     private void OnEnable()
     {
@@ -26,7 +32,7 @@ public class DebuggerMenu : MonoBehaviour
         }
         var root = doc.rootVisualElement;
 
-        // Referencias a los TextFields (respetando exactamente los nombres)
+        // Referencias a los TextFields
         ratingField = root.Q<TextField>("debuggerRating");
         dineroField = root.Q<TextField>("debuggerDinero");
         suerteField = root.Q<TextField>("debuggerSuerte");
@@ -37,10 +43,19 @@ public class DebuggerMenu : MonoBehaviour
         {
             reiniciarDiaButton.clicked += OnReiniciarDiaClicked;
         }
-        else
-        {
-            Debug.LogWarning("[DebuggerMenu] No se encontro el boton 'debuggerReiniciarDia'.");
-        }
+
+        // Slider para manipular el tiempo
+        debuggerTiempo = root.Q<Slider>("debuggerTiempo");
+
+        // NUEVO: botón del menú y contenedor de elementos
+        debuggerMenuButton = root.Q<Button>("debuggerMenu");
+        debuggerMenuItems = root.Q<VisualElement>("debuggerMenuItems");
+
+        if (debuggerMenuItems != null)
+            debuggerMenuItems.style.display = DisplayStyle.None; // oculto por default
+
+        if (debuggerMenuButton != null)
+            debuggerMenuButton.clicked += ToggleMenu;
 
         // Buscamos los objetos necesarios en la escena
         stats = FindFirstObjectByType<GameStats>();
@@ -63,6 +78,30 @@ public class DebuggerMenu : MonoBehaviour
         ratingField.RegisterValueChangedCallback(evt => UpdateStatValue(evt.newValue, ref stats.rating, 1, 60, ratingField));
         dineroField.RegisterValueChangedCallback(evt => UpdateStatValue(evt.newValue, ref stats.dinero, 0, 10000, dineroField));
         suerteField.RegisterValueChangedCallback(evt => UpdateStatValue(evt.newValue, ref stats.suerte, 0, 100, suerteField));
+
+        // Configurar slider del tiempo
+        if (debuggerTiempo != null && dayLogic != null)
+        {
+            debuggerTiempo.lowValue = 0;
+            debuggerTiempo.highValue = dayLogic.maxSeconds;
+            debuggerTiempo.value = dayLogic.currentSecond;
+
+            debuggerTiempo.RegisterValueChangedCallback(evt =>
+            {
+                if (dayLogic != null)
+                {
+                    dayLogic.SetCurrentSecond(Mathf.Clamp(Mathf.RoundToInt(evt.newValue), 0, dayLogic.maxSeconds));
+                }
+            });
+        }
+    }
+
+    private void ToggleMenu()
+    {
+        if (debuggerMenuItems == null) return;
+
+        menuVisible = !menuVisible;
+        debuggerMenuItems.style.display = menuVisible ? DisplayStyle.Flex : DisplayStyle.None;
     }
 
     private void UpdateStatValue(string input, ref int stat, int min, int max, TextField field)
@@ -94,13 +133,18 @@ public class DebuggerMenu : MonoBehaviour
         {
             passengerLogic.SpawnPassengers();
         }
+
+        // Actualizar slider también
+        if (debuggerTiempo != null && dayLogic != null)
+            debuggerTiempo.value = dayLogic.currentSecond;
     }
 
     private void OnDisable()
     {
         if (reiniciarDiaButton != null)
-        {
             reiniciarDiaButton.clicked -= OnReiniciarDiaClicked;
-        }
+
+        if (debuggerMenuButton != null)
+            debuggerMenuButton.clicked -= ToggleMenu;
     }
 }

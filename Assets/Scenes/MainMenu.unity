@@ -240,17 +240,6 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
---- !u!114 &863724744 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8257244075579035988, guid: a3e362b232414bd45b038b2e83bdf1ff, type: 3}
-  m_PrefabInstance: {fileID: 1817297597975858500}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a334fe2ffb574b3583ff3b18b4792d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1788813127
 GameObject:
   m_ObjectHideFlags: 0
@@ -359,7 +348,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61dddfdc5e0e44ca298d8f46f7f5a915, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedFlowchart: {fileID: 863724744}
 --- !u!4 &1889435008
 Transform:
   m_ObjectHideFlags: 1
@@ -524,6 +512,7 @@ GameObject:
   - component: {fileID: 2040014379}
   - component: {fileID: 2040014382}
   - component: {fileID: 2040014383}
+  - component: {fileID: 2040014384}
   m_Layer: 5
   m_Name: UIDocument
   m_TagString: Untagged
@@ -589,6 +578,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61479b52f459f6d42a24282bdeef4bde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneChanger
+--- !u!114 &2040014384
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2040014378}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1dbb4a7e9028e9e419768dd4ae6b514a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiDocument: {fileID: 2040014379}
 --- !u!1001 &1817297597975858500
 PrefabInstance:
   m_ObjectHideFlags: 0

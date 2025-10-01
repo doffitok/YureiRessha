@@ -1,25 +1,18 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
-    <ui:VisualElement name="VisualElement" style="flex-grow: 1; position: absolute; top: -6px; left: -1px; right: -62px; bottom: 6px; -unity-text-align: upper-center; justify-content: center; width: 1980px; height: 1080px;">
-        <ui:VisualElement name="Container" style="flex-grow: 1; align-items: center; justify-content: center; flex-basis: 120%; flex-direction: row; width: 201px; top: 1015px; position: absolute; height: 57px; background-color: rgba(55, 55, 55, 0.42); border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); align-self: stretch; align-content: stretch; left: 6px; opacity: 1;">
-            <ui:Button text="Inventario" name="Inventario" selectable="true" parse-escape-sequences="false" />
-            <ui:Button text="Empezar" name="EmpezarTerminar" selectable="true" />
-        </ui:VisualElement>
-        <ui:VisualElement name="Tienda" style="flex-grow: 1; align-items: stretch; justify-content: space-evenly; flex-basis: 120%; flex-direction: row; width: 98px; top: 156px; position: absolute; height: 320px; background-color: rgba(55, 55, 55, 0.42); border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); align-self: center; align-content: stretch; left: 1815px;">
-            <ui:Button text="Tienda" name="TiendaBoton" selectable="true" />
-        </ui:VisualElement>
-        <ui:VisualElement name="TiendaAbierta" style="flex-grow: 1; width: 415px; height: 568px; min-width: 0; min-height: 0; max-height: none; position: absolute; top: 32px; left: 1513px; background-color: rgba(255, 255, 255, 0); visibility: visible; background-image: url(&quot;project://database/Assets/Sprites/HUD-BETA/Refri.png?fileID=2800000&amp;guid=2cd6a7bdd041c654fad3e6148f966832&amp;type=3#Refri&quot;);">
-            <ui:Button text="Button" name="Bebida" style="position: absolute; top: 135px; left: 100px; height: 75px; width: 44px;" />
-            <ui:Button text="Button" name="PapasFritas" style="position: absolute; top: 138px; left: 222px; height: 72px; width: 35px;" />
-            <ui:Button text="Button" name="Soimai" style="position: absolute; top: 137px; left: 280px; height: 72px; width: 38px;" />
-            <ui:Button text="Button" name="Slime" style="position: absolute; top: 262px; left: 290px; height: 75px; width: 44px;" />
-            <ui:Button text="Button" name="Sushi" style="position: absolute; top: 260px; left: 122px; height: 77px; width: 53px;" />
-            <ui:Button text="Button" name="Langosta" style="position: absolute; top: 262px; left: 200px; height: 77px; width: 77px;" />
-            <ui:Button text="Button" name="Onigiri" style="position: absolute; top: 143px; left: 158px; height: 70px; width: 42px;" />
-            <ui:Button text="Salir" name="Exit" style="position: absolute; top: 472px; left: 253px; height: 67px; width: 101px; display: flex; opacity: 0;" />
-        </ui:VisualElement>
-        <ui:VisualElement name="InventarioBox" style="flex-grow: 1; position: absolute; height: 305px; width: 334px; top: 766px; left: 7px; background-color: rgb(67, 61, 61); visibility: visible;">
-            <ui:Button text="Button" name="CerrarInventario" style="position: absolute; top: 5px; left: 242px;" />
-        </ui:VisualElement>
+    <ui:VisualElement name="InventarioBox" style="flex-grow: 1; position: absolute; height: 305px; width: 334px; top: 766px; left: 7px; background-color: rgb(67, 61, 61); visibility: visible;">
+        <ui:Button text="Button" name="CerrarInventario" style="position: absolute; top: 5px; left: 242px;" />
+    </ui:VisualElement>
+    <ui:VisualElement name="TiendaAbierta" style="flex-grow: 1; width: 415px; height: 568px; min-width: 0; min-height: 0; max-height: none; position: absolute; top: 180px; left: 1517px; background-color: rgba(255, 255, 255, 0); visibility: visible; background-image: url(&quot;project://database/Assets/Sprites/HUD-BETA/Refri.png?fileID=2800000&amp;guid=2cd6a7bdd041c654fad3e6148f966832&amp;type=3#Refri&quot;);">
+        <ui:Button text="Button" name="engimonoArriba" enabled="true" style="position: absolute; top: 112px; left: 141px; height: 99px; width: 152px;" />
+        <ui:Button text="Salir" name="Exit" style="position: absolute; top: 472px; left: 253px; height: 67px; width: 101px; display: flex; opacity: 0;" />
+        <ui:Button text="Button" name="engimonoAbajo" style="position: absolute; top: 245px; left: 143px; height: 99px; width: 152px;" />
+    </ui:VisualElement>
+    <ui:VisualElement name="Tienda" style="flex-grow: 1; align-items: stretch; justify-content: space-evenly; flex-basis: 120%; flex-direction: row; width: 98px; top: 327px; position: absolute; height: 320px; background-color: rgba(55, 55, 55, 0.42); border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); align-self: center; align-content: stretch; left: 1802px;">
+        <ui:Button text="Tienda" name="TiendaBoton" selectable="true" />
+    </ui:VisualElement>
+    <ui:VisualElement name="Container" style="flex-grow: 1; align-items: center; justify-content: center; flex-basis: 120%; flex-direction: row; width: 201px; top: 1015px; position: absolute; height: 57px; background-color: rgba(55, 55, 55, 0.42); border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); align-self: stretch; align-content: stretch; left: 6px; opacity: 1;">
+        <ui:Button text="Inventario" name="Inventario" selectable="true" parse-escape-sequences="false" />
+        <ui:Button text="Empezar" name="EmpezarTerminar" selectable="true" />
     </ui:VisualElement>
     <ui:VisualElement name="DebugMenu" enabled="true" style="flex-grow: 1; position: absolute; height: 44px; width: 63px; top: 19px; left: 9px;">
         <ui:VisualElement name="debuggerMenuItems" style="flex-grow: 1; position: absolute; height: 54px; width: 68px; top: -100px; left: -155px;">

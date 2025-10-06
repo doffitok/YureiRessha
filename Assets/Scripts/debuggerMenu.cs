@@ -8,7 +8,7 @@ public class DebuggerMenu : MonoBehaviour
 
     private GameStats stats;
     private DayLogic dayLogic;
-    private PassengerPlacementLogic passengerLogic;
+    private passengerPlacementLogic passengerLogic;
 
     private TextField ratingField;
     private TextField dineroField;
@@ -60,11 +60,11 @@ public class DebuggerMenu : MonoBehaviour
         // Buscamos los objetos necesarios en la escena
         stats = FindFirstObjectByType<GameStats>();
         dayLogic = FindFirstObjectByType<DayLogic>();
-        passengerLogic = FindFirstObjectByType<PassengerPlacementLogic>();
+        passengerLogic = FindFirstObjectByType<passengerPlacementLogic>();
 
         if (stats == null) Debug.LogWarning("[DebuggerMenu] No se encontro GameStats en la escena.");
         if (dayLogic == null) Debug.LogWarning("[DebuggerMenu] No se encontro DayLogic en la escena.");
-        if (passengerLogic == null) Debug.LogWarning("[DebuggerMenu] No se encontro PassengerPlacementLogic en la escena.");
+        if (passengerLogic == null) Debug.LogWarning("[DebuggerMenu] No se encontro passengerPlacementLogic en la escena.");
 
         // Inicializamos valores en los TextFields
         if (stats != null)

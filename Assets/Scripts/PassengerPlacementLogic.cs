@@ -1,76 +1,85 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class PassengerPlacementLogic : MonoBehaviour
+public class passengerPlacementLogic : MonoBehaviour
 {
-    [Header("Configuracion")]
-    public Transform passengerSpawnsParent;        // 🔹 El Empty "passengerSpawns"
-    public GameObject passengerPlaceholderPrefab;  // 🔹 El prefab (tu cubo)
-
+    [Header("Configuración")]
+    [Tooltip("Empty que contiene los puntos de spawn de los pasajeros.")]
+    public Transform passengerSpawnsParent;
+    
+    [Tooltip("Prefab del placeholder del pasajero.")]
+    public GameObject passengerPlaceholderPrefab;
+    
     private List<Transform> spawnPoints = new List<Transform>();
+    [HideInInspector] public List<GameObject> activePassengers = new List<GameObject>();
 
     void Start()
     {
-        // Guardamos todos los hijos de passengerSpawns
+        InitializeSpawnPoints();
+        SpawnPassengers();
+    }
+
+    private void InitializeSpawnPoints()
+    {
         foreach (Transform child in passengerSpawnsParent)
         {
             spawnPoints.Add(child);
         }
-
-        // Apenas arranca el juego → spawneamos pasajeros
-        SpawnPassengers();
     }
 
-    // 🔹 Hacer público para poder llamarlo desde DebuggerMenu
     public void SpawnPassengers()
     {
-        // Limpiamos cualquier passenger previo
-        foreach (Transform spawn in spawnPoints)
+        // Limpiar pasajeros existentes
+        foreach (GameObject passenger in activePassengers)
         {
-            foreach (Transform child in spawn)
-            {
-                Destroy(child.gameObject);
-            }
+            Destroy(passenger);
         }
+        activePassengers.Clear();
 
-        // Número de pasajeros mínimo y máximo
+        // Calcular número de pasajeros basado en rating
+        GameStats stats = FindObjectOfType<GameStats>();
         int minPassengers = 2;
         int maxPassengers = spawnPoints.Count;
-
-        // Buscamos stats
-        GameStats stats = FindFirstObjectByType<GameStats>();
-        if (stats == null)
-        {
-            Debug.LogWarning("[PassengerPlacementLogic] No se encontro GameStats en la escena.");
-            return;
-        }
-
-        // Empezamos con el mínimo garantizado
         int passengersToSpawn = minPassengers;
 
-        // Asientos extra
-        int extraSeats = maxPassengers - minPassengers;
-        int ratingInternal = stats.rating; // Valor 0–60
-
-        for (int i = 0; i < extraSeats; i++)
+        if (stats != null)
         {
-            int roll = Random.Range(0, 61); // 0 a 60 inclusive
-            if (roll <= ratingInternal)
+            int rating = Mathf.Clamp(stats.rating, 0, 60);
+            int extraSeats = maxPassengers - minPassengers;
+            
+            for (int i = 0; i < extraSeats; i++)
             {
-                passengersToSpawn++;
+                if (Random.Range(0, 61) <= rating)
+                {
+                    passengersToSpawn++;
+                }
             }
         }
 
-        // Lista temporal de spawns disponibles
+        // Crear pasajeros
         List<Transform> availableSpawns = new List<Transform>(spawnPoints);
-
         for (int i = 0; i < passengersToSpawn; i++)
         {
             int index = Random.Range(0, availableSpawns.Count);
             Transform chosenSpawn = availableSpawns[index];
-
-            Instantiate(passengerPlaceholderPrefab, chosenSpawn.position, Quaternion.identity, chosenSpawn);
+            GameObject placeholder = Instantiate(
+                passengerPlaceholderPrefab,
+                chosenSpawn.position,
+                Quaternion.identity,
+                chosenSpawn
+            );
             availableSpawns.RemoveAt(index);
+            activePassengers.Add(placeholder);
         }
+    }
+
+    public Transform[] GetPassengerPlaceholders()
+    {
+        Transform[] placeholders = new Transform[activePassengers.Count];
+        for (int i = 0; i < activePassengers.Count; i++)
+        {
+            placeholders[i] = activePassengers[i].transform;
+        }
+        return placeholders;
     }
 }

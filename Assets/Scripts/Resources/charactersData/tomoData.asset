@@ -16,7 +16,8 @@ MonoBehaviour:
   nombre: Tomo
   rating: 11
   dinero: 4
-  demanda: 15
+  demandaMin: 55
+  demandaMax: 100
   exigencia: 12
   debugColor: {r: 0.7264203, g: 1, b: 0.5613208, a: 1}
   debugTexture: {fileID: 2800000, guid: 40933529ed7f88b4e8134c8149311f31, type: 3}

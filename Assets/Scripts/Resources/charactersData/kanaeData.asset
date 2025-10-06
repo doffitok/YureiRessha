@@ -16,7 +16,8 @@ MonoBehaviour:
   nombre: Kanae
   rating: 10
   dinero: 5
-  demanda: 12
+  demandaMin: 47
+  demandaMax: 100
   exigencia: 7
   debugColor: {r: 0, g: 0.4214232, b: 1, a: 1}
   debugTexture: {fileID: 2800000, guid: 2f23b3e2966ccd14c98ef3de37dff648, type: 3}

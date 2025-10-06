@@ -16,7 +16,8 @@ MonoBehaviour:
   nombre: Shinkai
   rating: 15
   dinero: 17
-  demanda: 1
+  demandaMin: 16
+  demandaMax: 100
   exigencia: 14
   debugColor: {r: 1, g: 0.2688679, b: 0.7216036, a: 1}
   debugTexture: {fileID: 2800000, guid: 1015e105d26b82c4580768389ba92411, type: 3}

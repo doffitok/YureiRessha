@@ -1,73 +1,104 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class passengerSelectLogic : MonoBehaviour
 {
     [Header("Referencias")]
-    public passengerPlacementLogic placementLogic; // Referencia al script que tiene los placeholders
+    public passengerPlacementLogic placementLogic;
 
-    private CharacterData[] allCharacters;
-
-    void Start()
+    private void Start()
     {
         if (placementLogic == null)
+            placementLogic = FindFirstObjectByType<passengerPlacementLogic>();
+
+        if (placementLogic == null)
         {
-            Debug.LogError("[passengerSelectLogic] No se ha asignado passengerPlacementLogic en el inspector.");
+            Debug.LogError("[passengerSelectLogic] No se encontró passengerPlacementLogic en la escena.");
             return;
         }
 
-        // Cargar todos los CharacterData dentro de Resources/charactersData
-        allCharacters = Resources.LoadAll<CharacterData>("charactersData");
+        StartCoroutine(DelayedSetup());
+    }
 
-        if (allCharacters.Length == 0)
+    private IEnumerator DelayedSetup()
+    {
+        yield return null; // esperar 1 frame
+
+        List<GameObject> prefabs = placementLogic.passengerPrefabs;
+
+        if (prefabs == null || prefabs.Count == 0)
         {
-            Debug.LogError("[passengerSelectLogic] ¡Error! No se encontraron personajes en 'Resources/charactersData'");
-            return;
-        }
-
-        // Mostrar los nombres de los personajes encontrados
-        Debug.Log("[passengerSelectLogic] Personajes encontrados:");
-        foreach (CharacterData character in allCharacters)
-        {
-            Debug.Log($" - {character.nombre}");
-        }
-
-        // Obtener todos los placeholders desde passengerPlacementLogic
-        Transform[] placeholders = placementLogic.GetPassengerPlaceholders();
-
-        foreach (Transform placeholder in placeholders)
-        {
-            Debug.Log($"[passengerSelectLogic] Analizando placeholder: {placeholder.name}");
-
-            // Buscar cualquier SpriteRenderer hijo del placeholder
-            SpriteRenderer spriteRenderer = placeholder.GetComponentInChildren<SpriteRenderer>();
-
-            if (spriteRenderer == null)
+            Debug.LogError("[passengerSelectLogic] No hay prefabs de pasajeros asignados. Se usarán personajes default.");
+            prefabs = placementLogic.defaultPassengers;
+            if (prefabs == null || prefabs.Count == 0)
             {
-                Debug.LogWarning($"[passengerSelectLogic] No se encontró SpriteRenderer en {placeholder.name}");
-                continue;
+                Debug.LogError("[passengerSelectLogic] Tampoco hay personajes default disponibles.");
+                yield break;
+            }
+        }
+
+        int maxSpawn = placementLogic.GetSpawnPointCount();
+        int numToSpawn = Mathf.Min(prefabs.Count, maxSpawn);
+
+        // 🔹 Tiradas y separación en listas de prioridad
+        List<(GameObject prefab, int roll, int demandaMin)> candidateRolls = new List<(GameObject, int, int)>();
+        List<GameObject> prioritized = new List<GameObject>();
+        List<GameObject> nonPrioritized = new List<GameObject>();
+
+        foreach (GameObject candidate in prefabs)
+        {
+            itemIdentifier identifier = candidate.GetComponent<itemIdentifier>();
+            int roll = 0;
+            int demandaMin = 0;
+
+            if (identifier != null && identifier.characterData != null)
+            {
+                var data = identifier.characterData;
+                roll = Random.Range(data.demandaMin, data.demandaMax + 1);
+                demandaMin = data.demandaMin;
             }
 
-            // Seleccionar un personaje aleatorio
-            CharacterData randomCharacter = allCharacters[Random.Range(0, allCharacters.Length)];
-
-            if (randomCharacter.debugTexture == null)
-            {
-                Debug.LogWarning($"[passengerSelectLogic] El personaje {randomCharacter.nombre} no tiene debugTexture asignada.");
-                continue;
-            }
-
-            // Forzar refresco del sprite
-            spriteRenderer.sprite = null;
-
-            // Crear un nuevo sprite a partir de la textura del CharacterData
-            Sprite newSprite = Sprite.Create(
-                randomCharacter.debugTexture,
-                new Rect(0, 0, randomCharacter.debugTexture.width, randomCharacter.debugTexture.height),
-                new Vector2(0.5f, 0.5f)
-            );
-
-            spriteRenderer.sprite = newSprite;
-            Debug.Log($"[passengerSelectLogic] Asignado sprite de {randomCharacter.nombre} a {placeholder.name}");
+            candidateRolls.Add((candidate, roll, demandaMin));
         }
+
+        // Mostrar todos los rolls
+        Debug.Log("[passengerSelectLogic] Rolls de todos los candidatos:");
+        foreach (var c in candidateRolls)
+        {
+            Debug.Log($"- {c.prefab.name}: Roll={c.roll}, DemandaMin={c.demandaMin}");
+        }
+
+        // Separar prioridades
+        foreach (var c in candidateRolls)
+        {
+            if (c.demandaMin >= 40)
+                prioritized.Add(c.prefab);
+            else
+                nonPrioritized.Add(c.prefab);
+        }
+
+        // Ordenar descendente según roll
+        prioritized = prioritized.OrderByDescending(p => candidateRolls.First(c => c.prefab == p).roll).ToList();
+        nonPrioritized = nonPrioritized.OrderByDescending(p => candidateRolls.First(c => c.prefab == p).roll).ToList();
+
+        // Seleccionar hasta numToSpawn
+        List<GameObject> finalSelection = new List<GameObject>();
+        finalSelection.AddRange(prioritized);
+        if (finalSelection.Count < numToSpawn)
+            finalSelection.AddRange(nonPrioritized.Take(numToSpawn - finalSelection.Count));
+
+        finalSelection = finalSelection.Take(numToSpawn).ToList();
+
+        // Mostrar selección final
+        Debug.Log("[passengerSelectLogic] Selección final de pasajeros:");
+        foreach (var p in finalSelection)
+        {
+            Debug.Log($"- {p.name}");
+        }
+
+        // Instanciar
+        placementLogic.SpawnPassengers(finalSelection);
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine.UIElements;
 public class DebuggerMenu : MonoBehaviour
 {
     [Header("Referencias Opcionales")]
-    public UIDocument uiDocument; // 🔹 Si el script no está en el mismo GameObject que el UIDocument, arrastra la referencia aquí
+    public UIDocument uiDocument;
 
     private GameStats stats;
     private DayLogic dayLogic;
@@ -16,57 +16,52 @@ public class DebuggerMenu : MonoBehaviour
     private Button reiniciarDiaButton;
     private Slider debuggerTiempo;
 
-    // NUEVO: botón y contenedor del menú
     private Button debuggerMenuButton;
     private VisualElement debuggerMenuItems;
     private bool menuVisible = false;
 
     private void OnEnable()
     {
-        // Obtener rootVisualElement desde UIDocument
         UIDocument doc = uiDocument != null ? uiDocument : GetComponent<UIDocument>();
         if (doc == null)
         {
-            Debug.LogWarning("[DebuggerMenu] No se encontro UIDocument en la escena ni referencia asignada.");
+            Debug.LogWarning("[DebuggerMenu] No se encontró UIDocument en la escena ni referencia asignada.");
             return;
         }
+
         var root = doc.rootVisualElement;
 
-        // Referencias a los TextFields
+        // Referencias a TextFields
         ratingField = root.Q<TextField>("debuggerRating");
         dineroField = root.Q<TextField>("debuggerDinero");
         suerteField = root.Q<TextField>("debuggerSuerte");
 
-        // Botón para reiniciar el día
+        // Botón reiniciar día
         reiniciarDiaButton = root.Q<Button>("debuggerReiniciarDia");
         if (reiniciarDiaButton != null)
-        {
             reiniciarDiaButton.clicked += OnReiniciarDiaClicked;
-        }
 
-        // Slider para manipular el tiempo
+        // Slider tiempo
         debuggerTiempo = root.Q<Slider>("debuggerTiempo");
 
-        // NUEVO: botón del menú y contenedor de elementos
+        // Botón y contenedor del menú
         debuggerMenuButton = root.Q<Button>("debuggerMenu");
         debuggerMenuItems = root.Q<VisualElement>("debuggerMenuItems");
-
         if (debuggerMenuItems != null)
-            debuggerMenuItems.style.display = DisplayStyle.None; // oculto por default
-
+            debuggerMenuItems.style.display = DisplayStyle.None;
         if (debuggerMenuButton != null)
             debuggerMenuButton.clicked += ToggleMenu;
 
-        // Buscamos los objetos necesarios en la escena
+        // Buscar referencias en escena
         stats = FindFirstObjectByType<GameStats>();
         dayLogic = FindFirstObjectByType<DayLogic>();
         passengerLogic = FindFirstObjectByType<passengerPlacementLogic>();
 
-        if (stats == null) Debug.LogWarning("[DebuggerMenu] No se encontro GameStats en la escena.");
-        if (dayLogic == null) Debug.LogWarning("[DebuggerMenu] No se encontro DayLogic en la escena.");
-        if (passengerLogic == null) Debug.LogWarning("[DebuggerMenu] No se encontro passengerPlacementLogic en la escena.");
+        if (stats == null) Debug.LogWarning("[DebuggerMenu] No se encontró GameStats en la escena.");
+        if (dayLogic == null) Debug.LogWarning("[DebuggerMenu] No se encontró DayLogic en la escena.");
+        if (passengerLogic == null) Debug.LogWarning("[DebuggerMenu] No se encontró passengerPlacementLogic en la escena.");
 
-        // Inicializamos valores en los TextFields
+        // Inicializar valores
         if (stats != null)
         {
             ratingField.value = stats.rating.ToString();
@@ -74,12 +69,15 @@ public class DebuggerMenu : MonoBehaviour
             suerteField.value = stats.suerte.ToString();
         }
 
-        // Suscribimos eventos de cambio de texto
-        ratingField.RegisterValueChangedCallback(evt => UpdateStatValue(evt.newValue, ref stats.rating, 1, 60, ratingField));
-        dineroField.RegisterValueChangedCallback(evt => UpdateStatValue(evt.newValue, ref stats.dinero, 0, 10000, dineroField));
-        suerteField.RegisterValueChangedCallback(evt => UpdateStatValue(evt.newValue, ref stats.suerte, 0, 100, suerteField));
+        // Suscribir eventos usando límites fijos de GameStats
+        ratingField.RegisterValueChangedCallback(evt =>
+            UpdateStatValue(evt.newValue, ref stats.rating, 0, 100, ratingField));
+        dineroField.RegisterValueChangedCallback(evt =>
+            UpdateStatValue(evt.newValue, ref stats.dinero, 0, 10000, dineroField));
+        suerteField.RegisterValueChangedCallback(evt =>
+            UpdateStatValue(evt.newValue, ref stats.suerte, 0, 100, suerteField));
 
-        // Configurar slider del tiempo
+        // Configurar slider tiempo
         if (debuggerTiempo != null && dayLogic != null)
         {
             debuggerTiempo.lowValue = 0;
@@ -89,9 +87,7 @@ public class DebuggerMenu : MonoBehaviour
             debuggerTiempo.RegisterValueChangedCallback(evt =>
             {
                 if (dayLogic != null)
-                {
                     dayLogic.SetCurrentSecond(Mathf.Clamp(Mathf.RoundToInt(evt.newValue), 0, dayLogic.maxSeconds));
-                }
             });
         }
     }
@@ -99,42 +95,41 @@ public class DebuggerMenu : MonoBehaviour
     private void ToggleMenu()
     {
         if (debuggerMenuItems == null) return;
-
         menuVisible = !menuVisible;
         debuggerMenuItems.style.display = menuVisible ? DisplayStyle.Flex : DisplayStyle.None;
     }
 
+    /// <summary>
+    /// Actualiza el valor de un stat usando límites fijos (no sliders de tiempo).
+    /// </summary>
     private void UpdateStatValue(string input, ref int stat, int min, int max, TextField field)
     {
-        int parsedValue;
-        if (int.TryParse(input, out parsedValue))
+        if (int.TryParse(input, out int parsedValue))
         {
             parsedValue = Mathf.Clamp(parsedValue, min, max);
             stat = parsedValue;
-            field.value = stat.ToString(); // Refrescar el campo
+            field.value = stat.ToString();
         }
         else
         {
-            field.value = stat.ToString(); // Si no es válido, mantener valor actual
+            field.value = stat.ToString(); // mantener valor actual si no es válido
         }
     }
 
     private void OnReiniciarDiaClicked()
     {
-        // Reiniciar día y timer
+        // Reiniciar día
         if (dayLogic != null)
         {
             dayLogic.ResetDay();
-            dayLogic.StartDay(); // 🔹 Asegura que el tiempo vuelva a contar
+            dayLogic.StartDay();
         }
 
         // Regenerar pasajeros
         if (passengerLogic != null)
-        {
             passengerLogic.SpawnPassengers();
-        }
 
-        // Actualizar slider también
+        // Actualizar slider tiempo
         if (debuggerTiempo != null && dayLogic != null)
             debuggerTiempo.value = dayLogic.currentSecond;
     }
@@ -143,7 +138,6 @@ public class DebuggerMenu : MonoBehaviour
     {
         if (reiniciarDiaButton != null)
             reiniciarDiaButton.clicked -= OnReiniciarDiaClicked;
-
         if (debuggerMenuButton != null)
             debuggerMenuButton.clicked -= ToggleMenu;
     }

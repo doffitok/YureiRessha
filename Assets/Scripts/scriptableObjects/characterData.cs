@@ -8,16 +8,19 @@ public class CharacterData : ScriptableObject
     public string nombre;
 
     [Header("Variables")]
-    [Range(0, 20)] public int rating;      // Slider del 0 al 20
-    [Range(0, 20)] public int dinero;      // Slider del 0 al 20
-    [Range(0, 20)] public int demanda;     // Slider del 0 al 20
-    [Range(0, 20)] public int exigencia;   // Slider del 0 al 20
+    [Range(0, 20)] public int rating;      
+    [Range(0, 20)] public int dinero;      
+
+    [Header("Demanda")]
+    [Range(0, 100)] public int demandaMin = 1;   // valor minimo para el roll
+    [Range(0, 100)] public int demandaMax = 100;  // valor maximo para el roll
+
+    [Range(0, 20)] public int exigencia;   
 
     [Header("Debug")]
-    public Color debugColor;               // Color que se le asignara a objetos de prueba para identificar personajes
-    public Texture2D debugTexture;         // Textura que se usara para depuracion o identificacion visual
+    public Color debugColor;               
+    public Texture2D debugTexture;         
 
-    // Aca podemos escribir notas del personaje y cualquier cosa que estimemos pertinentes :D
     [Header("Notas")]
     [TextArea(10, 10)]
     public string notas;

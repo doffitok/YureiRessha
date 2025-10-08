@@ -71,7 +71,7 @@ public class passengerSelectLogic : MonoBehaviour
         }
 
         // Separar prioridades
-        foreach (var c in candidateRolls)
+        foreach (var c in candidateRolls)   
         {
             if (c.demandaMin >= 40)
                 prioritized.Add(c.prefab);

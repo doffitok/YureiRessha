@@ -1,7 +1,4 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
-    <ui:VisualElement name="InventarioBox" style="flex-grow: 1; position: absolute; height: 305px; width: 334px; top: 766px; left: 7px; background-color: rgb(67, 61, 61); visibility: visible;">
-        <ui:Button text="Button" name="CerrarInventario" style="position: absolute; top: 5px; left: 242px;" />
-    </ui:VisualElement>
     <ui:VisualElement name="TiendaAbierta" style="flex-grow: 1; width: 415px; height: 568px; min-width: 0; min-height: 0; max-height: none; position: absolute; top: 180px; left: 1517px; background-color: rgba(255, 255, 255, 0); visibility: visible; background-image: url(&quot;project://database/Assets/Sprites/HUD-BETA/Refri.png?fileID=2800000&amp;guid=2cd6a7bdd041c654fad3e6148f966832&amp;type=3#Refri&quot;);">
         <ui:Button text="Button" name="engimonoArriba" enabled="true" style="position: absolute; top: 112px; left: 141px; height: 99px; width: 152px;" />
         <ui:Button text="Salir" name="Exit" style="position: absolute; top: 472px; left: 253px; height: 67px; width: 101px; display: flex; opacity: 0;" />
@@ -11,7 +8,6 @@
         <ui:Button text="Tienda" name="TiendaBoton" selectable="true" />
     </ui:VisualElement>
     <ui:VisualElement name="Container" style="flex-grow: 1; align-items: center; justify-content: center; flex-basis: 120%; flex-direction: row; width: 201px; top: 1015px; position: absolute; height: 57px; background-color: rgba(55, 55, 55, 0.42); border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); align-self: stretch; align-content: stretch; left: 6px; opacity: 1;">
-        <ui:Button text="Inventario" name="Inventario" selectable="true" parse-escape-sequences="false" />
         <ui:Button text="Empezar" name="EmpezarTerminar" selectable="true" />
     </ui:VisualElement>
     <ui:VisualElement name="DebugMenu" enabled="true" style="flex-grow: 1; position: absolute; height: 44px; width: 63px; top: 19px; left: 9px;">

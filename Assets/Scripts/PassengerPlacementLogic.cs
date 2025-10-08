@@ -1,8 +1,23 @@
 using System.Collections.Generic;
 using UnityEngine;
+[System.Serializable]
+public class Profile
+{
+    [Header("Datos")]
+    public string ID;
+    [Header("Variables")]
+    [Range(0, 20)] public int rating;
+    [Range(0, 20)] public int dinero;
+    [Header("Demanda")]
+    [Range(0, 100)] public int demandaMin = 1;   // valor minimo para el roll
+    [Range(0, 100)] public int demandaMax = 100;  // valor maximo para el roll
+
+    [Range(0, 20)] public int exigencia;
+}
 
 public class passengerPlacementLogic : MonoBehaviour
 {
+    public List<Profile> passengers;
     [Header("Prefabs de pasajeros")]
     public List<GameObject> passengerPrefabs = new List<GameObject>();
 
@@ -100,6 +115,8 @@ public class passengerPlacementLogic : MonoBehaviour
 
             GameObject instance = Instantiate(prefab, spawnPoint.position, spawnPoint.rotation, transform);
             instantiatedPassengers.Add(instance);
+            CharacterData c = instance.GetComponent<itemIdentifier>().characterData;
+            AddProfilePassenger(c.ID, c);
         }
 
         Debug.Log($"[passengerPlacementLogic] Se han generado {instantiatedPassengers.Count} pasajeros (mínimo 2, rating {gameStats?.rating ?? 0}).");
@@ -110,4 +127,31 @@ public class passengerPlacementLogic : MonoBehaviour
     {
         return spawnPoints != null ? spawnPoints.Count : 0;
     }
+    // lo agrego el profe, y es para tener una clase auxiliar para cambiar los datos del juego durante el gameplay.
+    public void AddProfilePassenger(string id, CharacterData newData)
+    {
+        if (ExistProfile(id))
+        {
+            return;
+        }
+        Profile newProfile = new Profile();
+        newProfile.ID = id;
+        newProfile.rating = newData.rating;
+        newProfile.dinero = newData.dinero;
+        newProfile.exigencia = newData.exigencia;
+        newProfile.demandaMin = newData.demandaMin;
+        newProfile.demandaMax = newData.demandaMax;
+        passengers.Add(newProfile);
+    }
+    public bool ExistProfile(string id)
+     {
+         foreach (Profile p in passengers)
+         {
+             if (id == p.ID)
+             {
+                 return true;
+             }
+         }
+         return false;
+       }
 }

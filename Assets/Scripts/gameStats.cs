@@ -1,23 +1,54 @@
 using UnityEngine;
 
 // Este script centraliza las variables del juego: rating, dinero y suerte
-// Puedes cambiar sus rangos maximos, minimos y valores por defecto modificando
-// los comentarios indicados debajo de cada variable
+// Ahora soporta modificadores aditivos para efectos externos
 
 public class GameStats : MonoBehaviour
 {
-    // rating: calificacion del tren
     [Header("Rating")]
-    [Range(0,100)] // Rango minimo y maximo
-    public int rating = 25; // Valor por defecto
+    [Range(0, 100)]
+    public int rating = 25;        // Valor base
+    [HideInInspector] public int ratingExtra = 0; // Modificadores externos
 
-    // dinero: dinero disponible del tren
     [Header("Dinero")]
-    [Range(0,10000)] // Rango minimo y maximo
-    public int dinero = 1000; // Valor por defecto
+    [Range(0, 10000)]
+    public int dinero = 1000;      // Valor base
+    [HideInInspector] public int dineroExtra = 0;  // Modificadores externos
 
-    // suerte: factor aleatorio que puede alterar probabilidades
     [Header("Suerte")]
-    [Range(0,100)] // Rango minimo y maximo
-    public int suerte = 1; // Valor por defecto
+    [Range(0, 100)]
+    public int suerte = 1;         // Valor base
+    [HideInInspector] public int suerteExtra = 0;  // Modificadores externos
+
+    // --- Métodos para obtener valores totales ---
+    public int GetRatingTotal()
+    {
+        return Mathf.Clamp(rating + ratingExtra, 0, 100); // Limitar a rango 0-100
+    }
+
+    public int GetDineroTotal()
+    {
+        return Mathf.Max(dinero + dineroExtra, 0); // No puede ser negativo
+    }
+
+    public int GetSuerteTotal()
+    {
+        return Mathf.Clamp(suerte + suerteExtra, 0, 100); // Limitar a rango 0-100
+    }
+
+    // --- Métodos de utilidad para aplicar modificadores ---
+    public void AddRating(int value)
+    {
+        ratingExtra += value;
+    }
+
+    public void AddDinero(int value)
+    {
+        dineroExtra += value;
+    }
+
+    public void AddSuerte(int value)
+    {
+        suerteExtra += value;
+    }
 }

@@ -127,7 +127,8 @@ public class passengerPlacementLogic : MonoBehaviour
     {
         return spawnPoints != null ? spawnPoints.Count : 0;
     }
-    // lo agrego el profe, y es para tener una clase auxiliar para cambiar los datos del juego durante el gameplay.
+    // lo agrego el profe, y es para tener una clase auxiliar para cambiar los datos del juego durante el gameplay
+    // Recordemos ir sumando todas las stats que vayamos creando (si es que creamos mas)
     public void AddProfilePassenger(string id, CharacterData newData)
     {
         if (ExistProfile(id))

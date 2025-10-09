@@ -13,6 +13,8 @@ public class DebuggerMenu : MonoBehaviour
     private TextField ratingField;
     private TextField dineroField;
     private TextField suerteField;
+    private Label suerteTotalLabel;   // Label para suerte total
+    private Label ratingTotalLabel;   // Label para rating total
     private Button reiniciarDiaButton;
     private Slider debuggerTiempo;
 
@@ -35,6 +37,10 @@ public class DebuggerMenu : MonoBehaviour
         ratingField = root.Q<TextField>("debuggerRating");
         dineroField = root.Q<TextField>("debuggerDinero");
         suerteField = root.Q<TextField>("debuggerSuerte");
+
+        // Labels de stats totales
+        suerteTotalLabel = root.Q<Label>("suerteActual");
+        ratingTotalLabel = root.Q<Label>("ratingActual");
 
         // Botón reiniciar día
         reiniciarDiaButton = root.Q<Button>("debuggerReiniciarDia");
@@ -71,11 +77,19 @@ public class DebuggerMenu : MonoBehaviour
 
         // Suscribir eventos usando límites fijos de GameStats
         ratingField.RegisterValueChangedCallback(evt =>
-            UpdateStatValue(evt.newValue, ref stats.rating, 0, 100, ratingField));
+        {
+            UpdateStatValue(evt.newValue, ref stats.rating, 0, 100, ratingField);
+            UpdateRatingLabel(); // actualizar Label cuando se cambie rating base
+        });
+
         dineroField.RegisterValueChangedCallback(evt =>
             UpdateStatValue(evt.newValue, ref stats.dinero, 0, 10000, dineroField));
+
         suerteField.RegisterValueChangedCallback(evt =>
-            UpdateStatValue(evt.newValue, ref stats.suerte, 0, 100, suerteField));
+        {
+            UpdateStatValue(evt.newValue, ref stats.suerte, 0, 100, suerteField);
+            UpdateSuerteLabel(); // actualizar Label cuando se cambie suerte base
+        });
 
         // Configurar slider tiempo
         if (debuggerTiempo != null && dayLogic != null)
@@ -90,6 +104,17 @@ public class DebuggerMenu : MonoBehaviour
                     dayLogic.SetCurrentSecond(Mathf.Clamp(Mathf.RoundToInt(evt.newValue), 0, dayLogic.maxSeconds));
             });
         }
+
+        // Inicializar Labels
+        UpdateSuerteLabel();
+        UpdateRatingLabel();
+    }
+
+    private void Update()
+    {
+        // Actualiza los Labels cada frame para reflejar cualquier modificador externo
+        UpdateSuerteLabel();
+        UpdateRatingLabel();
     }
 
     private void ToggleMenu()
@@ -113,6 +138,28 @@ public class DebuggerMenu : MonoBehaviour
         else
         {
             field.value = stat.ToString(); // mantener valor actual si no es válido
+        }
+    }
+
+    /// <summary>
+    /// Actualiza el Label de suerte para reflejar la suma base + modificadores
+    /// </summary>
+    private void UpdateSuerteLabel()
+    {
+        if (suerteTotalLabel != null && stats != null)
+        {
+            suerteTotalLabel.text = $"Suerte: {stats.GetSuerteTotal()}";
+        }
+    }
+
+    /// <summary>
+    /// Actualiza el Label de rating para reflejar la suma base + modificadores
+    /// </summary>
+    private void UpdateRatingLabel()
+    {
+        if (ratingTotalLabel != null && stats != null)
+        {
+            ratingTotalLabel.text = $"Rating: {stats.GetRatingTotal()}";
         }
     }
 

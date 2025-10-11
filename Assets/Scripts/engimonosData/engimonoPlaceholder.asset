@@ -10,15 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 458d4dc113d1b29419ae7c870c932060, type: 3}
-  m_Name: engimonoGeneric00
+  m_Name: engimonoPlaceholder
   m_EditorClassIdentifier: 
-  ID: itemGeneric00
-  Nombre: Test
-  Icono: {fileID: 21300000, guid: 0932a2dcc6f9ea44f9abd07c21ea71c5, type: 3}
+  ID: itemPlaceholder
+  Nombre: Testeo
+  Icono: {fileID: 21300000, guid: 0e6b1cd25c9cbb147bced7dc722c71a1, type: 3}
   clase: 2
-  descripcion: Aumenta el rating en 0.5
-  notas: "El item aumenta el rating en 10 internamente porque el rating m\xE1ximo
-    es de 100"
+  descripcion: Item de testeo
+  notas: Item de testeo
   efectoScript: {fileID: 0}
   Compra: 75
   Venta: 35

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: itemGeneric01
   Nombre: Test
-  Icono: {fileID: 21300000, guid: 0932a2dcc6f9ea44f9abd07c21ea71c5, type: 3}
+  Icono: {fileID: 21300000, guid: e24dddd53863ee840abf27de199e5ad4, type: 3}
   clase: 2
   descripcion: Aumenta el rating en 0.5
   notas: "El item aumenta el rating en 10 internamente porque el rating m\xE1ximo

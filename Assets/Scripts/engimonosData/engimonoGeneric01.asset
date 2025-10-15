@@ -18,7 +18,8 @@ MonoBehaviour:
   clase: 2
   descripcion: Aumenta el rating en 0.5
   notas: "El item aumenta el rating en 10 internamente porque el rating m\xE1ximo
-    es de 100"
+    es de 100\nNOTA: FUNCIONA PERO SOLO UNA INSTANCIA DEL OBJETO, SI HAY MAS DE UNA
+    NO SUMA M\xC1S QUE LA PRIMERA, ARREGLALO :P"
   efectoScript: {fileID: 0}
   Compra: 75
   Venta: 35

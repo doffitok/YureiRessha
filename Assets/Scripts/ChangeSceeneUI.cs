@@ -26,10 +26,10 @@ public class SceneChanger : MonoBehaviour
         else Debug.LogWarning("No se encontró el botón 'changeSceneButton'.");
 
         // Almanaque de personajes
-        var changeAlmanaque = root.Q<Button>("changealmanaque");
+        var changeAlmanaque = root.Q<Button>("changeAlmanaque");
         if (changeAlmanaque != null)
         {
-            changeAlmanaque.clicked += () => ShowOptions();
+            changeAlmanaque.clicked += () => SceneManager.LoadScene("Fungu test");
         }
         else Debug.LogWarning("No se encontró el botón 'changealmanaque'.");
 

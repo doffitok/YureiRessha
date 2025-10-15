@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec2bf5b6e9c02604c8f9769109fbe895, type: 3}
+  m_Name: nomuData
+  m_EditorClassIdentifier: 
+  ID: charNomu
+  nombre: Nomu
+  rating: 6
+  dinero: 13
+  demandaMin: 46
+  demandaMax: 100
+  exigencia: 14
+  debugColor: {r: 0.7264203, g: 1, b: 0.5613208, a: 1}
+  debugTexture: {fileID: 3506167780502562645, guid: bb3c4ab58caefc540a529ce6be70d2bd, type: 3}
+  notas: 

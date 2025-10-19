@@ -5791,7 +5791,8 @@ MonoBehaviour:
   nameText: Kanae
   nameColor: {r: 0.73260057, g: 0.8702441, b: 0.9528302, a: 1}
   soundEffect: {fileID: 0}
-  portraits: []
+  portraits:
+  - {fileID: 0}
   portraitsFace: 0
   setSayDialog: {fileID: 0}
   description: Musica Chica bicho

@@ -131,7 +131,6 @@ GameObject:
   - component: {fileID: 6065508}
   - component: {fileID: 6065513}
   - component: {fileID: 6065533}
-  - component: {fileID: 6065534}
   - component: {fileID: 6065535}
   - component: {fileID: 6065537}
   - component: {fileID: 6065536}
@@ -160,6 +159,7 @@ GameObject:
   - component: {fileID: 6065559}
   - component: {fileID: 6065558}
   - component: {fileID: 6065557}
+  - component: {fileID: 6065570}
   m_Layer: 0
   m_Name: Flowchart
   m_TagString: Untagged
@@ -191,8 +191,7 @@ MonoBehaviour:
     y: -340
     width: 1114
     height: 859
-  selectedBlocks:
-  - {fileID: 6065556}
+  selectedBlocks: []
   selectedCommands: []
   variables: []
   description: 
@@ -243,7 +242,7 @@ MonoBehaviour:
   itemId: 0
   blockName: Robo-Rinako Starts
   description: 
-  eventHandler: {fileID: 6065534}
+  eventHandler: {fileID: 6065570}
   commandList:
   - {fileID: 6065533}
   - {fileID: 6065536}
@@ -287,21 +286,6 @@ MonoBehaviour:
     floatRef: {fileID: 0}
     floatVal: 2
   durationOLD: 0
---- !u!114 &6065534
-MonoBehaviour:
-  m_ObjectHideFlags: 2
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6065507}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2f6487d21a03404cb21b245f0242e79, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  parentBlock: {fileID: 6065513}
-  suppressBlockAutoSelect: 0
-  waitForFrames: 1
 --- !u!114 &6065535
 MonoBehaviour:
   m_ObjectHideFlags: 2
@@ -348,7 +332,7 @@ MonoBehaviour:
   stage: {fileID: 0}
   character: {fileID: 252007872}
   replacedCharacter: {fileID: 0}
-  portrait: {fileID: 21300000, guid: dff82a2da64fd5b4392832ef66b9a9d5, type: 3}
+  portrait: {fileID: 21300000, guid: b770de3ae3a5f8d499b12520756c84de, type: 3}
   offset: 0
   fromPosition: {fileID: 0}
   toPosition: {fileID: 125121595}
@@ -707,8 +691,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nodeRect:
     serializedVersion: 2
-    x: 407.91458
-    y: 22.92395
+    x: 516.7746
+    y: 31.784714
     width: 115.77
     height: 40
   tint: {r: 1, g: 1, b: 1, a: 1}
@@ -721,7 +705,7 @@ MonoBehaviour:
   suppressAllAutoSelections: 0
 --- !u!114 &6065557
 MonoBehaviour:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -736,11 +720,11 @@ MonoBehaviour:
   _sceneName:
     stringRef: {fileID: 0}
     stringVal: MainMenu
-  loadingImage: {fileID: 2800000, guid: 5f3af472df05ebf4ebd4a46859ec7c4e, type: 3}
+  loadingImage: {fileID: 2800000, guid: 6adad6d6003726b4bbbdd2bd573f9a31, type: 3}
   sceneNameOLD: 
 --- !u!114 &6065558
 MonoBehaviour:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -760,7 +744,7 @@ MonoBehaviour:
   fadeTweenType: 4
 --- !u!114 &6065559
 MonoBehaviour:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -787,7 +771,7 @@ MonoBehaviour:
   setSayDialog: {fileID: 0}
 --- !u!114 &6065560
 MonoBehaviour:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -803,7 +787,7 @@ MonoBehaviour:
   stage: {fileID: 0}
   character: {fileID: 252007872}
   replacedCharacter: {fileID: 0}
-  portrait: {fileID: 21300000, guid: dff82a2da64fd5b4392832ef66b9a9d5, type: 3}
+  portrait: {fileID: 21300000, guid: b770de3ae3a5f8d499b12520756c84de, type: 3}
   offset: 0
   fromPosition: {fileID: 0}
   toPosition: {fileID: 0}
@@ -817,7 +801,7 @@ MonoBehaviour:
   waitUntilFinished: 0
 --- !u!114 &6065561
 MonoBehaviour:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -833,7 +817,7 @@ MonoBehaviour:
   stage: {fileID: 0}
   character: {fileID: 252007872}
   replacedCharacter: {fileID: 0}
-  portrait: {fileID: 21300000, guid: dff82a2da64fd5b4392832ef66b9a9d5, type: 3}
+  portrait: {fileID: 21300000, guid: b770de3ae3a5f8d499b12520756c84de, type: 3}
   offset: 0
   fromPosition: {fileID: 0}
   toPosition: {fileID: 0}
@@ -859,8 +843,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nodeRect:
     serializedVersion: 2
-    x: 424.62326
-    y: 106.46829
+    x: 185.38269
+    y: 260.89923
     width: 83.119995
     height: 40
   tint: {r: 1, g: 1, b: 1, a: 1}
@@ -1071,6 +1055,21 @@ MonoBehaviour:
   move: 0
   shiftIntoPlace: 0
   waitUntilFinished: 0
+--- !u!114 &6065570
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6065507}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2f6487d21a03404cb21b245f0242e79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parentBlock: {fileID: 6065513}
+  suppressBlockAutoSelect: 0
+  waitForFrames: 1
 --- !u!1 &7337264
 GameObject:
   m_ObjectHideFlags: 0
@@ -1626,7 +1625,7 @@ MonoBehaviour:
   nameColor: {r: 0.9622642, g: 0.89674526, b: 0.5855287, a: 1}
   soundEffect: {fileID: 0}
   portraits:
-  - {fileID: 0}
+  - {fileID: 21300000, guid: c392e57abc26eae409fea90827301982, type: 3}
   portraitsFace: 0
   setSayDialog: {fileID: 0}
   description: Objeto dado vida
@@ -1681,8 +1680,8 @@ MonoBehaviour:
   soundEffect: {fileID: 0}
   portraits:
   - {fileID: 21300000, guid: 0932a2dcc6f9ea44f9abd07c21ea71c5, type: 3}
+  - {fileID: 21300000, guid: b770de3ae3a5f8d499b12520756c84de, type: 3}
   - {fileID: 21300000, guid: 7035669e9737c8747bbdf87577a66ebd, type: 3}
-  - {fileID: 21300000, guid: dff82a2da64fd5b4392832ef66b9a9d5, type: 3}
   - {fileID: 21300000, guid: 3337d229ee442f741b90ca2c2942a517, type: 3}
   portraitsFace: 0
   setSayDialog: {fileID: 0}
@@ -1737,7 +1736,7 @@ MonoBehaviour:
   nameColor: {r: 0.10323951, g: 0.5660378, b: 0.045389827, a: 1}
   soundEffect: {fileID: 0}
   portraits:
-  - {fileID: 0}
+  - {fileID: 21300000, guid: 2c8bfbd25493e3347a5e6656176e6243, type: 3}
   portraitsFace: 0
   setSayDialog: {fileID: 0}
   description: Caleuche tranquilo
@@ -1791,7 +1790,7 @@ MonoBehaviour:
   nameColor: {r: 0.8773585, g: 0.24417053, b: 0.24417053, a: 1}
   soundEffect: {fileID: 0}
   portraits:
-  - {fileID: 0}
+  - {fileID: 21300000, guid: 16a5533e38e6f9246b8cc8c5c504a238, type: 3}
   portraitsFace: 0
   setSayDialog: {fileID: 0}
   description: Sujeto misterioso
@@ -2045,7 +2044,7 @@ MonoBehaviour:
   nameColor: {r: 0.9622642, g: 0.5492168, b: 0.5492168, a: 1}
   soundEffect: {fileID: 0}
   portraits:
-  - {fileID: 0}
+  - {fileID: 21300000, guid: 8fa884c16b9052d49ae69257ba6cae8b, type: 3}
   portraitsFace: 0
   setSayDialog: {fileID: 0}
   description: Langosta Actriz
@@ -2372,7 +2371,7 @@ MonoBehaviour:
   nameColor: {r: 0.10865628, g: 0.9056604, b: 0.012815925, a: 1}
   soundEffect: {fileID: 0}
   portraits:
-  - {fileID: 0}
+  - {fileID: 21300000, guid: c3d12f5dece3c2e46b74d009104fe7e2, type: 3}
   portraitsFace: 0
   setSayDialog: {fileID: 0}
   description: Bartender Timido
@@ -2851,7 +2850,7 @@ MonoBehaviour:
   nameColor: {r: 0.9622642, g: 0.31318974, b: 0.7275373, a: 1}
   soundEffect: {fileID: 0}
   portraits:
-  - {fileID: 0}
+  - {fileID: 21300000, guid: 587ed9b1270c89c488bb2c0ae3c4c0f4, type: 3}
   portraitsFace: 0
   setSayDialog: {fileID: 0}
   description: Oni contadora
@@ -3527,7 +3526,7 @@ MonoBehaviour:
   nameColor: {r: 0.93410784, g: 0.9433962, b: 0.07564971, a: 1}
   soundEffect: {fileID: 0}
   portraits:
-  - {fileID: 0}
+  - {fileID: 21300000, guid: 55dfaf8718ab79242b0e6d575790b249, type: 3}
   portraitsFace: 0
   setSayDialog: {fileID: 0}
   description: Biologa marina
@@ -4547,7 +4546,7 @@ MonoBehaviour:
   nameColor: {r: 0.2732734, g: 0.59690136, b: 0.8396226, a: 1}
   soundEffect: {fileID: 0}
   portraits:
-  - {fileID: 0}
+  - {fileID: 21300000, guid: 02be84403c7b90a4c8a884aa88ec7af0, type: 3}
   portraitsFace: 0
   setSayDialog: {fileID: 0}
   description: Zorro Veterinario
@@ -4929,7 +4928,7 @@ MonoBehaviour:
   nameColor: {r: 0.52643293, g: 0.6337007, b: 0.6603774, a: 1}
   soundEffect: {fileID: 0}
   portraits:
-  - {fileID: 0}
+  - {fileID: 21300000, guid: fe187f9a884d80b43a55ce1974ae0eef, type: 3}
   portraitsFace: 0
   setSayDialog: {fileID: 0}
   description: Fantasma animadora
@@ -5633,7 +5632,7 @@ MonoBehaviour:
   nameColor: {r: 1, g: 1, b: 1, a: 1}
   soundEffect: {fileID: 0}
   portraits:
-  - {fileID: 0}
+  - {fileID: 21300000, guid: 7ff87f46d160caa42a2da5514e022728, type: 3}
   portraitsFace: 0
   setSayDialog: {fileID: 0}
   description: 'Chica estudiante '
@@ -5976,7 +5975,8 @@ MonoBehaviour:
   nameText: Kanae
   nameColor: {r: 0.73260057, g: 0.8702441, b: 0.9528302, a: 1}
   soundEffect: {fileID: 0}
-  portraits: []
+  portraits:
+  - {fileID: 21300000, guid: 24351571c671e3d47a0488a4ef5fefbe, type: 3}
   portraitsFace: 0
   setSayDialog: {fileID: 0}
   description: Musica Chica bicho
@@ -6369,7 +6369,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -178.5, y: 553}
+  m_AnchoredPosition: {x: -178.5, y: 499}
   m_SizeDelta: {x: 357, y: 435}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1834620420
@@ -6554,7 +6554,7 @@ MonoBehaviour:
   nameColor: {r: 0.9622642, g: 0.14978641, b: 0.65299875, a: 1}
   soundEffect: {fileID: 0}
   portraits:
-  - {fileID: 0}
+  - {fileID: 21300000, guid: 28c7324c63e4cfd4498f7df2a8b8f25c, type: 3}
   portraitsFace: 0
   setSayDialog: {fileID: 0}
   description: Caja misteriosa

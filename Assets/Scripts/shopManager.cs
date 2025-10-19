@@ -1,5 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
+using TMPro;
+using UnityEngine.UI;
 
 public class ShopSystem : MonoBehaviour
 {
@@ -83,34 +85,53 @@ public class ShopSystem : MonoBehaviour
         AdjustEngimonoTransform(currentEngimono1);
         AdjustEngimonoTransform(currentEngimono2);
 
+        // Refresca el precio visual de ambos
+        RefrescarPrecio(currentEngimono1);
+        RefrescarPrecio(currentEngimono2);
+
         Debug.Log($"[ShopSystem] Día actualizado: mostrando {currentPrefab.name} en ambos slots.");
     }
 
     private void AdjustEngimonoTransform(GameObject go)
     {
         RectTransform rt = go.GetComponent<RectTransform>();
+
         if (rt != null)
         {
-            // Prefab con UI
-            rt.anchorMin = Vector2.zero;
-            rt.anchorMax = Vector2.one;
+            // --- Prefab de UI ---
+            rt.localScale = Vector3.one;
             rt.anchoredPosition = Vector2.zero;
 
-            rt.sizeDelta = new Vector2(Size, Size); // aplica la escala custom
-            rt.localScale = Vector3.one;
+            // Aplicar tamaño custom (si el prefab lo permite)
+            rt.sizeDelta = new Vector2(Size, Size);
+
+            // 🔹 Forzar visibilidad de hijos
+            foreach (var child in go.GetComponentsInChildren<RectTransform>(true))
+            {
+                child.localScale = Vector3.one;
+                child.gameObject.SetActive(true);
+            }
+
+            // 🔹 Ajustar Canvas de hijos si no existe
+            Canvas childCanvas = go.GetComponentInChildren<Canvas>();
+            if (childCanvas == null)
+            {
+                childCanvas = go.AddComponent<Canvas>();
+                childCanvas.overrideSorting = true;
+                childCanvas.sortingOrder = 50;
+                go.AddComponent<GraphicRaycaster>();
+            }
         }
         else
         {
-            // Prefab con SpriteRenderer
+            // --- Prefab con SpriteRenderer ---
             SpriteRenderer sr = go.GetComponent<SpriteRenderer>();
             if (sr != null)
             {
                 float spriteWidth = sr.sprite.bounds.size.x;
                 float spriteHeight = sr.sprite.bounds.size.y;
-
                 float scaleX = Size / spriteWidth;
                 float scaleY = Size / spriteHeight;
-
                 go.transform.localScale = new Vector3(scaleX, scaleY, 1f);
             }
             else
@@ -120,5 +141,26 @@ public class ShopSystem : MonoBehaviour
 
             go.transform.localPosition = Vector3.zero;
         }
+    }
+
+    private void RefrescarPrecio(GameObject engimono)
+    {
+        var display = engimono.GetComponent<engimonoPrice>();
+        if (display != null)
+        {
+            display.MostrarPrecio();
+        }
+
+        // --- DEBUG opcional: asegurarse de que los hijos existen y están visibles ---
+        foreach (var img in engimono.GetComponentsInChildren<Image>(true))
+        {
+            img.enabled = true;
+        }
+        foreach (var txt in engimono.GetComponentsInChildren<TextMeshProUGUI>(true))
+        {
+            txt.enabled = true;
+            txt.alpha = 1f;
+        }
+        Debug.Log($"[ShopSystem] Hijos visuales detectados en {engimono.name}: {engimono.GetComponentsInChildren<Transform>(true).Length}");
     }
 }

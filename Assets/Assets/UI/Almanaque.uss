@@ -1,0 +1,26 @@
+/* Clase para los botones de personaje */
+.button-personaje {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 4px;
+    border-radius: 8px;
+    background-color: #2b2b3b; /* color de fondo normal */
+    background-size: cover;     /* ajusta la miniatura */
+    background-position: center;
+    border: 2px solid #444466;
+}
+
+/* Hover */
+.button-personaje:hover {
+    background-color: #444466;
+    border-color: #666688;
+    cursor: pointer;
+}
+
+/* Label opcional debajo del botón */
+.button-personaje > Label {
+    font-size: 12px;
+    color: white;
+    unity-text-align: middle-center;
+    margin-top: 2px;
+}

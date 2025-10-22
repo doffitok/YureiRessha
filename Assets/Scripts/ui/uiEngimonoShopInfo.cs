@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Image))]
-public class UIEngimonoIcon : MonoBehaviour
+public class uiEngimonoShopInfo : MonoBehaviour
 {
     [Header("ScriptableObject del Engimono")]
     public ItemInventario engimonoData;

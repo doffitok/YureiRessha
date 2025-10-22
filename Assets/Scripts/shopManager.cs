@@ -14,11 +14,15 @@ public class ShopSystem : MonoBehaviour
     [SerializeField] private List<GameObject> availableEngimonos = new List<GameObject>();
 
     [Header("Configuración del tamaño de los engimonos")]
-    [Tooltip("Tamaño de los engimonos en unidades o píxeles (aplica igual a X e Y)")]
+    [Tooltip("Tamaño de los engimonos (se aplica igual a X e Y)")]
     [SerializeField] private float Size = 300f;
 
     [Header("Otras configuraciones")]
     [SerializeField] private bool updateEachDay = true; // Cambiar automáticamente cada día
+
+    // Tamaño base (usa el mismo valor que tomabas como referencia antes).
+    // Cambia si tus prefabs están diseñados para otra 'unidad base'.
+    private const float baseSize = 300f;
 
     private int lastDayValue = -1;
     private GameObject currentPrefab;
@@ -27,10 +31,8 @@ public class ShopSystem : MonoBehaviour
 
     void Start()
     {
-        // Buscar los objetos si no fueron asignados
         if (shopSlot01 == null) shopSlot01 = GameObject.Find("shopSlot01")?.transform;
         if (shopSlot02 == null) shopSlot02 = GameObject.Find("shopSlot02")?.transform;
-
         if (dayLogic == null) dayLogic = FindObjectOfType<DayLogic>();
 
         if (shopSlot01 == null || shopSlot02 == null)
@@ -45,122 +47,136 @@ public class ShopSystem : MonoBehaviour
             return;
         }
 
-        GenerateShopItemForDay(); // Generar al iniciar
+        GenerateShopItemForDay();
     }
 
     void Update()
     {
-        if (!updateEachDay || dayLogic == null)
-            return;
+        if (!updateEachDay || dayLogic == null) return;
 
-        // Detectar si el día cambió (cuando currentSecond se resetea)
+        // Detectar cambio de día (cuando currentSecond reinicia o cambia)
         if (dayLogic.currentSecond < 1 && lastDayValue != 0)
         {
             GenerateShopItemForDay();
             lastDayValue = 0;
         }
 
-        // Guardar el valor actual para comparar después
         lastDayValue = dayLogic.currentSecond;
     }
 
     public void GenerateShopItemForDay()
     {
-        // Limpia los anteriores si existían
         if (currentEngimono1 != null) Destroy(currentEngimono1);
         if (currentEngimono2 != null) Destroy(currentEngimono2);
+        if (availableEngimonos.Count == 0) return;
 
-        if (availableEngimonos.Count == 0)
-            return;
-
-        // Selecciona un prefab (rotativo según día)
         int dayIndex = dayLogic != null ? dayLogic.currentSecond % availableEngimonos.Count : 0;
         currentPrefab = availableEngimonos[dayIndex];
 
-        // Instancia el mismo prefab en ambos slots
+        // Instanciar en los slots como hijos (para heredar posición) pero corregiremos la escala local
         currentEngimono1 = Instantiate(currentPrefab, shopSlot01);
         currentEngimono2 = Instantiate(currentPrefab, shopSlot02);
 
-        // Ajusta tamaño y posición
-        AdjustEngimonoTransform(currentEngimono1);
-        AdjustEngimonoTransform(currentEngimono2);
+        AdjustEngimonoTransform(currentEngimono1, shopSlot01);
+        AdjustEngimonoTransform(currentEngimono2, shopSlot02);
 
-        // Refresca el precio visual de ambos
         RefrescarPrecio(currentEngimono1);
         RefrescarPrecio(currentEngimono2);
 
         Debug.Log($"[ShopSystem] Día actualizado: mostrando {currentPrefab.name} en ambos slots.");
     }
 
-    private void AdjustEngimonoTransform(GameObject go)
+    /// <summary>
+    /// Ajusta transform del engimono para que el tamaño final (world / lossy) coincida con Size,
+    /// sin importar la escala del padre (shopSlot pequeño).
+    /// </summary>
+    private void AdjustEngimonoTransform(GameObject go, Transform parentSlot)
     {
-        RectTransform rt = go.GetComponent<RectTransform>();
+        if (go == null) return;
 
+        // Escala global objetivo (world scale deseada)
+        float uniformWorldScale = Size / baseSize; // p.ej. 300->1, 600->2, etc.
+        Vector3 desiredWorldScale = new Vector3(uniformWorldScale, uniformWorldScale, uniformWorldScale);
+
+        // Obtener la escala global (lossy) del padre (slot) — si el padre tiene escala muy pequeña, la usamos
+        Vector3 parentLossy = parentSlot != null ? parentSlot.lossyScale : Vector3.one;
+
+        // Protegemos contra 0 para evitar NaN/infinito
+        Vector3 safeParentLossy = new Vector3(
+            Mathf.Approximately(parentLossy.x, 0f) ? 1f : parentLossy.x,
+            Mathf.Approximately(parentLossy.y, 0f) ? 1f : parentLossy.y,
+            Mathf.Approximately(parentLossy.z, 0f) ? 1f : parentLossy.z
+        );
+
+        // Calcular localScale necesario para obtener desiredWorldScale cuando se multiplique por parentLossy
+        Vector3 localScaleToApply = new Vector3(
+            desiredWorldScale.x / safeParentLossy.x,
+            desiredWorldScale.y / safeParentLossy.y,
+            desiredWorldScale.z / safeParentLossy.z
+        );
+
+        // Si el prefab tiene RectTransform (UI inside Canvas)
+        RectTransform rt = go.GetComponent<RectTransform>();
         if (rt != null)
         {
-            // --- Prefab de UI ---
-            rt.localScale = Vector3.one;
+            // Aseguramos posición dentro del slot y rotación neutra
             rt.anchoredPosition = Vector2.zero;
+            rt.localRotation = Quaternion.identity;
 
-            // Aplicar tamaño custom (si el prefab lo permite)
-            rt.sizeDelta = new Vector2(Size, Size);
+            // Aplicar la localScale calculada (esto compensa la escala del padre y produce la escala global deseada)
+            go.transform.localScale = localScaleToApply;
 
-            // 🔹 Forzar visibilidad de hijos
-            foreach (var child in go.GetComponentsInChildren<RectTransform>(true))
+            // Aplicar posiciones/rotaciones de hijos si existen (mantener tus valores específicos)
+            Transform tag = go.transform.Find("shopSlotPriceTag");
+            if (tag != null)
             {
-                child.localScale = Vector3.one;
-                child.gameObject.SetActive(true);
+                tag.localPosition = new Vector3(67.5f, -48f, 0f);
+                tag.localEulerAngles = new Vector3(1.379f, 1.379f, 188.31f);
+                tag.localScale = new Vector3(1.3358f, 1.3358f, 1.3358f);
             }
 
-            // 🔹 Ajustar Canvas de hijos si no existe
-            Canvas childCanvas = go.GetComponentInChildren<Canvas>();
-            if (childCanvas == null)
+            Transform price = go.transform.Find("shopSlotPriceTag/shopSlotPrice");
+            if (price != null)
             {
-                childCanvas = go.AddComponent<Canvas>();
-                childCanvas.overrideSorting = true;
-                childCanvas.sortingOrder = 50;
-                go.AddComponent<GraphicRaycaster>();
+                price.localPosition = new Vector3(-26.36086f, 1.320324f, 0.8764998f);
+                price.localEulerAngles = new Vector3(1.572f, 1.175f, 179.417f);
+                price.localScale = new Vector3(0.748615f, 0.748615f, 0.748615f);
+            }
+
+            // Asegurar visibilidad de todos los hijos UI
+            foreach (var child in go.GetComponentsInChildren<RectTransform>(true))
+            {
+                child.gameObject.SetActive(true);
             }
         }
         else
         {
-            // --- Prefab con SpriteRenderer ---
-            SpriteRenderer sr = go.GetComponent<SpriteRenderer>();
-            if (sr != null)
-            {
-                float spriteWidth = sr.sprite.bounds.size.x;
-                float spriteHeight = sr.sprite.bounds.size.y;
-                float scaleX = Size / spriteWidth;
-                float scaleY = Size / spriteHeight;
-                go.transform.localScale = new Vector3(scaleX, scaleY, 1f);
-            }
-            else
-            {
-                go.transform.localScale = Vector3.one;
-            }
-
+            // Si no es UI (por si acaso), aplicamos escala y posición normal
             go.transform.localPosition = Vector3.zero;
+            go.transform.localRotation = Quaternion.identity;
+            go.transform.localScale = localScaleToApply;
         }
+
+        // Debug: comprueba la escala resultante (lossy) para verificar que quedo como se esperaba
+        Vector3 resultLossy = go.transform.lossyScale;
+        Debug.Log($"[ShopSystem] Ajuste '{go.name}' -> localScale aplicada {localScaleToApply}, lossyScale resultante {resultLossy}, parentLossy {parentLossy}");
     }
 
     private void RefrescarPrecio(GameObject engimono)
     {
-        var display = engimono.GetComponent<engimonoPrice>();
-        if (display != null)
-        {
-            display.MostrarPrecio();
-        }
+        if (engimono == null) return;
 
-        // --- DEBUG opcional: asegurarse de que los hijos existen y están visibles ---
-        foreach (var img in engimono.GetComponentsInChildren<Image>(true))
-        {
-            img.enabled = true;
-        }
+        var display = engimono.GetComponent<engimonoPrice>();
+        if (display != null) display.MostrarPrecio();
+
+        // Asegurar visibilidad de los componentes visuales
+        foreach (var img in engimono.GetComponentsInChildren<Image>(true)) img.enabled = true;
         foreach (var txt in engimono.GetComponentsInChildren<TextMeshProUGUI>(true))
         {
             txt.enabled = true;
             txt.alpha = 1f;
         }
+
         Debug.Log($"[ShopSystem] Hijos visuales detectados en {engimono.name}: {engimono.GetComponentsInChildren<Transform>(true).Length}");
     }
 }

@@ -13,8 +13,8 @@ public class DebuggerMenu : MonoBehaviour
     private TextField ratingField;
     private TextField dineroField;
     private TextField suerteField;
-    private Label suerteTotalLabel;   // Label para suerte total
-    private Label ratingTotalLabel;   // Label para rating total
+    private Label suerteTotalLabel;
+    private Label ratingTotalLabel;
     private Button reiniciarDiaButton;
     private Slider debuggerTiempo;
 
@@ -33,24 +33,19 @@ public class DebuggerMenu : MonoBehaviour
 
         var root = doc.rootVisualElement;
 
-        // Referencias a TextFields
         ratingField = root.Q<TextField>("debuggerRating");
         dineroField = root.Q<TextField>("debuggerDinero");
         suerteField = root.Q<TextField>("debuggerSuerte");
 
-        // Labels de stats totales
         suerteTotalLabel = root.Q<Label>("suerteActual");
         ratingTotalLabel = root.Q<Label>("ratingActual");
 
-        // Botón reiniciar día
         reiniciarDiaButton = root.Q<Button>("debuggerReiniciarDia");
         if (reiniciarDiaButton != null)
             reiniciarDiaButton.clicked += OnReiniciarDiaClicked;
 
-        // Slider tiempo
         debuggerTiempo = root.Q<Slider>("debuggerTiempo");
 
-        // Botón y contenedor del menú
         debuggerMenuButton = root.Q<Button>("debuggerMenu");
         debuggerMenuItems = root.Q<VisualElement>("debuggerMenuItems");
         if (debuggerMenuItems != null)
@@ -58,16 +53,10 @@ public class DebuggerMenu : MonoBehaviour
         if (debuggerMenuButton != null)
             debuggerMenuButton.clicked += ToggleMenu;
 
-        // Buscar referencias en escena
         stats = FindFirstObjectByType<GameStats>();
         dayLogic = FindFirstObjectByType<DayLogic>();
         passengerLogic = FindFirstObjectByType<passengerPlacementLogic>();
 
-        if (stats == null) Debug.LogWarning("[DebuggerMenu] No se encontró GameStats en la escena.");
-        if (dayLogic == null) Debug.LogWarning("[DebuggerMenu] No se encontró DayLogic en la escena.");
-        if (passengerLogic == null) Debug.LogWarning("[DebuggerMenu] No se encontró passengerPlacementLogic en la escena.");
-
-        // Inicializar valores
         if (stats != null)
         {
             ratingField.value = stats.rating.ToString();
@@ -75,23 +64,49 @@ public class DebuggerMenu : MonoBehaviour
             suerteField.value = stats.suerte.ToString();
         }
 
-        // Suscribir eventos usando límites fijos de GameStats
+        // Rating: mantener límites 0-100
         ratingField.RegisterValueChangedCallback(evt =>
         {
             UpdateStatValue(evt.newValue, ref stats.rating, 0, 100, ratingField);
-            UpdateRatingLabel(); // actualizar Label cuando se cambie rating base
+            UpdateRatingLabel();
         });
 
+        // Dinero: permitir números negativos y detectar overflow
         dineroField.RegisterValueChangedCallback(evt =>
-            UpdateStatValue(evt.newValue, ref stats.dinero, 0, 10000, dineroField));
+        {
+            string value = evt.newValue;
 
+            // Permitimos temporalmente que el texto sea "-" mientras escriben
+            if (value == "-") return;
+
+            // Intentar parsear
+            if (long.TryParse(value, out long parsed)) // usamos long para detectar overflow
+            {
+                if (parsed > int.MaxValue || parsed < int.MinValue)
+                {
+                    dineroField.value = "???";
+                }
+                else
+                {
+                    stats.dinero = (int)parsed;
+                    dineroField.value = stats.dinero.ToString();
+                }
+            }
+            else
+            {
+                // Si no es un número válido, mantener el último valor o mostrar "???"
+                dineroField.value = "???";
+            }
+        });
+
+        // Suerte: mantener límites 0-100
         suerteField.RegisterValueChangedCallback(evt =>
         {
             UpdateStatValue(evt.newValue, ref stats.suerte, 0, 100, suerteField);
-            UpdateSuerteLabel(); // actualizar Label cuando se cambie suerte base
+            UpdateSuerteLabel();
         });
 
-        // Configurar slider tiempo
+        // Slider tiempo
         if (debuggerTiempo != null && dayLogic != null)
         {
             debuggerTiempo.lowValue = 0;
@@ -105,14 +120,12 @@ public class DebuggerMenu : MonoBehaviour
             });
         }
 
-        // Inicializar Labels
         UpdateSuerteLabel();
         UpdateRatingLabel();
     }
 
     private void Update()
     {
-        // Actualiza los Labels cada frame para reflejar cualquier modificador externo
         UpdateSuerteLabel();
         UpdateRatingLabel();
     }
@@ -124,9 +137,6 @@ public class DebuggerMenu : MonoBehaviour
         debuggerMenuItems.style.display = menuVisible ? DisplayStyle.Flex : DisplayStyle.None;
     }
 
-    /// <summary>
-    /// Actualiza el valor de un stat usando límites fijos (no sliders de tiempo).
-    /// </summary>
     private void UpdateStatValue(string input, ref int stat, int min, int max, TextField field)
     {
         if (int.TryParse(input, out int parsedValue))
@@ -137,13 +147,10 @@ public class DebuggerMenu : MonoBehaviour
         }
         else
         {
-            field.value = stat.ToString(); // mantener valor actual si no es válido
+            field.value = stat.ToString();
         }
     }
 
-    /// <summary>
-    /// Actualiza el Label de suerte para reflejar la suma base + modificadores
-    /// </summary>
     private void UpdateSuerteLabel()
     {
         if (suerteTotalLabel != null && stats != null)
@@ -152,9 +159,6 @@ public class DebuggerMenu : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Actualiza el Label de rating para reflejar la suma base + modificadores
-    /// </summary>
     private void UpdateRatingLabel()
     {
         if (ratingTotalLabel != null && stats != null)
@@ -165,18 +169,15 @@ public class DebuggerMenu : MonoBehaviour
 
     private void OnReiniciarDiaClicked()
     {
-        // Reiniciar día
         if (dayLogic != null)
         {
             dayLogic.ResetDay();
             dayLogic.StartDay();
         }
 
-        // Regenerar pasajeros
         if (passengerLogic != null)
             passengerLogic.SpawnPassengers();
 
-        // Actualizar slider tiempo
         if (debuggerTiempo != null && dayLogic != null)
             debuggerTiempo.value = dayLogic.currentSecond;
     }

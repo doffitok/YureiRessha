@@ -2,7 +2,6 @@ using UnityEngine;
 
 // Este script centraliza las variables del juego: rating, dinero y suerte
 // Ahora soporta modificadores aditivos para efectos externos
-
 public class GameStats : MonoBehaviour
 {
     [Header("Rating")]
@@ -50,5 +49,11 @@ public class GameStats : MonoBehaviour
     public void AddSuerte(int value)
     {
         suerteExtra += value;
+    }
+
+    // --- Método nuevo para gastar dinero directamente ---
+    public void SpendMoney(int amount)
+    {
+        dinero = Mathf.Max(dinero - amount, 0);
     }
 }

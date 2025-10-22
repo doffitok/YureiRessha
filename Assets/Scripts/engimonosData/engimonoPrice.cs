@@ -29,7 +29,7 @@ public class engimonoPrice : MonoBehaviour
     {
         if (engimonoData != null && shopSlotPrice != null)
         {
-            shopSlotPrice.text = "$" + engimonoData.Compra.ToString("N0");
+            shopSlotPrice.text = "¥" + engimonoData.Compra.ToString("N0");
         }
         else
         {

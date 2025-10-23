@@ -1,8 +1,2 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
-    <Style src="project://database/Assets/Assets/UI/Almanaque.uss?fileID=7433441132597879392&amp;guid=a58951213d21d6a459c2f6ddafbcd580&amp;type=3#Almanaque" />
-    <ui:ScrollView name="PanelIzquierdo" style="position: absolute; height: 947px; width: 567px; top: 104px; left: 1269px; background-color: rgba(26, 26, 26, 0); opacity: 1; display: flex; visibility: visible; overflow: visible;" />
-    <ui:VisualElement name="ImagenPersonaje" style="flex-grow: 1; position: absolute; height: 735px; width: 423px; top: 94px; bottom: auto; background-color: rgba(89, 67, 67, 0); left: 12px;" />
-    <ui:Label name="TituloLabel" selectable="false" style="font-size: 50px; -unity-text-align: upper-center; -unity-font-definition: url(&quot;project://database/Library/unity%20default%20resources?fileID=10102&amp;guid=0000000000000000e000000000000000&amp;type=0#LegacyRuntime&quot;); height: 98px; width: 1918px;" />
-    <ui:Label name="DescripcionLabel" style="top: 90px; height: 733px; width: 763px; position: absolute; left: 448px; background-color: rgba(255, 255, 255, 0);" />
-    <ui:VisualElement name="ImagenExtra" style="flex-grow: 1; position: absolute; height: 162px; width: 1218px; top: 842px; left: 1px; background-color: rgba(255, 255, 255, 0);" />
 </ui:UXML>

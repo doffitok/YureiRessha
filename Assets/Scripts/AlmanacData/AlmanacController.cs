@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro; // 🆕 Necesario para usar TextMeshPro
 
 public class AlmanacController : MonoBehaviour
 {
@@ -11,98 +12,101 @@ public class AlmanacController : MonoBehaviour
     public Transform buttonsContainer; // Content del ScrollView o un panel con Vertical Layout Group
     public GameObject buttonPrefab;    // prefab del botón (Button + Text y/o Image)
 
+    [Header("ScrollView Fallback (opcional)")]
+    public ScrollRect scrollView; // 🆕 Si no asignas el container, se usará el Content de este ScrollView
+
     [Header("Detail Panel UI (Left)")]
     public Image portraitImage;        // imagen grande
-    public Text titleText;             // título
-    public Text descriptionText;       // descripción (Text o TextMeshPro)
+    public Text titleText;             // título (UI Text)
+    public TextMeshProUGUI titleTMP;   // 🆕 soporte opcional TMP
+    public Text descriptionText;       // descripción (UI Text)
+    public TextMeshProUGUI descriptionTMP; // 🆕 soporte opcional TMP
     public Image[] galleryImages = new Image[3]; // 3 miniaturas
 
     [Header("Options")]
     public int defaultIndex = 0;
 
-    [Header("Botones")]
-    public Transform buttonContainer; // Panel donde van los botones
-    public Button characterButtonPrefab; // Prefab del botón
     private List<Button> spawnedButtons = new List<Button>();
+
 
     void Start()
     {
         GenerateCharacterButtons();
     }
 
-    void GenerateCharacterButtons()
+    // 🔹 Genera los botones del almanaque
+    public void GenerateCharacterButtons()
     {
-        // Limpia botones previos si ya existían
-        foreach (Transform child in buttonContainer)
+        // 🆕 Fallback automático: si no se asignó el container, lo tomamos del ScrollView
+        if (buttonsContainer == null && scrollView != null && scrollView.content != null)
         {
+            buttonsContainer = scrollView.content;
+            Debug.Log("🧭 buttonsContainer no asignado — se usará el Content del ScrollView.");
+        }
+
+        if (buttonsContainer == null || buttonPrefab == null)
+        {
+            Debug.LogWarning("❌ Falta asignar buttonsContainer o buttonPrefab en el inspector.");
+            return;
+        }
+
+        // 🔸 Limpia botones anteriores
+        foreach (Transform child in buttonsContainer)
             Destroy(child.gameObject);
-        }
         spawnedButtons.Clear();
 
+        // 🔸 Genera uno nuevo por cada personaje
         for (int i = 0; i < characters.Count; i++)
         {
-            int index = i; // 👈 importante para que el listener no use la misma variable
-
-            Button newButton = Instantiate(characterButtonPrefab, buttonContainer);
-            spawnedButtons.Add(newButton);
-
-            // Cambia el texto del botón
-            Text btnText = newButton.GetComponentInChildren<Text>();
-            if (btnText != null)
-                btnText.text = characters[i].displayName;
-
-            // Agrega listener al botón
-            newButton.onClick.AddListener(() => ShowCharacter(index));
-        }
-    }
-
-    void BuildButtons()
-    {
-        if (buttonsContainer == null || buttonPrefab == null) return;
-
-        // limpiar hijos previos (modo Play)
-        for (int i = buttonsContainer.childCount - 1; i >= 0; i--)
-            Destroy(buttonsContainer.GetChild(i).gameObject);
-        spawnedButtons.Clear();
-
-        for (int i = 0; i < characters.Count; i++)
-        {
-            int index = i; // captura local
+            int index = i;
             CharacterAlmaData c = characters[i];
 
-            GameObject go = Instantiate(buttonPrefab, buttonsContainer);
-            go.name = "AlmaButton_" + (string.IsNullOrEmpty(c.characterId) ? i.ToString() : c.characterId);
+            // Instancia el botón dentro del ScrollView Content
+            GameObject newButton = Instantiate(buttonPrefab);
+            newButton.transform.SetParent(buttonsContainer, false); // false evita mantener posiciones locales raras
+            newButton.name = "AlmaButton_" + (string.IsNullOrEmpty(c.characterId) ? i.ToString() : c.characterId);
 
-            Button btn = go.GetComponent<Button>();
-            if (btn == null)
-            {
-                Debug.LogWarning("buttonPrefab no tiene componente Button.");
-                continue;
-            }
-            spawnedButtons.Add(btn);
+            // 🆕 Soporte Text o TextMeshPro
+            Text label = newButton.GetComponentInChildren<Text>();
+            TextMeshProUGUI labelTMP = newButton.GetComponentInChildren<TextMeshProUGUI>();
+            string displayName = string.IsNullOrEmpty(c.displayName) ? "Unnamed" : c.displayName;
+            if (label != null) label.text = displayName;
+            if (labelTMP != null) labelTMP.text = displayName;
 
-            // label: busca Text hijo y asigna nombre
-            Text label = go.GetComponentInChildren<Text>();
-            if (label != null) label.text = string.IsNullOrEmpty(c.displayName) ? "Unnamed" : c.displayName;
-
-            // icon: intenta asignar un Image hijo (no el background)
-            Image[] imgs = go.GetComponentsInChildren<Image>();
+            // Asigna ícono (opcional)
+            Image[] imgs = newButton.GetComponentsInChildren<Image>();
             if (imgs != null && imgs.Length > 0 && c.portrait != null)
             {
                 foreach (var img in imgs)
                 {
-                    if (img.gameObject == go) continue;
+                    if (img.gameObject == newButton) continue; // evitar fondo del botón
                     img.sprite = c.portrait;
                     img.preserveAspect = true;
                     break;
                 }
             }
 
-            btn.onClick.RemoveAllListeners();
-            btn.onClick.AddListener(() => ShowCharacter(index));
+            // Configura evento del botón
+            Button btn = newButton.GetComponent<Button>();
+            if (btn != null)
+            {
+                btn.onClick.RemoveAllListeners();
+                btn.onClick.AddListener(() => ShowCharacter(index));
+                spawnedButtons.Add(btn);
+            }
         }
+
+        // 🔸 Mostrar el primer personaje por defecto (opcional)
+        if (characters.Count > 0)
+            ShowCharacter(defaultIndex);
+
+        // 🔸 Forzar actualización del layout (para ScrollView)
+        if (buttonsContainer != null)
+            LayoutRebuilder.ForceRebuildLayoutImmediate(buttonsContainer.GetComponent<RectTransform>());
     }
 
+
+    // 🔹 Muestra la información del personaje seleccionado
     public void ShowCharacter(int index)
     {
         if (characters == null || characters.Count == 0)
@@ -119,7 +123,7 @@ public class AlmanacController : MonoBehaviour
 
         CharacterAlmaData c = characters[index];
 
-        // portrait
+        // Retrato
         if (portraitImage != null)
         {
             if (c.portrait != null)
@@ -131,11 +135,17 @@ public class AlmanacController : MonoBehaviour
             else portraitImage.gameObject.SetActive(false);
         }
 
-        // title & description
-        if (titleText != null) titleText.text = string.IsNullOrEmpty(c.displayName) ? "—" : c.displayName;
-        if (descriptionText != null) descriptionText.text = string.IsNullOrEmpty(c.description) ? "—" : c.description;
+        // 🆕 Soporte Text y TMP
+        string nameToShow = string.IsNullOrEmpty(c.displayName) ? "—" : c.displayName;
+        string descToShow = string.IsNullOrEmpty(c.description) ? "—" : c.description;
 
-        // gallery
+        if (titleText != null) titleText.text = nameToShow;
+        if (titleTMP != null) titleTMP.text = nameToShow;
+
+        if (descriptionText != null) descriptionText.text = descToShow;
+        if (descriptionTMP != null) descriptionTMP.text = descToShow;
+
+        // Galería
         for (int i = 0; i < galleryImages.Length; i++)
         {
             if (galleryImages[i] == null) continue;
@@ -151,7 +161,7 @@ public class AlmanacController : MonoBehaviour
             }
         }
 
-        // highlight simple: colorea botones (opcional)
+        // Resalta el botón activo
         for (int i = 0; i < spawnedButtons.Count; i++)
         {
             if (spawnedButtons[i] == null) continue;
@@ -161,11 +171,18 @@ public class AlmanacController : MonoBehaviour
         }
     }
 
+
+    // 🔹 Limpia la UI si no hay personaje
     void ClearDetail()
     {
         if (portraitImage != null) portraitImage.gameObject.SetActive(false);
+
         if (titleText != null) titleText.text = "";
+        if (titleTMP != null) titleTMP.text = "";
+
         if (descriptionText != null) descriptionText.text = "";
+        if (descriptionTMP != null) descriptionTMP.text = "";
+
         foreach (var img in galleryImages)
             if (img != null) img.gameObject.SetActive(false);
     }

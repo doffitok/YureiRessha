@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 12ebd3bc1f9f38c418d37df726eef530, type: 3}
-  m_Name: SaeAlmana
+  m_Name: SayokoAlmana
   m_EditorClassIdentifier: 
-  characterId: 3
-  displayName: Sae
+  characterId: 4
+  displayName: Sayoko
   description: "Hola soy una descripci\xF3n\n"
-  portrait: {fileID: 21300000, guid: 587ed9b1270c89c488bb2c0ae3c4c0f4, type: 3}
+  portrait: {fileID: 21300000, guid: 7ff87f46d160caa42a2da5514e022728, type: 3}
   gallerySprites:
-  - {fileID: 21300000, guid: 5f3af472df05ebf4ebd4a46859ec7c4e, type: 3}
-  - {fileID: 21300000, guid: 4daae07886a5e5c4ea02bd567e517f47, type: 3}
-  - {fileID: 21300000, guid: baa999390ac006946bfa2716e68c12b5, type: 3}
+  - {fileID: 21300000, guid: ea8f56c43254d41728f5ac4e8299b6c9, type: 3}
+  - {fileID: 21300000, guid: ea8f56c43254d41728f5ac4e8299b6c9, type: 3}
+  - {fileID: 21300000, guid: ea8f56c43254d41728f5ac4e8299b6c9, type: 3}

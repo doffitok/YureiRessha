@@ -11,12 +11,9 @@ GameObject:
   - component: {fileID: 4818527420322761959}
   - component: {fileID: 3135804639540039661}
   - component: {fileID: 3201446104376612187}
-  - component: {fileID: -8873361855572802976}
-  - component: {fileID: 7261344821041677254}
-  - component: {fileID: -3480717768682603865}
-  - component: {fileID: 8730520033690729495}
+  - component: {fileID: -6173995657898340003}
   m_Layer: 5
-  m_Name: engimonoPreset
+  m_Name: engimonoPlaceholder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -80,7 +77,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &-8873361855572802976
+--- !u!114 &-6173995657898340003
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -89,52 +86,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1162188520849999511}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9fb29f9a3e286094aae80dd26775130a, type: 3}
+  m_Script: {fileID: 11500000, guid: 0314f969a36ef25419989cb3bbcae22b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  engimonoData: {fileID: 11400000, guid: bbed90e758b44ef4ea7f4854b3cee0b0, type: 2}
-  shopDecorPaths:
-  - shopSlotPriceTag
-  - shopSlotPriceTag/shopSlotPrice
---- !u!114 &7261344821041677254
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1162188520849999511}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e02012ef018bb004a8c56567fd8fa84a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  engimonoData: {fileID: 11400000, guid: bbed90e758b44ef4ea7f4854b3cee0b0, type: 2}
-  shopSlotPrice: {fileID: 8410373766928436940}
---- !u!114 &-3480717768682603865
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1162188520849999511}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7368ff55445946b468f8aba2d5c1475d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gameStats: {fileID: 0}
---- !u!114 &8730520033690729495
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1162188520849999511}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5643d71264e29f746a084ba2e2035451, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  instance:
+    data: {fileID: 0}
+    comprado: 1
+  currentSlot: {fileID: 0}
+  canvasGroup: {fileID: 0}
 --- !u!1 &1516378883624060644
 GameObject:
   m_ObjectHideFlags: 0

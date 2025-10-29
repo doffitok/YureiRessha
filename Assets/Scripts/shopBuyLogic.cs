@@ -1,26 +1,33 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-// Este script permite comprar engimonos haciendo click sobre ellos
+[DisallowMultipleComponent]
 public class shopBuyLogic : MonoBehaviour, IPointerClickHandler
 {
     [Header("Referencias")]
-    [SerializeField] private GameStats gameStats; // Referencia al dinero del jugador
+    [SerializeField] private GameStats gameStats;
+
+    private uiEngimonosInventoryManager inventory;
+    private uiEngimonoShopInfo shopInfo;
+    private ShopItemMarker marker;
+
+    private void Awake()
+    {
+        shopInfo = GetComponent<uiEngimonoShopInfo>();
+        marker   = GetComponent<ShopItemMarker>();
+    }
 
     private void Start()
     {
-        // Buscar GameStats automáticamente si no se asignó
         if (gameStats == null)
-        {
             gameStats = FindObjectOfType<GameStats>();
-            if (gameStats == null)
-            {
-                Debug.LogError("[shopBuyLogic] No se encontró GameStats en la escena.");
-            }
-        }
+
+        inventory = uiEngimonosInventoryManager.Instance;
+
+        if (marker == null)
+            Debug.LogWarning("[shopBuyLogic] Este objeto NO tiene ShopItemMarker; no se podrá comprar (correcto para inventario).");
     }
 
-    // Este método se llama automáticamente cuando se hace click en el objeto (necesita EventSystem)
     public void OnPointerClick(PointerEventData eventData)
     {
         IntentarCompra();
@@ -28,39 +35,30 @@ public class shopBuyLogic : MonoBehaviour, IPointerClickHandler
 
     private void IntentarCompra()
     {
-        if (gameStats == null) return;
+        // Bloquear compra si NO es un item de tienda
+        if (marker == null) return;
 
-        // Buscar el componente uiEngimonoShopInfo en este objeto
-        var shopInfo = GetComponent<uiEngimonoShopInfo>();
-        if (shopInfo == null)
+        if (gameStats == null || inventory == null || shopInfo == null || shopInfo.engimonoData == null)
+            return;
+
+        int precio = shopInfo.engimonoData.Compra;
+        if (gameStats.GetDineroTotal() < precio)
         {
-            Debug.LogWarning($"[shopBuyLogic] No se encontró el componente uiEngimonoShopInfo en {gameObject.name}");
+            Debug.Log("Dinero insuficiente.");
             return;
         }
 
-        var engimono = shopInfo.engimonoData; // Aquí obtenemos el ScriptableObject directamente
-        if (engimono == null)
-        {
-            Debug.LogWarning($"[shopBuyLogic] El campo engimonoData en {gameObject.name} es null");
-            return;
-        }
+        // Restar dinero
+        gameStats.SpendMoney(precio);
 
-        int dineroActual = gameStats.GetDineroTotal();
-        int precio = engimono.Compra;
+        // (Opcional) limpiar elementos visuales de tienda antes de destruir
+        shopInfo.BorrarDecorTienda();
 
-        if (dineroActual >= precio)
-        {
-            // Restar dinero usando SpendMoney para afectar directamente el valor base
-            gameStats.SpendMoney(precio);
+        // Crear instancia runtime y agregar al inventario
+        var inst = new EngimonoInstance { data = shopInfo.engimonoData, comprado = true };
+        inventory.AddEngimono(inst);
 
-            Debug.Log($"Compraste {engimono.Nombre} por {precio}. Dinero restante: {gameStats.GetDineroTotal()}");
-
-            // Destruir el objeto comprado
-            Destroy(gameObject);
-        }
-        else
-        {
-            Debug.Log($"No tienes suficiente dinero para comprar {engimono.Nombre}. Necesitas {precio}, tienes {dineroActual}.");
-        }
+        // Destruir el objeto de TIENDA (este mismo)
+        Destroy(gameObject);
     }
 }

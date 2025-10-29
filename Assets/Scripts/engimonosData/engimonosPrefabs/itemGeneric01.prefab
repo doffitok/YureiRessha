@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1435147950654741700}
   - component: {fileID: 2063075183220036627}
   - component: {fileID: 897163033471599110}
+  - component: {fileID: 3119522873480738482}
   m_Layer: 5
   m_Name: itemGeneric01
   m_TagString: Untagged
@@ -89,3 +90,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   engimonoData: {fileID: 11400000, guid: 92b216a973d654247adde949293561aa, type: 2}
+--- !u!114 &3119522873480738482
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2001504755681191201}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7368ff55445946b468f8aba2d5c1475d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameStats: {fileID: 0}

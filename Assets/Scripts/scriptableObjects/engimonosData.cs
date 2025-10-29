@@ -31,6 +31,12 @@ public class ItemInventario : ScriptableObject
     public int Compra; // Precio al comprar
     public int Venta;  // Precio al vender
 
+    // NUEVA SECCIÓN: Bonos globales que stackean (se suman por cada copia en inventario comprada)
+    [Header("Bonos globales (stackean)")]
+    public int bonusRating;
+    public int bonusDinero;
+    public int bonusSuerte;
+
     // Metodo para ejecutar el efecto
     public void AplicarEfecto(GameObject objetivo)
     {

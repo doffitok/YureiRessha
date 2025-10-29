@@ -21,3 +21,6 @@ MonoBehaviour:
   efectoScript: {fileID: 0}
   Compra: 75
   Venta: 35
+  bonusRating: 0
+  bonusDinero: 0
+  bonusSuerte: 0

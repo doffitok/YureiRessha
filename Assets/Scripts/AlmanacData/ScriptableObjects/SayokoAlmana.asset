@@ -17,10 +17,22 @@ MonoBehaviour:
   description: "Hola soy una descripci\xF3n\n"
   portrait: {fileID: 21300000, guid: 7ff87f46d160caa42a2da5514e022728, type: 3}
   gallerySprites:
-  - {fileID: 21300000, guid: ea8f56c43254d41728f5ac4e8299b6c9, type: 3}
-  - {fileID: 21300000, guid: ea8f56c43254d41728f5ac4e8299b6c9, type: 3}
+  - {fileID: 21300000, guid: 3ecc5186f8ef1a94d9069cae5f12783e, type: 3}
+  - {fileID: 21300000, guid: b4b810dafca8c0d47b7e8885aa6e07e2, type: 3}
   - {fileID: 21300000, guid: ea8f56c43254d41728f5ac4e8299b6c9, type: 3}
   buttonBackground: {fileID: 21300000, guid: c5e12483a729ad1409049800d305ad35, type: 3}
   buttonFont: {fileID: 0}
   buttonTextColor: {r: 1, g: 1, b: 1, a: 1}
   buttonFontSize: 24
+  engimonoNames:
+  - The Old One
+  - The Last Outfit
+  - 
+  engimonoDescriptions:
+  - 
+  - 
+  - 
+  engimonoIcons:
+  - {fileID: 21300000, guid: 3ecc5186f8ef1a94d9069cae5f12783e, type: 3}
+  - {fileID: 21300000, guid: b4b810dafca8c0d47b7e8885aa6e07e2, type: 3}
+  - {fileID: 0}

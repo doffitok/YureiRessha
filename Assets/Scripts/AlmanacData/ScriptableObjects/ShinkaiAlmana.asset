@@ -27,9 +27,9 @@ MonoBehaviour:
   buttonTextColor: {r: 1, g: 1, b: 1, a: 1}
   buttonFontSize: 24
   engimonoNames:
-  - Crumpled Papers
-  - Red Paper
-  - Blue Paper
+  - None of them.
+  - The red choice.
+  - The blue choice.
   engimonoDescriptions:
   - 
   - 

@@ -28,9 +28,9 @@ MonoBehaviour:
   buttonTextColor: {r: 1, g: 1, b: 1, a: 1}
   buttonFontSize: 24
   engimonoNames:
-  - Ticket
+  - The Concert ticket
   - Latest Record
-  - Guitar Pick
+  - Monterey Strat
   engimonoDescriptions:
   - 
   - 

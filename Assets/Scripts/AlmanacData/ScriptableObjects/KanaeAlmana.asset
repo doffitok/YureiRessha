@@ -27,3 +27,15 @@ MonoBehaviour:
   buttonFont: {fileID: 0}
   buttonTextColor: {r: 1, g: 1, b: 1, a: 1}
   buttonFontSize: 24
+  engimonoNames:
+  - Ticket
+  - Latest Record
+  - Guitar Pick
+  engimonoDescriptions:
+  - 
+  - 
+  - 
+  engimonoIcons:
+  - {fileID: 21300000, guid: 3337d229ee442f741b90ca2c2942a517, type: 3}
+  - {fileID: 21300000, guid: 521d28e1512fdd140b84da9d0dadf053, type: 3}
+  - {fileID: 21300000, guid: eafa46881cd563f409293fc2fa30f4d2, type: 3}

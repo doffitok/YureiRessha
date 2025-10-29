@@ -13,7 +13,7 @@ public class CharacterAlmaData : ScriptableObject
     public string description;
 
     [Header("Imágenes")]
-    public Sprite portrait;                 // imagen grande (panel izquierdo)
+    public Sprite portrait; // imagen grande (panel izquierdo)
     public Sprite[] gallerySprites = new Sprite[3]; // hasta 3 miniaturas abajo
 
     [Header("Botón del Almanaque")]
@@ -21,4 +21,9 @@ public class CharacterAlmaData : ScriptableObject
     public TMP_FontAsset buttonFont; // Fuente personalizada (opcional)
     public Color buttonTextColor = Color.white; // Color del texto
     public float buttonFontSize = 24f; // Tamaño de fuente TMP
+
+    [Header("Engimonos")]
+    public string[] engimonoNames = new string[3];
+    [TextArea(2, 4)] public string[] engimonoDescriptions = new string[3];
+    public Sprite[] engimonoIcons = new Sprite[3];
 }

@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.EventSystems;
 
 public class AlmanacController : MonoBehaviour
 {
@@ -9,32 +10,44 @@ public class AlmanacController : MonoBehaviour
     public List<CharacterAlmaData> characters = new List<CharacterAlmaData>();
 
     [Header("Buttons UI")]
-    public Transform buttonsContainer; 
-    public GameObject buttonPrefab;    
+    public Transform buttonsContainer;
+    public GameObject buttonPrefab;
 
     [Header("ScrollView Fallback (opcional)")]
-    public ScrollRect scrollView; 
+    public ScrollRect scrollView;
 
     [Header("Detail Panel UI (Left)")]
-    public Image portraitImage;        
-    public Text titleText;             
-    public TextMeshProUGUI titleTMP;   
-    public Text descriptionText;       
-    public TextMeshProUGUI descriptionTMP; 
+    public Image portraitImage;
+    public Text titleText;
+    public TextMeshProUGUI titleTMP;
+    public Text descriptionText;
+    public TextMeshProUGUI descriptionTMP;
     public Image[] galleryImages = new Image[3];
 
     [Header("Options")]
     public int defaultIndex = 0;
-    
+
     [Header("Audio")]
-    public AudioClip buttonSFX;   // clip de sonido del botón
-    public AudioSource audioSource; // AudioSource donde se reproducirá
+    public AudioClip buttonSFX;
+    public AudioSource audioSource;
 
     [Header("Button Size Options")]
-    public Vector2 buttonSize = new Vector2(300f, 250f); // ← cambia aquí el tamaño
+    public Vector2 buttonSize = new Vector2(300f, 250f);
 
-    [Range(0.1f, 100f)] public float scrollSpeed = 100f; // ← mayor número = scroll más rápido
+    [Header("Engimono Info Panel")]
+    public GameObject engimonoPanel;
+    public TextMeshProUGUI engimonoTitle;
+    public TextMeshProUGUI engimonoDescription;
+    public Image engimonoIcon;
 
+    [Header("Engimono Slots")]
+    public Image[] engimonoSlots = new Image[3];
+
+    private string[] currentEngimonoNames = new string[3];
+    private string[] currentEngimonoDescriptions = new string[3];
+    private Sprite[] currentEngimonoIcons = new Sprite[3];
+
+    [Range(0.1f, 100f)] public float scrollSpeed = 100f;
     private List<Button> spawnedButtons = new List<Button>();
 
     void Start()
@@ -44,7 +57,6 @@ public class AlmanacController : MonoBehaviour
 
     void Update()
     {
-        // 🔹 Ajuste de velocidad del scroll con la rueda del ratón
         if (scrollView != null)
         {
             float scrollInput = Input.GetAxis("Mouse ScrollWheel");
@@ -83,12 +95,10 @@ public class AlmanacController : MonoBehaviour
             newButton.transform.SetParent(buttonsContainer, false);
             newButton.name = "AlmaButton_" + (string.IsNullOrEmpty(c.characterId) ? i.ToString() : c.characterId);
 
-            // 🔹 Ajuste del tamaño del botón
             RectTransform rect = newButton.GetComponent<RectTransform>();
             if (rect != null)
-                rect.sizeDelta = buttonSize; // ← tamaño configurable desde el Inspector
+                rect.sizeDelta = buttonSize;
 
-            // 🎨 Fondo del botón (por personaje)
             Image background = newButton.GetComponent<Image>();
             if (background != null && c.buttonBackground != null)
             {
@@ -96,24 +106,16 @@ public class AlmanacController : MonoBehaviour
                 background.preserveAspect = true;
             }
 
-            // 🖋️ Texto del botón
+            // 🟡 TÍTULO DESACTIVADO (se quita texto del botón)
             Text label = newButton.GetComponentInChildren<Text>();
             TextMeshProUGUI labelTMP = newButton.GetComponentInChildren<TextMeshProUGUI>();
-            string displayName = string.IsNullOrEmpty(c.displayName) ? "Unnamed" : c.displayName;
 
             if (label != null)
-                label.text = displayName;
-
+                label.gameObject.SetActive(false);
             if (labelTMP != null)
-            {
-                labelTMP.text = displayName;
-                labelTMP.color = c.buttonTextColor;
-                labelTMP.fontSize = c.buttonFontSize;
-                if (c.buttonFont != null)
-                    labelTMP.font = c.buttonFont;
-            }
+                labelTMP.gameObject.SetActive(false);
 
-            // 🧩 Ícono del personaje
+            // Ícono del personaje
             Image[] imgs = newButton.GetComponentsInChildren<Image>();
             if (imgs != null && imgs.Length > 0 && c.portrait != null)
             {
@@ -126,21 +128,16 @@ public class AlmanacController : MonoBehaviour
                 }
             }
 
-            // 🎯 Click del botón
+            // Click del botón
             Button btn = newButton.GetComponent<Button>();
             if (btn != null)
             {
                 btn.onClick.RemoveAllListeners();
-
-                // Mostrar personaje
                 btn.onClick.AddListener(() => ShowCharacter(index));
-
-                // 🔊 NUEVO: reproducir SFX al hacer click
                 btn.onClick.AddListener(() => {
                     if (audioSource != null && buttonSFX != null)
                         audioSource.PlayOneShot(buttonSFX);
                 });
-
                 spawnedButtons.Add(btn);
             }
         }
@@ -203,6 +200,35 @@ public class AlmanacController : MonoBehaviour
             }
         }
 
+        // Engimonos
+        if (c.engimonoNames != null)
+            currentEngimonoNames = c.engimonoNames;
+        if (c.engimonoDescriptions != null)
+            currentEngimonoDescriptions = c.engimonoDescriptions;
+        if (c.engimonoIcons != null)
+            currentEngimonoIcons = c.engimonoIcons;
+
+        for (int i = 0; i < engimonoSlots.Length; i++)
+        {
+            if (i < currentEngimonoIcons.Length && currentEngimonoIcons[i] != null)
+            {
+                engimonoSlots[i].sprite = currentEngimonoIcons[i];
+                engimonoSlots[i].gameObject.SetActive(true);
+                engimonoSlots[i].preserveAspect = true;
+
+                var slot = engimonoSlots[i].GetComponent<EngimonoSlot>();
+                if (slot == null) slot = engimonoSlots[i].gameObject.AddComponent<EngimonoSlot>();
+                slot.Setup(i, this);
+            }
+            else
+            {
+                engimonoSlots[i].gameObject.SetActive(false);
+            }
+        }
+
+        if (engimonoPanel != null)
+            engimonoPanel.SetActive(false);
+
         for (int i = 0; i < spawnedButtons.Count; i++)
         {
             if (spawnedButtons[i] == null) continue;
@@ -212,13 +238,30 @@ public class AlmanacController : MonoBehaviour
         }
     }
 
+    public void ShowEngimonoInfo(int index)
+    {
+        if (engimonoPanel == null || index < 0 || index >= currentEngimonoNames.Length)
+            return;
+
+        engimonoTitle.text = currentEngimonoNames[index];
+        engimonoDescription.text = currentEngimonoDescriptions[index];
+        if (engimonoIcon != null)
+            engimonoIcon.sprite = currentEngimonoIcons[index];
+
+        engimonoPanel.SetActive(true);
+    }
+
+    public void HideEngimonoInfo()
+    {
+        if (engimonoPanel != null)
+            engimonoPanel.SetActive(false);
+    }
+
     void ClearDetail()
     {
         if (portraitImage != null) portraitImage.gameObject.SetActive(false);
-
         if (titleText != null) titleText.text = "";
         if (titleTMP != null) titleTMP.text = "";
-
         if (descriptionText != null) descriptionText.text = "";
         if (descriptionTMP != null) descriptionTMP.text = "";
 

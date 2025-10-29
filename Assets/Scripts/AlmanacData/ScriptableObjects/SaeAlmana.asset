@@ -27,3 +27,15 @@ MonoBehaviour:
   buttonFont: {fileID: 0}
   buttonTextColor: {r: 1, g: 1, b: 1, a: 1}
   buttonFontSize: 24
+  engimonoNames:
+  - Broke Fan
+  - Folder
+  - Check-it List
+  engimonoDescriptions:
+  - 
+  - 
+  - 
+  engimonoIcons:
+  - {fileID: 21300000, guid: 5f3af472df05ebf4ebd4a46859ec7c4e, type: 3}
+  - {fileID: 21300000, guid: 4daae07886a5e5c4ea02bd567e517f47, type: 3}
+  - {fileID: 21300000, guid: baa999390ac006946bfa2716e68c12b5, type: 3}

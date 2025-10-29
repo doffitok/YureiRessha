@@ -14,7 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterId: 4
   displayName: Sayoko
-  description: "Hola soy una descripci\xF3n\n"
+  description: 'She''s a really weird girl. Her second head is always talking besides
+    her, like if it had his own thoughts. Her movements are so weird, her joints
+    doesn''t make any sence and.. I don''t know. Super weird, She likes to provoke
+    chaos every where she goes... Must be careful. '
   portrait: {fileID: 21300000, guid: 7ff87f46d160caa42a2da5514e022728, type: 3}
   gallerySprites:
   - {fileID: 21300000, guid: 3ecc5186f8ef1a94d9069cae5f12783e, type: 3}
@@ -29,8 +32,9 @@ MonoBehaviour:
   - The Last Outfit
   - 
   engimonoDescriptions:
-  - 
-  - 
+  - An old friend of hers. Always carring it on her side. Be careful, it seems it
+    hasn't been used in a long time.
+  - The last things Sayoko used before that day. Tired apart. It's missing one sleeve.
   - 
   engimonoIcons:
   - {fileID: 21300000, guid: 3ecc5186f8ef1a94d9069cae5f12783e, type: 3}

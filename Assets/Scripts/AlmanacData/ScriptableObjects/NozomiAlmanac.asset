@@ -34,9 +34,12 @@ MonoBehaviour:
   - Hammer
   - One-every-Day
   engimonoDescriptions:
-  - 
-  - 
-  - 
+  - It's the toy she always is carring around! It's seems so broken and dirty. But
+    even with those details, she is in love with it.
+  - With this, one can make choices. I imagine being a Jury and being all like "GUILTY!"
+    but I think I can make the future brighter with this.
+  - 'I really needed that quick coffee. It''s the main enegry source of Nozomi, at
+    least 2 cups at day. Nothing bad could happen, she is already dead! '
   engimonoIcons:
   - {fileID: 21300000, guid: ed878fe6b7c4ebd4fa947f35d01fcac6, type: 3}
   - {fileID: 21300000, guid: db556450981418449840ae1c300d46d1, type: 3}

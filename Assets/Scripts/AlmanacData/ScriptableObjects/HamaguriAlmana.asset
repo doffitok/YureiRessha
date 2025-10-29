@@ -14,7 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterId: 7
   displayName: Hamaguri
-  description: 'She''s a marine biologist. The ocean is her home and the '
+  description: 'She''s a marine biologist. The ocean is her home and the train is
+    her ticket to see new lands. Hamaguri stands out by being super serious with
+    her job, but also super friendly. Loves to keep everyone save and calm at the
+    same time. I really need to take a tea with her! '
   portrait: {fileID: 21300000, guid: 55dfaf8718ab79242b0e6d575790b249, type: 3}
   gallerySprites:
   - {fileID: 21300000, guid: ea8f56c43254d41728f5ac4e8299b6c9, type: 3}

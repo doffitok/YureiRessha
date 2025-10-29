@@ -28,11 +28,12 @@ MonoBehaviour:
   buttonTextColor: {r: 1, g: 1, b: 1, a: 1}
   buttonFontSize: 24
   engimonoNames:
-  - Game Cartridge
+  - Rhytmn & Leyends
   - 
   - 
   engimonoDescriptions:
-  - 
+  - 'A very fun game! It''s like a boss rush with music and combat mechanics! I should
+    try it later today, but first I gotta fix the train! '
   - 
   - 
   engimonoIcons:

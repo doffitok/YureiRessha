@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: -6173995657898340003}
   - component: {fileID: 8435048558224002031}
   m_Layer: 5
-  m_Name: engimonoPlaceholder
+  m_Name: engimonoGeneric01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -107,7 +107,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8b6123c60b7efd4188e4497ba77a526, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  engimonoData: {fileID: 11400000, guid: bbed90e758b44ef4ea7f4854b3cee0b0, type: 2}
+  engimonoData: {fileID: 11400000, guid: 92b216a973d654247adde949293561aa, type: 2}
   Comprado: 0
   icono: {fileID: 0}
   nombreTexto: {fileID: 0}

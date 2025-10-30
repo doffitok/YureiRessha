@@ -436,7 +436,6 @@ Transform:
   - {fileID: 76587299}
   - {fileID: 718991117}
   - {fileID: 1885016453}
-  - {fileID: 851219157}
   - {fileID: 627559425}
   - {fileID: 1376492743}
   m_Father: {fileID: 0}
@@ -1128,7 +1127,6 @@ GameObject:
   - component: {fileID: 627559426}
   - component: {fileID: 627559432}
   - component: {fileID: 627559431}
-  - component: {fileID: 627559430}
   m_Layer: 0
   m_Name: shopManager
   m_TagString: Untagged
@@ -1171,26 +1169,9 @@ MonoBehaviour:
   shopSlot02: {fileID: 400536166}
   dayLogic: {fileID: 76587298}
   availableEngimonos:
-  - {fileID: 1162188520849999511, guid: 005413ff9ee26ce4cad7263aada127c4, type: 3}
+  - {fileID: 1162188520849999511, guid: d02906966990ffb468cdcb7b3463e99e, type: 3}
   Size: 300
   updateEachDay: 1
---- !u!114 &627559430
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 627559424}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9fb29f9a3e286094aae80dd26775130a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  engimonoData: {fileID: 11400000, guid: 0b28c69cea7b3b54495dfd5ac370abcd, type: 2}
-  shopDecorPaths:
-  - shopSlotPriceTag
-  - shopSlotPriceTag/shopSlotPrice
-  iconImage: {fileID: 0}
 --- !u!114 &627559431
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1764,51 +1745,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentItem: {fileID: 0}
---- !u!1 &851219156
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 851219157}
-  - component: {fileID: 851219158}
-  m_Layer: 0
-  m_Name: engimonosList
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &851219157
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 851219156}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.7641201, y: 1.1834207, z: 0.2114172}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 310524525}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &851219158
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 851219156}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40bc2c3fc25bd2646a68c1025ae61c17, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cantidad: 10
 --- !u!1 &861010875
 GameObject:
   m_ObjectHideFlags: 0

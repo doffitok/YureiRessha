@@ -10,19 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 458d4dc113d1b29419ae7c870c932060, type: 3}
-  m_Name: engimonoGeneric01
+  m_Name: engimonoGeneric03
   m_EditorClassIdentifier: 
-  ID: engimonoGeneric01
-  Nombre: Test
-  Icono: {fileID: 21300000, guid: db556450981418449840ae1c300d46d1, type: 3}
-  clase: 2
-  descripcion: Aumenta el rating en 0.5
-  notas: "El item aumenta el rating en 10 internamente porque el rating m\xE1ximo
-    es de 100\nNOTA: FUNCIONA PERO SOLO UNA INSTANCIA DEL OBJETO, SI HAY MAS DE UNA
-    NO SUMA M\xC1S QUE LA PRIMERA, ARREGLALO :P"
+  ID: engimonoGeneric03
+  Nombre: "Econom\xEDa circular"
+  Icono: {fileID: 21300000, guid: ca4909b977117e149a86661a0fac536a, type: 3}
+  clase: 0
+  descripcion: Transforma el 0.005% del valor del dinero en suerte
+  notas: 
   efectoScript: {fileID: 0}
-  Compra: 75
-  Venta: 35
+  Compra: 100
+  Venta: 15
   bonusRating: 0
   bonusDinero: 0
   bonusSuerte: 0

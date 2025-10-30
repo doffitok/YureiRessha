@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   engimonoName: Spiked Seat.
   engimonoDescription: Test
-  engimonoIcon: {fileID: 21300000, guid: 04b57dc0ffbce454787978f908f1925a, type: 3}
-  engimonoMainSprite: {fileID: 21300000, guid: 04b57dc0ffbce454787978f908f1925a, type: 3}
-  backgroundSprite: {fileID: 0}
+  engimonoIcon: {fileID: 21300000, guid: eafa46881cd563f409293fc2fa30f4d2, type: 3}
+  engimonoMainSprite: {fileID: 21300000, guid: eafa46881cd563f409293fc2fa30f4d2, type: 3}
+  backgroundSprite: {fileID: 21300000, guid: eafa46881cd563f409293fc2fa30f4d2, type: 3}
   backgroundColor: {r: 1, g: 1, b: 1, a: 1}
   highlightOnHover: 1
   panelOffset: {x: 400, y: 0}

@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 42345c0616838074894ae73527ecb772, type: 3}
-  m_Name: EBIMARUITEM3
+  m_Name: NOZOMIITEM 2
   m_EditorClassIdentifier: 
-  engimonoName: "Karakuri Ningy\u014D"
+  engimonoName: Uondo
   engimonoDescription: Test
-  engimonoIcon: {fileID: 21300000, guid: 8fc0251e1b4136247a912ba283e9f138, type: 3}
-  engimonoMainSprite: {fileID: 21300000, guid: 8fc0251e1b4136247a912ba283e9f138, type: 3}
-  backgroundSprite: {fileID: 21300000, guid: 8fc0251e1b4136247a912ba283e9f138, type: 3}
+  engimonoIcon: {fileID: 21300000, guid: 1e4a0ca7908fd6f4c94b45a3691a59e4, type: 3}
+  engimonoMainSprite: {fileID: 21300000, guid: 1e4a0ca7908fd6f4c94b45a3691a59e4, type: 3}
+  backgroundSprite: {fileID: 21300000, guid: 383d9fb48f25b9c42986138ca878a1c9, type: 3}
   backgroundColor: {r: 1, g: 1, b: 1, a: 1}
   highlightOnHover: 1
   panelOffset: {x: 400, y: 0}

@@ -16,7 +16,7 @@ MonoBehaviour:
   engimonoDescription: Test
   engimonoIcon: {fileID: 21300000, guid: 3ecc5186f8ef1a94d9069cae5f12783e, type: 3}
   engimonoMainSprite: {fileID: 21300000, guid: 3ecc5186f8ef1a94d9069cae5f12783e, type: 3}
-  backgroundSprite: {fileID: 0}
+  backgroundSprite: {fileID: 21300000, guid: f9252860067992c4586fe53870c96b37, type: 3}
   backgroundColor: {r: 1, g: 1, b: 1, a: 1}
   highlightOnHover: 1
   panelOffset: {x: 400, y: 0}

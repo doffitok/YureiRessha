@@ -10,18 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 458d4dc113d1b29419ae7c870c932060, type: 3}
-  m_Name: engimonoGeneric01
+  m_Name: itemGeneric02
   m_EditorClassIdentifier: 
-  ID: engimonoFiller1
+  ID: itemGeneric02
   Nombre: Test
-  Icono: {fileID: 21300000, guid: 8fc0251e1b4136247a912ba283e9f138, type: 3}
+  Icono: {fileID: 21300000, guid: 2f23b3e2966ccd14c98ef3de37dff648, type: 3}
   clase: 2
-  descripcion: Aumenta el rating en 0.5
-  notas: "El item aumenta el rating en 10 internamente porque el rating m\xE1ximo
-    es de 100\nNOTA: FUNCIONA PERO SOLO UNA INSTANCIA DEL OBJETO, SI HAY MAS DE UNA
-    NO SUMA M\xC1S QUE LA PRIMERA, ARREGLALO :P"
+  descripcion: Economia Circular
+  notas: Cada 5 segundos, otorga aleatoriamente entre 2 a 12 yenes
   efectoScript: {fileID: 0}
-  Compra: 75
+  Compra: 140
   Venta: 35
   bonusRating: 0
   bonusDinero: 0

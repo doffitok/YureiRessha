@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42345c0616838074894ae73527ecb772, type: 3}
   m_Name: KANAEITEM2
   m_EditorClassIdentifier: 
-  engimonoName: Spiked Seat.
+  engimonoName: Latest Record
   engimonoDescription: Test
-  engimonoIcon: {fileID: 21300000, guid: 04b57dc0ffbce454787978f908f1925a, type: 3}
-  engimonoMainSprite: {fileID: 21300000, guid: 04b57dc0ffbce454787978f908f1925a, type: 3}
-  backgroundSprite: {fileID: 0}
+  engimonoIcon: {fileID: 21300000, guid: 521d28e1512fdd140b84da9d0dadf053, type: 3}
+  engimonoMainSprite: {fileID: 21300000, guid: 521d28e1512fdd140b84da9d0dadf053, type: 3}
+  backgroundSprite: {fileID: 21300000, guid: 73908bbe9c3fe9b4887d9b1c8a0b528b, type: 3}
   backgroundColor: {r: 1, g: 1, b: 1, a: 1}
   highlightOnHover: 1
   panelOffset: {x: 400, y: 0}

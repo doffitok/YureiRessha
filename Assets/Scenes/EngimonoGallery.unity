@@ -2234,14 +2234,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   engimonos:
   - {fileID: 11400000, guid: e3c91b56e1b04e64ab7d216cbcfe9039, type: 2}
-  - {fileID: 11400000, guid: 8dda02a945ae6de4b9de9f1e9fbfb671, type: 2}
   - {fileID: 11400000, guid: 4d8229dbd94d5f644adee6274a680601, type: 2}
   - {fileID: 11400000, guid: 71586ef42f0f8d143907ee835545db30, type: 2}
   - {fileID: 11400000, guid: 92f9f591b488f074da6edc42ed823055, type: 2}
   - {fileID: 11400000, guid: 7fb1e34258d6bc741a94ba1bbbe276cd, type: 2}
   - {fileID: 11400000, guid: dc1c87e2d2aabd34f9edc384420c5f27, type: 2}
   - {fileID: 11400000, guid: 1ed938bd72c0eac4c8f0a879b5e566f8, type: 2}
-  - {fileID: 11400000, guid: b10a6b439ffcda24d988c9aec723d7d3, type: 2}
+  - {fileID: 11400000, guid: a044761fc977d8a48801bfb968697e15, type: 2}
   - {fileID: 11400000, guid: 0386c47c16808b9418495726da4fc0b1, type: 2}
   - {fileID: 11400000, guid: e5c9e5f6729c6094e8fe970e5fdd039c, type: 2}
   - {fileID: 11400000, guid: 2bbb642b21979824082cbebe953b9a52, type: 2}
@@ -2249,8 +2248,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3f37b7e45b8007b4b9abf97e61a8abce, type: 2}
   - {fileID: 11400000, guid: b10a6b439ffcda24d988c9aec723d7d3, type: 2}
   - {fileID: 11400000, guid: 25ca47408073cdc408cf5c24762ea81f, type: 2}
-  - {fileID: 11400000, guid: 0386c47c16808b9418495726da4fc0b1, type: 2}
   - {fileID: 11400000, guid: bc358b9d5b0ed874c9edbd1fdd5163ee, type: 2}
+  - {fileID: 11400000, guid: e11788a94ad895b45be208c6b342856d, type: 2}
   - {fileID: 11400000, guid: 699e96d71c84dd94a8fbe6f0cdc388d6, type: 2}
   - {fileID: 11400000, guid: b1de539de43f0b2418d4a5025ac1b0a0, type: 2}
   - {fileID: 11400000, guid: 37a6b835e87f27d48aeaaa58176090e4, type: 2}
@@ -2263,6 +2262,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 0a004922f04e8f1449de5102c543834a, type: 2}
   - {fileID: 11400000, guid: c96b7bf4addb2364bb24eeb7a3023b5d, type: 2}
   - {fileID: 11400000, guid: 12a6f1ec331281c4bac9c5301d035861, type: 2}
+  - {fileID: 11400000, guid: 8dda02a945ae6de4b9de9f1e9fbfb671, type: 2}
+  - {fileID: 11400000, guid: c1f6014828e0da34fb496610014edee9, type: 2}
+  - {fileID: 11400000, guid: 21f3d3d06220a8747af08bf5db4e90f9, type: 2}
   gridContainer: {fileID: 1068734144}
   engimonoCardPrefab: {fileID: 1621734841}
   engimonoPanel: {fileID: 561810515}

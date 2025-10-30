@@ -15,7 +15,7 @@ public class EngimonosData : ScriptableObject
     // La descripcion del objeto que le vamos a mostrar al jugador. Esto SI lo van a ver los jugadores asi que seamos bien descriptivos :D
     [Header("Descripción (dentro del juego)")]
     [TextArea(1, 5)] // Esto hace que el cuadro sea más grande en el Inspector
-    public string descripcion;
+    public string Descripcion;
 
     // Notas internas para nosotros nomas
     [Header("Notas (solo para nosotros)")]
@@ -30,12 +30,6 @@ public class EngimonosData : ScriptableObject
     [Header("Precios")]
     public int Compra; // Precio al comprar
     public int Venta;  // Precio al vender
-
-    // NUEVA SECCIÓN: Bonos globales que stackean (se suman por cada copia en inventario comprada)
-    [Header("Bonos globales (stackean)")]
-    public int bonusRating;
-    public int bonusDinero;
-    public int bonusSuerte;
 
     // Metodo para ejecutar el efecto
     public void AplicarEfecto(GameObject objetivo)

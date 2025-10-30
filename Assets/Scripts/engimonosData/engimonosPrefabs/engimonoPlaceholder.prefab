@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3201446104376612187}
   - component: {fileID: -6173995657898340003}
   - component: {fileID: 8435048558224002031}
-  - component: {fileID: -7904470493298382752}
+  - component: {fileID: 3886052172677290760}
   m_Layer: 5
   m_Name: engimonoPlaceholder
   m_TagString: Untagged
@@ -115,7 +115,7 @@ MonoBehaviour:
   precioTexto: {fileID: 8410373766928436940}
   gameStats: {fileID: 0}
   inventory: {fileID: 0}
---- !u!114 &-7904470493298382752
+--- !u!114 &3886052172677290760
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -124,10 +124,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1162188520849999511}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40bc2c3fc25bd2646a68c1025ae61c17, type: 3}
+  m_Script: {fileID: 11500000, guid: 3c2164ec6c1d40d4b9f16962ae1c1c3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cantidad: 10
+  infoContainerPrefab: {fileID: 3990893205806384362, guid: bbc356cb80da5d74dbb044e0765f755b, type: 3}
+  offset: {x: 0, y: -140}
+  infoScale: 1
+  popInSpeed: 20
+  popInOvershoot: 1.2
 --- !u!1 &1516378883624060644
 GameObject:
   m_ObjectHideFlags: 0

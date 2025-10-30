@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 42345c0616838074894ae73527ecb772, type: 3}
-  m_Name: TOMOITEM
+  m_Name: KOTORINITEM
   m_EditorClassIdentifier: 
-  engimonoName: Rhytmn & Legends
+  engimonoName: Armored Padlock
   engimonoDescription: Test
-  engimonoIcon: {fileID: 21300000, guid: e3f038a60ca1e0a4c919254c25c66a8d, type: 3}
-  engimonoMainSprite: {fileID: 21300000, guid: e3f038a60ca1e0a4c919254c25c66a8d, type: 3}
-  backgroundSprite: {fileID: 21300000, guid: c1eded706fd859d428abe535c0613321, type: 3}
+  engimonoIcon: {fileID: 21300000, guid: 09bba20d2f14864468aef7195bd04b32, type: 3}
+  engimonoMainSprite: {fileID: 21300000, guid: 09bba20d2f14864468aef7195bd04b32, type: 3}
+  backgroundSprite: {fileID: 21300000, guid: 556fdeefc013f5a41b58555f940b2c13, type: 3}
   backgroundColor: {r: 1, g: 1, b: 1, a: 1}
   highlightOnHover: 1
   panelOffset: {x: 400, y: 0}

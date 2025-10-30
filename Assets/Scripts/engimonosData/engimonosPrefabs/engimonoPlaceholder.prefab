@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 3135804639540039661}
   - component: {fileID: 3201446104376612187}
   - component: {fileID: -6173995657898340003}
+  - component: {fileID: 8435048558224002031}
+  - component: {fileID: -7904470493298382752}
   m_Layer: 5
   m_Name: engimonoPlaceholder
   m_TagString: Untagged
@@ -91,9 +93,41 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   instance:
     data: {fileID: 0}
-    comprado: 1
+    comprado: 0
   currentSlot: {fileID: 0}
   canvasGroup: {fileID: 0}
+--- !u!114 &8435048558224002031
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1162188520849999511}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8b6123c60b7efd4188e4497ba77a526, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  engimonoData: {fileID: 11400000, guid: 92b216a973d654247adde949293561aa, type: 2}
+  Comprado: 0
+  icono: {fileID: 0}
+  nombreTexto: {fileID: 0}
+  precioTexto: {fileID: 8410373766928436940}
+  gameStats: {fileID: 0}
+  inventory: {fileID: 0}
+--- !u!114 &-7904470493298382752
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1162188520849999511}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40bc2c3fc25bd2646a68c1025ae61c17, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cantidad: 10
 --- !u!1 &1516378883624060644
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,19 +1,23 @@
 using UnityEngine;
 
-// Este script suma +10 al Rating total del GameStats una sola vez
-public class SumaRating : MonoBehaviour
+/// <summary>
+/// Item genérico #01: suma +10 al Rating total del jugador.
+/// </summary>
+public class ItemGeneric01 : MonoBehaviour, IEngimonoApply
 {
-    private GameStats stats;
+    [Tooltip("Cantidad de Rating adicional que otorga este ítem.")]
+    public int cantidad = 10;
 
-    private void Awake()
+    public void AplicarEfecto(GameObject objetivo)
     {
-        stats = FindFirstObjectByType<GameStats>();
+        GameStats stats = objetivo.GetComponent<GameStats>();
         if (stats == null)
         {
-            Debug.LogWarning("[SumaRating] No se encontró GameStats en la escena.");
+            Debug.LogWarning("[ItemGeneric01] No se encontró GameStats en el objetivo.");
             return;
         }
 
-        stats.ratingExtra = 10;
+        stats.ratingExtra += cantidad;
+        Debug.Log($"[ItemGeneric01] +{cantidad} al Rating aplicado correctamente.");
     }
 }

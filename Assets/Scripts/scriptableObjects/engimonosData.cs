@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "engimono", menuName = "Engimono/Engimono")]
-public class ItemInventario : ScriptableObject
+public class EngimonosData : ScriptableObject
 {
     // Datos generales
     public string ID;

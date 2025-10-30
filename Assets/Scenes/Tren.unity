@@ -1171,7 +1171,7 @@ MonoBehaviour:
   shopSlot02: {fileID: 400536166}
   dayLogic: {fileID: 76587298}
   availableEngimonos:
-  - {fileID: 1162188520849999511, guid: 8d0683f7998c1644983d3e18bc16483b, type: 3}
+  - {fileID: 1162188520849999511, guid: 0fd314e18341d8b429b5183e5d7b06ed, type: 3}
   Size: 300
   updateEachDay: 1
 --- !u!114 &627559430
@@ -1317,7 +1317,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 773, y: 0}
+  m_AnchoredPosition: {x: 1053, y: 0}
   m_SizeDelta: {x: 78.663, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &650457741
@@ -1588,19 +1588,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 558e5e18198dfdf4b9abd6c30bd46ba7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  passengers: []
-  passengerPrefabs:
-  - {fileID: 7529655200778128035, guid: 05bcc941575b72b4681fad85041150c6, type: 3}
-  - {fileID: 172376899591694313, guid: 03ca0604afec7474ba939345596ecb76, type: 3}
-  - {fileID: 2046608415895934198, guid: cefb3267ff78a5b44b15032c1f80fa2c, type: 3}
-  - {fileID: 2611211793170235259, guid: 96bbd01f6839cfb47abad5a4f56b526d, type: 3}
-  - {fileID: 618542321095490944, guid: 07e947557bc38b149ac9d26c95a421d9, type: 3}
-  - {fileID: 86341387967933143, guid: 4020acd5ec02e384c8494c2246787d19, type: 3}
-  - {fileID: 618542321095490944, guid: 1c50895a1ff32d4428160464be10fd54, type: 3}
-  spawnPoints: []
-  defaultPassengers: []
-  minRatingRoll: 0
-  maxRatingRoll: 100
 --- !u!1001 &762601570
 PrefabInstance:
   m_ObjectHideFlags: 0

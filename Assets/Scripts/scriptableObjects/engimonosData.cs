@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "engimono", menuName = "Engimono/Engimono")]
-public class ItemInventario : ScriptableObject
+public class EngimonosData : ScriptableObject
 {
     // Datos generales
     public string ID;
@@ -30,6 +30,12 @@ public class ItemInventario : ScriptableObject
     [Header("Precios")]
     public int Compra; // Precio al comprar
     public int Venta;  // Precio al vender
+
+    // NUEVA SECCIÓN: Bonos globales que stackean (se suman por cada copia en inventario comprada)
+    [Header("Bonos globales (stackean)")]
+    public int bonusRating;
+    public int bonusDinero;
+    public int bonusSuerte;
 
     // Metodo para ejecutar el efecto
     public void AplicarEfecto(GameObject objetivo)

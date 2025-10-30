@@ -1,7 +1,7 @@
 using UnityEngine;
 
 // Este script centraliza las variables del juego: rating, dinero y suerte
-// Ahora soporta modificadores aditivos para efectos externos
+// Soporta modificadores aditivos para efectos externos
 public class GameStats : MonoBehaviour
 {
     [Header("Rating")]
@@ -10,8 +10,7 @@ public class GameStats : MonoBehaviour
     [HideInInspector] public int ratingExtra = 0; // Modificadores externos
 
     [Header("Dinero")]
-    [Range(0, 10000)]
-    public int dinero = 1000;      // Valor base
+    public int dinero = 1000;      // Valor base editable sin límite
     [HideInInspector] public int dineroExtra = 0;  // Modificadores externos
 
     [Header("Suerte")]
@@ -22,17 +21,17 @@ public class GameStats : MonoBehaviour
     // --- Métodos para obtener valores totales ---
     public int GetRatingTotal()
     {
-        return Mathf.Clamp(rating + ratingExtra, 0, 100); // Limitar a rango 0-100
+        return Mathf.Clamp(rating + ratingExtra, 0, 100); // rating sigue limitado
     }
 
     public int GetDineroTotal()
     {
-        return Mathf.Max(dinero + dineroExtra, 0); // No puede ser negativo
+        return dinero + dineroExtra; // ahora puede ser negativo
     }
 
     public int GetSuerteTotal()
     {
-        return Mathf.Clamp(suerte + suerteExtra, 0, 100); // Limitar a rango 0-100
+        return Mathf.Clamp(suerte + suerteExtra, 0, 100); // suerte sigue limitado
     }
 
     // --- Métodos de utilidad para aplicar modificadores ---
@@ -51,9 +50,9 @@ public class GameStats : MonoBehaviour
         suerteExtra += value;
     }
 
-    // --- Método nuevo para gastar dinero directamente ---
+    // --- Método para gastar dinero directamente ---
     public void SpendMoney(int amount)
     {
-        dinero = Mathf.Max(dinero - amount, 0);
+        dinero -= amount; // puede volverse negativo
     }
 }

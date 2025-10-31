@@ -1,7 +1,4 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
-    <ui:VisualElement name="Container" style="flex-grow: 1; align-items: center; justify-content: center; flex-basis: 120%; flex-direction: row; width: 201px; top: 1015px; position: absolute; height: 57px; background-color: rgba(55, 55, 55, 0.42); border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); align-self: stretch; align-content: stretch; left: 6px; opacity: 1;">
-        <ui:Button text="Empezar" name="EmpezarTerminar" selectable="true" />
-    </ui:VisualElement>
     <ui:VisualElement name="DebugMenu" enabled="true" style="flex-grow: 1; position: absolute; height: 44px; width: 63px; top: 19px; left: 9px;">
         <ui:VisualElement name="debuggerMenuItems" style="flex-grow: 1; position: absolute; height: 54px; width: 68px; top: -100px; left: -155px;">
             <ui:VisualElement name="debuggerMenuContainer" style="flex-grow: 1; position: absolute; height: 304px; width: 609px; top: 840px; left: 1436px; opacity: 1; background-color: rgb(128, 126, 75); -unity-background-image-tint-color: rgb(255, 255, 255); align-self: flex-end; overflow: hidden; visibility: visible; background-image: url(&quot;project://database/Assets/Mat/textures/THEGRABBER.png?fileID=21300000&amp;guid=744e8336c66bae14899d79dc5fd27823&amp;type=3#THEGRABBER&quot;);" />

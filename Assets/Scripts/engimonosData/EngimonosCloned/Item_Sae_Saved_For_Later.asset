@@ -16,8 +16,9 @@ MonoBehaviour:
   Nombre: Saved for later
   Icono: {fileID: 21300000, guid: 4daae07886a5e5c4ea02bd567e517f47, type: 3}
   clase: 0
-  Descripcion: For each station stopped you get a 0.3+ in rating at the end of the
-    day.
+  Descripcion: '-1 Engimono slot
+
+    2x EVERY cash received'
   notas: Reduce la cantidad de Engimono que puedes tener (-1), a cambio multiplica
     por dos todo tipo de ganancia
   efectoScript: {fileID: 0}

@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: itemGeneric02
   m_EditorClassIdentifier: 
   ID: itemGeneric02
-  Nombre: Test
-  Icono: {fileID: 21300000, guid: 2f23b3e2966ccd14c98ef3de37dff648, type: 3}
+  Nombre: Circular Economy
+  Icono: {fileID: 21300000, guid: 6e6121a5f3b7bf24a8aee09a8076da14, type: 3}
   clase: 2
   Descripcion: Cada 5 segundos, otorga aleatoriamente entre 2 a 12 yenes
   notas: Cada 5 segundos, otorga aleatoriamente entre 2 a 12 yenes

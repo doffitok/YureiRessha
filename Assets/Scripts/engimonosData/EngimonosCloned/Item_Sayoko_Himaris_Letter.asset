@@ -10,14 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 458d4dc113d1b29419ae7c870c932060, type: 3}
-  m_Name: itemGeneric02 1
+  m_Name: Item_Sayoko_Himaris_Letter
   m_EditorClassIdentifier: 
-  ID: itemGeneric04
-  Nombre: test 1
-  Icono: {fileID: 21300000, guid: fe81d6b3212e9de45b79c7f4acfe4043, type: 3}
-  clase: 1
-  Descripcion: Hola :3
-  notas: Cada 5 segundos, otorga aleatoriamente entre 2 a 12 yenes
+  ID: itemSayoko03
+  Nombre: Himari's letter
+  Icono: {fileID: 21300000, guid: 3ecc5186f8ef1a94d9069cae5f12783e, type: 3}
+  clase: 2
+  Descripcion: For each station stopped you get a 0.3+ in rating at the end of the
+    day.
+  notas: "Cada vez que el jugador se detenga, el obtiene +0.3 en rating al final
+    del dia, si se detiene en todas obtendr\xE1 +0.9 al final del dia "
   efectoScript: {fileID: 0}
   Compra: 140
   Venta: 35

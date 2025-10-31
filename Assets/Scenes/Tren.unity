@@ -1171,7 +1171,7 @@ MonoBehaviour:
   shopSlot02: {fileID: 400536166}
   dayLogic: {fileID: 76587298}
   availableEngimonos:
-  - {fileID: 1162188520849999511, guid: 0fd314e18341d8b429b5183e5d7b06ed, type: 3}
+  - {fileID: 1162188520849999511, guid: 8d0683f7998c1644983d3e18bc16483b, type: 3}
   Size: 300
   updateEachDay: 1
 --- !u!114 &627559430

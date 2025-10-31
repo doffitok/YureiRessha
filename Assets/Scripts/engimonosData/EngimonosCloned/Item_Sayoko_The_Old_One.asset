@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 458d4dc113d1b29419ae7c870c932060, type: 3}
+  m_Name: Item_Sayoko_The_Old_One
+  m_EditorClassIdentifier: 
+  ID: itemSayoko02
+  Nombre: The Old One
+  Icono: {fileID: 21300000, guid: 3ecc5186f8ef1a94d9069cae5f12783e, type: 3}
+  clase: 1
+  Descripcion: In a 1 in 7 chance each time you stop/miss a station a random item
+    will be activated 5 times but it will destroy it.
+  notas: "Cada vez que el jugador pase por alto una estaci\xF3n o la detenga el machete
+    se activa. Teniendo una chance de 1 en 7 de Activar un objeto aleatorio 5 veces 
+    y despues lo elimina. Si falla la chance, no har\xE1 nada."
+  efectoScript: {fileID: 0}
+  Compra: 140
+  Venta: 35

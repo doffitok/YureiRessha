@@ -233,7 +233,7 @@ MonoBehaviour:
   scrollPos: {x: 237.8313, y: 305.0464}
   variablesScrollPos: {x: 0, y: 0}
   variablesExpanded: 1
-  blockViewHeight: 280
+  blockViewHeight: 772
   zoom: 1
   scrollViewRect:
     serializedVersion: 2
@@ -242,8 +242,9 @@ MonoBehaviour:
     width: 1114
     height: 859
   selectedBlocks:
-  - {fileID: 6065556}
-  selectedCommands: []
+  - {fileID: 6065562}
+  selectedCommands:
+  - {fileID: 6065557}
   variables: []
   description: 
   stepPause: 0
@@ -2465,7 +2466,7 @@ MonoBehaviour:
   setSayDialog: {fileID: 0}
 --- !u!114 &6065619
 MonoBehaviour:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -2493,7 +2494,7 @@ MonoBehaviour:
   setSayDialog: {fileID: 0}
 --- !u!114 &6065620
 MonoBehaviour:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -2750,6 +2751,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxSeconds: 300
   sun: {fileID: 0}
+  startButton: {fileID: 0}
+  buttonTransform: {fileID: 0}
+  anticipationHeight: 20
+  slideDistance: 150
+  slideSpeed: 4
+  anticipationTime: 0.15
+  passengerPlacement: {fileID: 0}
+  passengerSelect: {fileID: 0}
 --- !u!4 &76587299
 Transform:
   m_ObjectHideFlags: 0
@@ -5450,7 +5459,7 @@ SpriteRenderer:
   m_Size: {x: 10.8, y: 19.8}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!224 &1033201526
@@ -7508,6 +7517,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   placementLogic: {fileID: 718991118}
+  autoRunOnStart: 0
 --- !u!1 &1931680411
 GameObject:
   m_ObjectHideFlags: 0

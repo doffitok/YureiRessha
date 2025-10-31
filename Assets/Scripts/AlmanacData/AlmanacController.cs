@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem; // ✅ Nuevo Input System
 
 public class AlmanacController : MonoBehaviour
 {
@@ -59,11 +60,17 @@ public class AlmanacController : MonoBehaviour
     {
         if (scrollView != null)
         {
-            float scrollInput = Input.GetAxis("Mouse ScrollWheel");
-            if (Mathf.Abs(scrollInput) > 0.01f)
+            // ✅ Nuevo Input System: usamos Mouse.current.scroll
+            if (Mouse.current != null)
             {
-                scrollView.verticalNormalizedPosition += scrollInput * scrollSpeed;
-                scrollView.verticalNormalizedPosition = Mathf.Clamp01(scrollView.verticalNormalizedPosition);
+                float scrollInput = Mouse.current.scroll.ReadValue().y;
+
+                if (Mathf.Abs(scrollInput) > 0.01f)
+                {
+                    // Scroll positivo = arriba, negativo = abajo
+                    scrollView.verticalNormalizedPosition += scrollInput * 0.001f * scrollSpeed;
+                    scrollView.verticalNormalizedPosition = Mathf.Clamp01(scrollView.verticalNormalizedPosition);
+                }
             }
         }
     }

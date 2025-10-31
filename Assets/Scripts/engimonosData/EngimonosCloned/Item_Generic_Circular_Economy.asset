@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 458d4dc113d1b29419ae7c870c932060, type: 3}
-  m_Name: itemGeneric02
+  m_Name: Item_Generic_Circular_Economy
   m_EditorClassIdentifier: 
   ID: itemGeneric02
   Nombre: Circular Economy
   Icono: {fileID: 21300000, guid: 6e6121a5f3b7bf24a8aee09a8076da14, type: 3}
-  clase: 2
+  clase: 0
   Descripcion: Cada 5 segundos, otorga aleatoriamente entre 2 a 12 yenes
   notas: Cada 5 segundos, otorga aleatoriamente entre 2 a 12 yenes
   efectoScript: {fileID: 0}

@@ -16,8 +16,8 @@ MonoBehaviour:
   Nombre: Broken Aspiration
   Icono: {fileID: 21300000, guid: 5f3af472df05ebf4ebd4a46859ec7c4e, type: 3}
   clase: 0
-  Descripcion: For each station stopped you get a 0.3+ in rating at the end of the
-    day.
+  Descripcion: The money received is collected at the and of the day, plus some extra
+    cash.
   notas: "El dinero por los boletos ahora es recolectado al final del d\xEDa, env\xE9s
     que en el momento. junto a un Inter\xE9s."
   efectoScript: {fileID: 0}

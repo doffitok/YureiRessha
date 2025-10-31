@@ -9,6 +9,7 @@ public class DebuggerMenu : MonoBehaviour
     private GameStats stats;
     private DayLogic dayLogic;
     private passengerPlacementLogic passengerLogic;
+    private passengerSelectLogic passengerSelect;
 
     private TextField ratingField;
     private TextField dineroField;
@@ -56,6 +57,7 @@ public class DebuggerMenu : MonoBehaviour
         stats = FindFirstObjectByType<GameStats>();
         dayLogic = FindFirstObjectByType<DayLogic>();
         passengerLogic = FindFirstObjectByType<passengerPlacementLogic>();
+        passengerSelect = FindFirstObjectByType<passengerSelectLogic>();
 
         if (stats != null)
         {
@@ -65,22 +67,19 @@ public class DebuggerMenu : MonoBehaviour
         }
 
         // Rating: mantener límites 0-100
-        ratingField.RegisterValueChangedCallback(evt =>
+        ratingField?.RegisterValueChangedCallback(evt =>
         {
             UpdateStatValue(evt.newValue, ref stats.rating, 0, 100, ratingField);
             UpdateRatingLabel();
         });
 
-        // Dinero: permitir números negativos y detectar overflow
-        dineroField.RegisterValueChangedCallback(evt =>
+        // Dinero: permitir negativos y controlar overflow
+        dineroField?.RegisterValueChangedCallback(evt =>
         {
             string value = evt.newValue;
-
-            // Permitimos temporalmente que el texto sea "-" mientras escriben
             if (value == "-") return;
 
-            // Intentar parsear
-            if (long.TryParse(value, out long parsed)) // usamos long para detectar overflow
+            if (long.TryParse(value, out long parsed))
             {
                 if (parsed > int.MaxValue || parsed < int.MinValue)
                 {
@@ -94,19 +93,18 @@ public class DebuggerMenu : MonoBehaviour
             }
             else
             {
-                // Si no es un número válido, mantener el último valor o mostrar "???"
                 dineroField.value = "???";
             }
         });
 
         // Suerte: mantener límites 0-100
-        suerteField.RegisterValueChangedCallback(evt =>
+        suerteField?.RegisterValueChangedCallback(evt =>
         {
             UpdateStatValue(evt.newValue, ref stats.suerte, 0, 100, suerteField);
             UpdateSuerteLabel();
         });
 
-        // Slider tiempo
+        // Slider tiempo (control manual)
         if (debuggerTiempo != null && dayLogic != null)
         {
             debuggerTiempo.lowValue = 0;
@@ -154,32 +152,58 @@ public class DebuggerMenu : MonoBehaviour
     private void UpdateSuerteLabel()
     {
         if (suerteTotalLabel != null && stats != null)
-        {
             suerteTotalLabel.text = $"Suerte: {stats.GetSuerteTotal()}";
-        }
     }
 
     private void UpdateRatingLabel()
     {
         if (ratingTotalLabel != null && stats != null)
-        {
             ratingTotalLabel.text = $"Rating: {stats.GetRatingTotal()}";
-        }
     }
 
+    // 🔁 Reiniciar día SIN empezarlo y restaurando UI / limpiando escena
     private void OnReiniciarDiaClicked()
     {
         if (dayLogic != null)
         {
+            // Reinicia el ciclo (sin arrancarlo)
             dayLogic.ResetDay();
-            dayLogic.StartDay();
+            dayLogic.SetCurrentSecond(0);
+
+            // 🔹 Restablece el sol visualmente a su estado inicial
+            var sun = dayLogic.GetType().GetField("sun",
+                System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance)?.GetValue(dayLogic) as Light;
+
+            if (sun != null)
+            {
+                Vector3 rot = sun.transform.rotation.eulerAngles;
+                rot.x = 25f; // mismo valor de startRotationX
+                sun.transform.rotation = Quaternion.Euler(rot);
+                sun.color = new Color(202f / 255f, 88f / 255f, 0f / 255f); // color inicial
+            }
+
+            // 🔹 Restaura el botón de inicio a su posición original
+            dayLogic.RestoreStartButton();
         }
 
+        // 🔹 Borra todos los pasajeros del día anterior
         if (passengerLogic != null)
-            passengerLogic.SpawnPassengers();
+        {
+            foreach (Transform child in passengerLogic.transform)
+                GameObject.Destroy(child.gameObject);
+        }
 
-        if (debuggerTiempo != null && dayLogic != null)
-            debuggerTiempo.value = dayLogic.currentSecond;
+        // 🔹 Permite que la selección se pueda volver a ejecutar
+        if (passengerSelect == null)
+            passengerSelect = FindFirstObjectByType<passengerSelectLogic>();
+        if (passengerSelect != null)
+            passengerSelect.ResetSelectionState();
+
+        // 🔹 Reset visual del slider
+        if (debuggerTiempo != null)
+            debuggerTiempo.value = 0;
+
+        Debug.Log("[DebuggerMenu] 🔄 Día reiniciado correctamente: tiempo y sol reseteados, pasajeros limpiados, botón restaurado.");
     }
 
     private void OnDisable()

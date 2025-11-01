@@ -3,35 +3,36 @@ using UnityEngine;
 public class CameraIdleLoop : MonoBehaviour
 {
     [Header("Movimiento")]
-    public float loopDistance = 5f;          // Distancia máxima hacia adelante
-    public float loopDuration = 5f;          // Tiempo total ida+vuelta
+    public float moveSpeed = 0.5f;     // Velocidad general del loop
+    public float loopDistance = 2f;    // Distancia de ida y vuelta
+    public float smoothness = 0.5f;    // Qué tan suave es el ease-in/out (0.1 = brusco, 1 = muy suave)
 
-    [Header("Tilt Orgánico")]
-    public float tiltX = 1f;                 // Inclinación X
-    public float tiltY = 0.5f;               // Inclinación Y
-    public float tiltZ = 2f;                 // Inclinación Z
-    public float tiltSpeed = 0.5f;           // Velocidad del balanceo
+    [Header("Tilt")]
+    public float tiltAmount = 2f;      // Grados máximos de inclinación
+    public float tiltSpeed = 1f;       // Velocidad del tilt
 
     private Vector3 startPos;
-    private Vector3 endPos;
+    private float timeCounter;
 
     void Start()
     {
         startPos = transform.position;
-        endPos = startPos + transform.forward * loopDistance;
     }
 
     void Update()
     {
-        // Movimiento ida-vuelta continuo sin pausas
-        float t = Mathf.PingPong(Time.time / (loopDuration / 2f), 1f);
-        transform.position = Vector3.Lerp(startPos, endPos, t);
+        timeCounter += Time.deltaTime * moveSpeed;
 
-        // Tilt orgánico con senos combinados
-        float tiltEulerX = Mathf.Sin(Time.time * tiltSpeed) * tiltX;
-        float tiltEulerY = Mathf.Sin(Time.time * tiltSpeed * 0.7f) * tiltY;
-        float tiltEulerZ = Mathf.Sin(Time.time * tiltSpeed * 1.3f) * tiltZ;
+        // Movimiento con suavizado (usa una curva senoidal que tiene easy-in/easy-out natural)
+        float t = Mathf.PingPong(timeCounter, 1f);
+        float easedT = Mathf.SmoothStep(0f, 1f, t); // ← aquí se suaviza
+        float zOffset = Mathf.Lerp(0f, loopDistance, easedT);
 
-        transform.localRotation = Quaternion.Euler(tiltEulerX, tiltEulerY, tiltEulerZ);
+        transform.position = startPos + transform.forward * zOffset;
+
+        // Tilt orgánico: mezcla senoidal y un pequeño ruido aleatorio para que se sienta “vivo”
+        float tiltX = Mathf.Sin(Time.time * tiltSpeed * 0.7f) * tiltAmount * 0.5f;
+        float tiltZ = Mathf.Sin(Time.time * tiltSpeed) * tiltAmount;
+        transform.localRotation = Quaternion.Euler(tiltX, 0f, tiltZ);
     }
 }

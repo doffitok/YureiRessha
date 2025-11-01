@@ -1645,24 +1645,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 558e5e18198dfdf4b9abd6c30bd46ba7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  passengers: []
-  passengerPrefabs:
-  - {fileID: 86341387967933143, guid: 4020acd5ec02e384c8494c2246787d19, type: 3}
-  - {fileID: 7529655200778128035, guid: 05bcc941575b72b4681fad85041150c6, type: 3}
-  - {fileID: 172376899591694313, guid: 03ca0604afec7474ba939345596ecb76, type: 3}
-  - {fileID: 618542321095490944, guid: 1c50895a1ff32d4428160464be10fd54, type: 3}
-  - {fileID: 2611211793170235259, guid: 96bbd01f6839cfb47abad5a4f56b526d, type: 3}
-  - {fileID: 618542321095490944, guid: 07e947557bc38b149ac9d26c95a421d9, type: 3}
-  spawnPoints:
-  - {fileID: 1000499152}
-  - {fileID: 582050637}
-  - {fileID: 766548164}
-  - {fileID: 1318846018}
-  - {fileID: 2048680656}
-  - {fileID: 1850488906}
-  defaultPassengers: []
-  minRatingRoll: 0
-  maxRatingRoll: 100
 --- !u!1001 &762601570
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3242,6 +3224,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1610057703}
+  - component: {fileID: 1610057704}
   m_Layer: 0
   m_Name: passengerSpawns
   m_TagString: Untagged
@@ -3270,6 +3253,20 @@ Transform:
   - {fileID: 1850488906}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1610057704
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1610057702}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fa3cc2918c62ad468bcf5dfff2b8a7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  placementLogic: {fileID: 0}
+  autoRunOnStart: 0
 --- !u!1 &1711440447 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6948274778969673894, guid: 8088d4c064ce02b49a9f37cbe5386633, type: 3}

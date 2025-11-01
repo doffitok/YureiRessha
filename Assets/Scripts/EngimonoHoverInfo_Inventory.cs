@@ -4,13 +4,14 @@ using UnityEngine.EventSystems;
 using System.Collections;
 
 [DisallowMultipleComponent]
-public class EngimonoHoverInfo_Inventory : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class EngimonoHoverInfo_Shop : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerMoveHandler
 {
     [Header("Prefab de información")]
     [SerializeField] private GameObject infoContainerPrefab;
 
-    [Header("Posición (XY en el Canvas)")]
-    [SerializeField] private Vector2 offset = new Vector2(0f, -140f);
+    [Header("Posiciones (XY en el Canvas)")]
+    [SerializeField] private Vector2 offsetNoComprado = new Vector2(-300f, 0f);
+    [SerializeField] private Vector2 offsetComprado = new Vector2(0f, -140f);
 
     [Header("Escala y animación")]
     [SerializeField, Min(0.0001f)] private float infoScale = 1f;
@@ -21,22 +22,27 @@ public class EngimonoHoverInfo_Inventory : MonoBehaviour, IPointerEnterHandler, 
     private RectTransform rectTransform;
     private Canvas rootCanvas;
     private RectTransform tooltipLayer;
-    private InventoryItemUI inventoryItem;
-    private bool pointerInside;
+    private EngimonoShopItem shopItem;
+    private Coroutine popInRoutine;
+
+    // Última posición del puntero (pantalla)
+    private Vector2 lastPointerScreenPos;
 
     private void Awake()
     {
         rectTransform = GetComponent<RectTransform>();
-        inventoryItem = GetComponent<InventoryItemUI>();
+        shopItem = GetComponent<EngimonoShopItem>();
 
+        // Root canvas del engimono actual (tienda o inventario)
         var anyCanvas = GetComponentInParent<Canvas>();
         if (anyCanvas != null)
             rootCanvas = anyCanvas.rootCanvas;
 
         if (rootCanvas != null)
         {
+            // Busca/crea la capa de tooltips dentro del root canvas actual
             var existing = rootCanvas.transform.Find("TooltipLayer");
-            tooltipLayer = existing != null ? existing as RectTransform : CreateTooltipLayer(rootCanvas);
+            tooltipLayer = existing ? existing as RectTransform : CreateTooltipLayer(rootCanvas);
         }
     }
 
@@ -49,32 +55,39 @@ public class EngimonoHoverInfo_Inventory : MonoBehaviour, IPointerEnterHandler, 
         layer.anchorMax = Vector2.one;
         layer.pivot = new Vector2(0.5f, 0.5f);
         layer.offsetMin = layer.offsetMax = Vector2.zero;
+
+        // Mantener esta capa al frente dentro del root canvas
+        layer.SetAsLastSibling();
         return layer;
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        pointerInside = true;
+        lastPointerScreenPos = eventData != null ? eventData.position : (Vector2)Input.mousePosition;
 
         if (currentInfoBox != null ||
             infoContainerPrefab == null ||
-            inventoryItem == null ||
-            inventoryItem.instance == null ||
-            inventoryItem.instance.data == null)
+            shopItem == null ||
+            shopItem.engimonoData == null ||
+            rootCanvas == null ||
+            tooltipLayer == null)
             return;
 
-        var data = inventoryItem.instance.data;
-        var comprado = inventoryItem.instance.comprado;
+        var data = shopItem.engimonoData;
+        var comprado = shopItem.Comprado;
 
+        // Crear cuadro en la capa de tooltips del root canvas correspondiente
         currentInfoBox = Instantiate(infoContainerPrefab, tooltipLayer);
         var infoRect = currentInfoBox.GetComponent<RectTransform>();
         infoRect.anchorMin = infoRect.anchorMax = infoRect.pivot = new Vector2(0.5f, 0.5f);
 
-        // Escala inicial pequeña
         float s = Mathf.Max(0.0001f, infoScale);
         infoRect.localScale = new Vector3(s * 0.85f, s * 0.85f, 1f);
 
-        // ✅ Rutas corregidas y definitivas
+        // Traer la capa de tooltips al frente por si hay otros paneles encima
+        tooltipLayer.SetAsLastSibling();
+
+        // Textos
         var nameText = currentInfoBox.transform
             .Find("EngimonoNameContainer/EngimonoNameBox/EngimonoNameText")
             ?.GetComponent<TextMeshProUGUI>();
@@ -83,45 +96,52 @@ public class EngimonoHoverInfo_Inventory : MonoBehaviour, IPointerEnterHandler, 
             .Find("EngimonoInfoContainer/EngimonoInfoBox/EngimonoInfoText")
             ?.GetComponent<TextMeshProUGUI>();
 
-        // 🧠 Debug si no encuentra los textos
-        if (!nameText || !descText)
-        {
-            Debug.LogWarning("[EngimonoHoverInfo_Inventory] No se encontraron los textos dentro del prefab. Imprimiendo jerarquía:");
-            foreach (Transform child in currentInfoBox.GetComponentsInChildren<Transform>(true))
-                Debug.Log(" - " + child.name);
-        }
+        if (nameText) nameText.text = string.IsNullOrEmpty(data.Nombre) ? "[Sin nombre]" : data.Nombre;
+        if (descText) descText.text = string.IsNullOrEmpty(data.Descripcion) ? "[Sin descripción]" : data.Descripcion;
 
-        // Asignar textos + forzar refresco
-        if (nameText)
-        {
-            nameText.text = string.IsNullOrEmpty(data.Nombre) ? "[Sin nombre]" : data.Nombre;
-            nameText.ForceMeshUpdate(true);
-            Debug.Log($"[HoverInfo] Texto asignado al nombre: {nameText.text}");
-        }
+        // Posicionar por puntero (robusto para tienda e inventario)
+        PositionTooltipByPointer(infoRect, comprado);
 
-        if (descText)
-        {
-            descText.text = string.IsNullOrEmpty(data.Descripcion) ? "[Sin descripción]" : data.Descripcion;
-            descText.ForceMeshUpdate(true);
-        }
-
-        PositionTooltip(infoRect, comprado);
-
+        // Evitar bloquear raycasts
         var cg = currentInfoBox.GetComponent<CanvasGroup>();
         if (cg == null) cg = currentInfoBox.AddComponent<CanvasGroup>();
         cg.blocksRaycasts = false;
 
-        StartCoroutine(PopInAnimation(infoRect, s));
+        // Animación
+        popInRoutine = StartCoroutine(PopInAnimation(infoRect, s));
     }
 
-    private void PositionTooltip(RectTransform infoRect, bool comprado)
+    public void OnPointerMove(PointerEventData eventData)
     {
-        var cam = (rootCanvas != null && rootCanvas.renderMode != RenderMode.ScreenSpaceOverlay)
-            ? rootCanvas.worldCamera : null;
+        lastPointerScreenPos = eventData != null ? eventData.position : (Vector2)Input.mousePosition;
 
-        var screenPos = RectTransformUtility.WorldToScreenPoint(cam, rectTransform.position);
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(tooltipLayer, screenPos, cam, out var localPos);
-        infoRect.anchoredPosition = localPos + offset;
+        // Si el tooltip está activo, acompañarlo suavemente (opcional, aquí lo “pegamos” al puntero)
+        if (currentInfoBox != null)
+        {
+            var infoRect = currentInfoBox.GetComponent<RectTransform>();
+            if (infoRect != null)
+            {
+                bool comprado = shopItem != null && shopItem.Comprado;
+                PositionTooltipByPointer(infoRect, comprado);
+            }
+        }
+    }
+
+    private void PositionTooltipByPointer(RectTransform infoRect, bool comprado)
+    {
+        if (infoRect == null || rootCanvas == null || tooltipLayer == null) return;
+
+        // Cámara según el root canvas donde está el TooltipLayer
+        Camera camForTooltip =
+            (rootCanvas.renderMode != RenderMode.ScreenSpaceOverlay) ? rootCanvas.worldCamera : null;
+
+        // Convertir la posición del puntero (pantalla) al espacio local del TooltipLayer
+        if (RectTransformUtility.ScreenPointToLocalPointInRectangle(
+            tooltipLayer, lastPointerScreenPos, camForTooltip, out var localPos))
+        {
+            Vector2 offset = comprado ? offsetComprado : offsetNoComprado;
+            infoRect.anchoredPosition = localPos + offset;
+        }
     }
 
     private IEnumerator PopInAnimation(RectTransform infoRect, float baseScale)
@@ -132,6 +152,7 @@ public class EngimonoHoverInfo_Inventory : MonoBehaviour, IPointerEnterHandler, 
 
         while (elapsed < 1f)
         {
+            if (infoRect == null) yield break;
             elapsed += Time.deltaTime * popInSpeed;
             float t = Mathf.SmoothStep(0f, 1f, elapsed);
             float s = Mathf.Lerp(start, overshoot, t);
@@ -142,6 +163,7 @@ public class EngimonoHoverInfo_Inventory : MonoBehaviour, IPointerEnterHandler, 
         elapsed = 0f;
         while (elapsed < 1f)
         {
+            if (infoRect == null) yield break;
             elapsed += Time.deltaTime * popInSpeed;
             float t = Mathf.SmoothStep(0f, 1f, elapsed);
             float s = Mathf.Lerp(overshoot, baseScale, t);
@@ -149,25 +171,17 @@ public class EngimonoHoverInfo_Inventory : MonoBehaviour, IPointerEnterHandler, 
             yield return null;
         }
 
-        infoRect.localScale = Vector3.one * baseScale;
+        if (infoRect != null)
+            infoRect.localScale = Vector3.one * baseScale;
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        pointerInside = false;
-        StartCoroutine(HideLaterCheck());
-    }
-
-    private IEnumerator HideLaterCheck()
-    {
-        yield return new WaitForSeconds(0.15f);
-        if (pointerInside) yield break;
-
-        if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
+        // Cortar animación y destruir al instante
+        if (popInRoutine != null)
         {
-            var hovered = EventSystem.current.currentSelectedGameObject;
-            if (hovered != null && hovered.transform.IsChildOf(transform))
-                yield break;
+            StopCoroutine(popInRoutine);
+            popInRoutine = null;
         }
 
         if (currentInfoBox != null)
@@ -182,6 +196,12 @@ public class EngimonoHoverInfo_Inventory : MonoBehaviour, IPointerEnterHandler, 
 
     private void Cleanup(bool immediate)
     {
+        if (popInRoutine != null)
+        {
+            StopCoroutine(popInRoutine);
+            popInRoutine = null;
+        }
+
         if (!currentInfoBox) return;
         if (immediate) DestroyImmediate(currentInfoBox);
         else Destroy(currentInfoBox);

@@ -5,6 +5,10 @@ using System.Collections;
 [DisallowMultipleComponent]
 public class DayLogic : MonoBehaviour
 {
+    // Eventos públicos
+    public event System.Action OnDayStarted; // otros sistemas pueden usarlo si quieren
+    public event System.Action OnDayReset;   // ← la tienda escuchará este
+
     // Tiempo actual del día (segundos)
     public int currentSecond { get; private set; } = 0;
 
@@ -68,17 +72,13 @@ public class DayLogic : MonoBehaviour
         {
             GameObject sunObj = GameObject.Find("sun");
             if (sunObj != null)
-            {
                 sun = sunObj.GetComponent<Light>();
-            }
 
             if (sun == null)
-            {
                 Debug.LogWarning("[DayLogic] No se encontró la luz 'sun' en la escena.");
-            }
         }
 
-        // No arrancar automáticamente
+        // Estado inicial
         isRunning = false;
         timer = 0f;
         currentSecond = 0;
@@ -91,16 +91,15 @@ public class DayLogic : MonoBehaviour
 
         // Dejar botón visible y usable al comienzo
         RestoreStartButton();
+        UpdateSunCycle();
     }
 
     private void Update()
     {
         if (isRunning)
         {
-            // Acumulamos el tiempo transcurrido
             timer += Time.deltaTime;
 
-            // Cada segundo incrementamos currentSecond
             if (timer >= 1f)
             {
                 currentSecond++;
@@ -114,7 +113,7 @@ public class DayLogic : MonoBehaviour
         UpdateSunCycle();
     }
 
-    // Inicia el día (activar el contador)
+    // Inicia el día (activar el contador) — NO notifica a la tienda
     public void StartDay()
     {
         if (isRunning) return;
@@ -122,14 +121,17 @@ public class DayLogic : MonoBehaviour
         isRunning = true;
         Debug.Log("[DayLogic] 🌞 El día ha comenzado.");
 
+        // Notifica a otros sistemas (si los hay) — la TIENDA no escucha este
+        OnDayStarted?.Invoke();
+
         // Desactivar el botón para no re-spammear
         if (startButton != null) startButton.interactable = false;
 
         // Lanzar selección y spawn de pasajeros de forma segura
         if (passengerSelect != null)
         {
-            passengerSelect.ResetSelectionState(); // por si se reinició el día antes
-            passengerSelect.RunSelectionSafe();    // esto ya se encarga de esperar lo necesario
+            passengerSelect.ResetSelectionState();
+            passengerSelect.RunSelectionSafe();
         }
         else
         {
@@ -137,12 +139,16 @@ public class DayLogic : MonoBehaviour
         }
     }
 
-    // Reinicia el día (contador a 0) y NO empieza el día
+    // Reinicia el día (contador a 0) y NO empieza el día — la tienda SÍ escucha esto
     public void ResetDay()
     {
         currentSecond = 0;
         timer = 0f;
         isRunning = false;
+
+        // Notificar que el día se ha reseteado (para que la tienda regenere items)
+        OnDayReset?.Invoke();
+
         Debug.Log("[DayLogic] 🔁 Día reseteado (sin iniciar).");
     }
 
@@ -152,18 +158,14 @@ public class DayLogic : MonoBehaviour
         currentSecond = Mathf.Clamp(value, 0, maxSeconds);
     }
 
-    // Actualiza el color y rotación de la luz
+    // Actualiza el color y rotación de la luz del sol
     private void UpdateSunCycle()
     {
         if (sun == null) return;
 
-        // Normaliza el tiempo del día (0 → 1)
         float t = Mathf.Clamp01((float)currentSecond / maxSeconds);
-
-        // Cambiar color gradualmente
         sun.color = Color.Lerp(startColor, endColor, t);
 
-        // Cambiar rotación en X (manteniendo Y/Z iguales)
         Vector3 rot = sun.transform.rotation.eulerAngles;
         rot.x = Mathf.Lerp(startRotationX, endRotationX, t);
         sun.transform.rotation = Quaternion.Euler(rot);
@@ -182,7 +184,6 @@ public class DayLogic : MonoBehaviour
             yield break;
         }
 
-        // Bloqueo el botón durante la animación
         if (startButton != null) startButton.interactable = false;
 
         Vector2 startPos = buttonTransform.anchoredPosition;
@@ -218,9 +219,7 @@ public class DayLogic : MonoBehaviour
         StartDay();
     }
 
-    /// <summary>
     /// Restaura el botón de inicio a su posición y estado original.
-    /// </summary>
     public void RestoreStartButton()
     {
         if (buttonTransform != null && originalButtonPosCaptured)

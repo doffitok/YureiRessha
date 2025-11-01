@@ -12,17 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 458d4dc113d1b29419ae7c870c932060, type: 3}
   m_Name: itemGeneric01
   m_EditorClassIdentifier: 
-  ID: engimonoFiller1
+  ID: "Titulo gen\xE9rico"
   Nombre: Test
   Icono: {fileID: 21300000, guid: 8fc0251e1b4136247a912ba283e9f138, type: 3}
   clase: 2
-  descripcion: Aumenta el rating en 0.5
+  Descripcion: Adds +0.5 stars to the rating
   notas: "El item aumenta el rating en 10 internamente porque el rating m\xE1ximo
     es de 100\nNOTA: FUNCIONA PERO SOLO UNA INSTANCIA DEL OBJETO, SI HAY MAS DE UNA
     NO SUMA M\xC1S QUE LA PRIMERA, ARREGLALO :P"
   efectoScript: {fileID: 0}
   Compra: 75
   Venta: 35
-  bonusRating: 0
-  bonusDinero: 0
-  bonusSuerte: 0

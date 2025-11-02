@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -27,8 +28,10 @@ public class uiEngimonosInventoryManager : MonoBehaviour
         }
         Instance = this;
 
-        if (slotsParent == null) Debug.LogError("[InventoryManager] slotsParent no asignado.");
-        if (inventoryItemPrefab == null) Debug.LogError("[InventoryManager] inventoryItemPrefab no asignado.");
+        if (slotsParent == null)
+            Debug.LogError("[InventoryManager] slotsParent no asignado.");
+        if (inventoryItemPrefab == null)
+            Debug.LogError("[InventoryManager] inventoryItemPrefab no asignado.");
 
         slots.Clear();
         if (slotsParent != null)
@@ -46,21 +49,29 @@ public class uiEngimonosInventoryManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Crea un ítem en el primer slot libre, respetando tamaño local del prefab de inventario.
+    /// Crea un ítem en el primer slot libre (corrutina segura para esperar 1 frame)
     /// </summary>
     public void AddEngimono(EngimonoInstance inst)
     {
-        if (inventoryItemPrefab == null) 
-        { 
-            Debug.LogError("inventoryItemPrefab no asignado."); 
-            return; 
+        StartCoroutine(AddEngimonoDelayed(inst));
+    }
+
+    private IEnumerator AddEngimonoDelayed(EngimonoInstance inst)
+    {
+        // Esperar un frame para garantizar que los slots y la UI estén listos
+        yield return null;
+
+        if (inventoryItemPrefab == null)
+        {
+            Debug.LogError("inventoryItemPrefab no asignado.");
+            yield break;
         }
 
         var free = GetFirstFreeSlot();
         if (free == null)
         {
             Debug.Log("Inventario lleno.");
-            return;
+            yield break;
         }
 
         var go = Instantiate(inventoryItemPrefab, free.transform);
@@ -69,7 +80,7 @@ public class uiEngimonosInventoryManager : MonoBehaviour
         {
             Debug.LogError("InventoryItemPrefab no tiene InventoryItemUI.");
             Destroy(go);
-            return;
+            yield break;
         }
 
         itemUI.Setup(inst, free, cleanChildrenOnSpawn);
@@ -78,7 +89,7 @@ public class uiEngimonosInventoryManager : MonoBehaviour
     public InventorySlotUI GetFirstFreeSlot()
     {
         foreach (var s in slots)
-            if (s.IsFree()) 
+            if (s.IsFree())
                 return s;
 
         return null;

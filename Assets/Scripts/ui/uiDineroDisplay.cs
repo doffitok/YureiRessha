@@ -3,59 +3,86 @@ using TMPro;
 using System.Collections;
 using System.Collections.Generic;
 
+////////////////////////////////////////////////////////////////////////////////////////////
+// interfaz del dinero
+//
+// este script muestra la cantidad actual de dinero en pantalla en el DineroDisplay
+// genera mas textos animados cuando el dinero aumenta o disminuye
+// interpola el valor mostrado, osea que hace que el numero suba o baje progresivamente en vez de solo cambiar al resultado :P
+// incluye efectos de escala y fade tanto en el texto principal como para los textos de suma
+////////////////////////////////////////////////////////////////////////////////////////////
+
 [DisallowMultipleComponent]
 public class uiDineroDisplay : MonoBehaviour
 {
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    // referencias principales
+    ////////////////////////////////////////////////////////////////////////////////////////////
     [Header("Referencias principales")]
     [SerializeField] private GameStats gameStats;
     [SerializeField] private TextMeshProUGUI dineroDisplay;
 
-    [Header("Configuración de popups de dinero")]
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    // configuracion de popups de dinero
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    [Header("Configuracion de popups de dinero")]
     [SerializeField] private RectTransform popupContainer;
     [SerializeField] private TextMeshProUGUI popupBaseText;
-    [Tooltip("Distancia inicial desde el texto principal hacia abajo donde empiezan los popups (en píxeles).")]
+    [Tooltip("Distancia inicial desde el texto principal hacia abajo donde empiezan los popups en pixeles")]
     [SerializeField] private float popupBaseOffsetY = 50f;
-    [Tooltip("Espaciado vertical entre cada popup.")]
+    [Tooltip("Espaciado vertical entre cada popup")]
     [SerializeField] private float popupSpacing = 30f;
-    [Tooltip("Duración del fade de popups y de relajación del texto principal (en segundos).")]
+    [Tooltip("Duracion del fade de popups y de relajacion del texto principal en segundos")]
     [SerializeField] private float fadeTimeGlobal = 4f;
-    [Tooltip("Número máximo de popups visibles simultáneamente.")]
+    [Tooltip("Numero maximo de popups visibles simultaneamente")]
     [SerializeField] private int popupMaxCount = 10;
 
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    // colores de los popup
+    ////////////////////////////////////////////////////////////////////////////////////////////
     [Header("Apariencia")]
     [SerializeField] private Color colorGanar = new Color(0.1f, 1f, 0.3f);
     [SerializeField] private Color colorPerder = new Color(1f, 0.3f, 0.3f);
 
-    [Header("Animación de aparición (Pop de los logs)")]
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    // animacion de aparicion de los popups
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    [Header("Animacion de aparicion (Pop de los logs)")]
     [SerializeField] private float popScaleStart = 0.7f;
     [SerializeField] private float popScaleBig = 1.3f;
     [SerializeField] private float popScaleSmall = 0.9f;
     [SerializeField] private float popSpeed = 8f;
 
-    [Header("Animación del texto principal")]
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    // animacion del texto principal
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    [Header("Animacion del texto principal")]
     [SerializeField] private float mainScaleAdd = 0.1f;
     [SerializeField] private float mainPopSpeed = 6f;
-    [Tooltip("Velocidad de interpolación del número mostrado.")]
+    [Tooltip("Velocidad de interpolacion del numero mostrado")]
     [SerializeField] private float numeroInterpVelocidad = 10f;
 
-    // Internos
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    // variables internas
+    ////////////////////////////////////////////////////////////////////////////////////////////
     private int ultimoDinero = int.MinValue;
     private const long LIMITE_DINERO = 2147483640;
-
     private List<TextMeshProUGUI> popups = new List<TextMeshProUGUI>();
     private float fadeTimer;
     private float fadeProgress = 0f;
-
     private Vector3 baseScale;
     private float acumuladorEscala = 0f;
     private Coroutine scaleRoutine;
     private Coroutine numeroRoutine;
-    private float dineroMostrado; // dinero interpolado suavemente
+    private float dineroMostrado;
 
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    // inicio del script
+    ////////////////////////////////////////////////////////////////////////////////////////////
     private void Start()
     {
         if (gameStats == null)
-            gameStats = FindObjectOfType<GameStats>();
+            gameStats = FindFirstObjectByType<GameStats>();
 
         if (dineroDisplay == null)
         {
@@ -66,7 +93,7 @@ public class uiDineroDisplay : MonoBehaviour
 
         if (gameStats == null || dineroDisplay == null)
         {
-            Debug.LogError("[uiDineroDisplay] No se pudo encontrar GameStats o dineroDisplay en la escena.");
+            Debug.LogError("[uiDineroDisplay] no se pudo encontrar GameStats o dineroDisplay en la escena");
             enabled = false;
             return;
         }
@@ -83,6 +110,9 @@ public class uiDineroDisplay : MonoBehaviour
         ActualizarDisplay();
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    // actualizacion por frame
+    ////////////////////////////////////////////////////////////////////////////////////////////
     private void Update()
     {
         int dineroActual = gameStats.dinero;
@@ -96,7 +126,6 @@ public class uiDineroDisplay : MonoBehaviour
                 TriggerMainTextPop(diferencia);
             }
 
-            // Iniciar interpolación suave del dinero
             if (numeroRoutine != null)
                 StopCoroutine(numeroRoutine);
             numeroRoutine = StartCoroutine(InterpolarNumero(dineroActual));
@@ -107,6 +136,9 @@ public class uiDineroDisplay : MonoBehaviour
         ActualizarFadeYEscala();
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    // interpolacion suave del valor mostrado
+    ////////////////////////////////////////////////////////////////////////////////////////////
     private IEnumerator InterpolarNumero(int dineroFinal)
     {
         while (Mathf.Abs(dineroMostrado - dineroFinal) > 0.01f)
@@ -126,6 +158,9 @@ public class uiDineroDisplay : MonoBehaviour
         dineroMostrado = dineroFinal;
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    // actualiza el texto principal de dinero
+    ////////////////////////////////////////////////////////////////////////////////////////////
     private void ActualizarDisplay()
     {
         long dineroActual = gameStats.dinero;
@@ -136,6 +171,9 @@ public class uiDineroDisplay : MonoBehaviour
             dineroDisplay.text = $"¥ {dineroActual:N0}";
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    // genera un popup cuando cambia el dinero
+    ////////////////////////////////////////////////////////////////////////////////////////////
     private void SpawnPopup(int diferencia)
     {
         if (popupBaseText == null || popupContainer == null) return;
@@ -173,6 +211,9 @@ public class uiDineroDisplay : MonoBehaviour
         StartCoroutine(AnimarPopup(rt));
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    // animacion del popup individual
+    ////////////////////////////////////////////////////////////////////////////////////////////
     private IEnumerator AnimarPopup(RectTransform rt)
     {
         if (rt == null) yield break;
@@ -205,6 +246,9 @@ public class uiDineroDisplay : MonoBehaviour
         rt.localScale = Vector3.one;
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    // controla el fade y la escala del texto principal y los popups
+    ////////////////////////////////////////////////////////////////////////////////////////////
     private void ActualizarFadeYEscala()
     {
         if (popups.Count > 0)
@@ -235,6 +279,9 @@ public class uiDineroDisplay : MonoBehaviour
         }
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    // aplica un efecto de escala al texto principal segun el cambio de dinero
+    ////////////////////////////////////////////////////////////////////////////////////////////
     private void TriggerMainTextPop(int diferencia)
     {
         if (diferencia > 0)
@@ -253,6 +300,9 @@ public class uiDineroDisplay : MonoBehaviour
         scaleRoutine = StartCoroutine(MainTextPopAnimation());
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    // animacion de escala del texto principal
+    ////////////////////////////////////////////////////////////////////////////////////////////
     private IEnumerator MainTextPopAnimation()
     {
         RectTransform rt = dineroDisplay.rectTransform;

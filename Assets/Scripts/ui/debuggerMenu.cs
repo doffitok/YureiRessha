@@ -8,8 +8,8 @@ public class DebuggerMenu : MonoBehaviour
 
     private GameStats stats;
     private DayLogic dayLogic;
-    private passengerPlacementLogic passengerLogic;
-    private passengerSelectLogic passengerSelect;
+    private PassengerPlacementLogic passengerLogic;
+    private PassengerSelectLogic passengerSelect;
 
     private TextField ratingField;
     private TextField dineroField;
@@ -56,8 +56,8 @@ public class DebuggerMenu : MonoBehaviour
 
         stats = FindFirstObjectByType<GameStats>();
         dayLogic = FindFirstObjectByType<DayLogic>();
-        passengerLogic = FindFirstObjectByType<passengerPlacementLogic>();
-        passengerSelect = FindFirstObjectByType<passengerSelectLogic>();
+        passengerLogic = FindFirstObjectByType<PassengerPlacementLogic>();
+        passengerSelect = FindFirstObjectByType<PassengerSelectLogic>();
 
         if (stats != null)
         {
@@ -195,7 +195,7 @@ public class DebuggerMenu : MonoBehaviour
 
         // 🔹 Permite que la selección se pueda volver a ejecutar
         if (passengerSelect == null)
-            passengerSelect = FindFirstObjectByType<passengerSelectLogic>();
+            passengerSelect = FindFirstObjectByType<PassengerSelectLogic>();
         if (passengerSelect != null)
             passengerSelect.ResetSelectionState();
 

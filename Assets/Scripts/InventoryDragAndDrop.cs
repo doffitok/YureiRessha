@@ -3,20 +3,43 @@ using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using System.Collections;
 
+////////////////////////////////////////////////////////////////////////////////////////////
+// sistema de arrastre y suelta del inventario
+//
+// este script permite arrastrar y soltar items dentro del inventario
+// detecta clicks del mouse y controla el inicio, arrastre y fin de la accion
+// si se suelta un item sobre otro slot vacio se mueve
+// si se suelta sobre un slot ocupado los intercambia
+// si no hay slot cerca vuelve al slot original
+// en realidad es algo solo visual, al momento de escribir esto no tiene mucha utilidad practica mas alla de que se vea lindo :P
+////////////////////////////////////////////////////////////////////////////////////////////
+
 public class InventoryDragAndDrop : MonoBehaviour
 {
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    // referencias principales
+    ////////////////////////////////////////////////////////////////////////////////////////////
     private Canvas canvas;
     private Camera cam;
 
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    // variables de control del arrastre
+    ////////////////////////////////////////////////////////////////////////////////////////////
     private InventoryItemUI dragged;
     private Vector2 offset;
 
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    // awake inicializa referencias
+    ////////////////////////////////////////////////////////////////////////////////////////////
     private void Awake()
     {
         canvas = GetComponentInParent<Canvas>();
         cam = canvas.worldCamera;
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    // update controla cada frame el estado del mouse
+    ////////////////////////////////////////////////////////////////////////////////////////////
     private void Update()
     {
         if (Mouse.current == null) return;
@@ -37,6 +60,9 @@ public class InventoryDragAndDrop : MonoBehaviour
         }
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    // intenta iniciar el arrastre si se clickea sobre un item
+    ////////////////////////////////////////////////////////////////////////////////////////////
     private void TryBeginDrag()
     {
         Vector2 mousePos = Mouse.current.position.ReadValue();
@@ -57,12 +83,14 @@ public class InventoryDragAndDrop : MonoBehaviour
                     out offset
                 );
                 offset -= dragged.GetComponent<RectTransform>().anchoredPosition;
-
                 return;
             }
         }
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    // mueve el item mientras se arrastra
+    ////////////////////////////////////////////////////////////////////////////////////////////
     private void Drag()
     {
         Vector2 mousePos = Mouse.current.position.ReadValue();
@@ -75,6 +103,9 @@ public class InventoryDragAndDrop : MonoBehaviour
         dragged.GetComponent<RectTransform>().anchoredPosition = pos - offset;
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    // suelta el item y determina donde debe quedar
+    ////////////////////////////////////////////////////////////////////////////////////////////
     private void Drop()
     {
         InventorySlotUI target = FindClosestSlot(dragged);
@@ -83,30 +114,31 @@ public class InventoryDragAndDrop : MonoBehaviour
         {
             if (target.currentItem == null)
             {
-                // normal drop
                 MoveToSlot(dragged, target);
             }
             else
             {
-                // intercambio
                 SwapItems(dragged, target.currentItem);
             }
         }
         else
         {
-            // vuelve a su slot actual
             SnapBack(dragged);
         }
 
         dragged = null;
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    // busca el slot mas cercano al item soltado
+    ////////////////////////////////////////////////////////////////////////////////////////////
     private InventorySlotUI FindClosestSlot(InventoryItemUI item)
     {
         float best = float.MaxValue;
         InventorySlotUI bestSlot = null;
 
-        foreach (var slot in FindObjectsOfType<InventorySlotUI>())
+        // esto no deberia funcionar pero lo hice funcionar asi asi que mejor no tocarlo :c
+        foreach (var slot in FindObjectsByType<InventorySlotUI>(FindObjectsSortMode.None))
         {
             float dist = Vector2.Distance(item.transform.position, slot.transform.position);
             if (dist < best)
@@ -119,6 +151,9 @@ public class InventoryDragAndDrop : MonoBehaviour
         return bestSlot;
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    // mueve un item a un slot vacio
+    ////////////////////////////////////////////////////////////////////////////////////////////
     private void MoveToSlot(InventoryItemUI item, InventorySlotUI slot)
     {
         if (item.currentSlot != null)
@@ -130,6 +165,9 @@ public class InventoryDragAndDrop : MonoBehaviour
         StartCoroutine(Snap(item.GetComponent<RectTransform>(), slot.GetComponent<RectTransform>()));
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    // intercambia dos items de lugar
+    ////////////////////////////////////////////////////////////////////////////////////////////
     private void SwapItems(InventoryItemUI a, InventoryItemUI b)
     {
         InventorySlotUI slotA = a.currentSlot;
@@ -145,11 +183,17 @@ public class InventoryDragAndDrop : MonoBehaviour
         StartCoroutine(Snap(b.GetComponent<RectTransform>(), slotA.GetComponent<RectTransform>()));
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    // devuelve el item a su slot original
+    ////////////////////////////////////////////////////////////////////////////////////////////
     private void SnapBack(InventoryItemUI item)
     {
         StartCoroutine(Snap(item.GetComponent<RectTransform>(), item.currentSlot.transform as RectTransform));
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    // animacion suave para mover el item hacia un destino
+    ////////////////////////////////////////////////////////////////////////////////////////////
     private IEnumerator Snap(RectTransform rect, RectTransform target)
     {
         Vector2 start = rect.anchoredPosition;

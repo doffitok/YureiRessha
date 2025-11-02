@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class passengerSelectLogic : MonoBehaviour
+public class PassengerSelectLogic : MonoBehaviour
 {
     [Header("Referencias")]
-    public passengerPlacementLogic placementLogic;
+    public PassengerPlacementLogic placementLogic;
 
     [Header("Ejecución")]
     [Tooltip("Si está activo, la selección corre sola al iniciar la escena")]
@@ -18,14 +18,14 @@ public class passengerSelectLogic : MonoBehaviour
     {
         // Resolver placementLogic en Awake: corre aunque el componente esté deshabilitado
         if (placementLogic == null)
-            placementLogic = FindFirstObjectByType<passengerPlacementLogic>();
+            placementLogic = FindFirstObjectByType<PassengerPlacementLogic>();
     }
 
     private void Start()
     {
         if (autoRunOnStart)
         {
-            Debug.Log("[passengerSelectLogic] autoRunOnStart=TRUE → ejecutando selección al inicio.");
+            Debug.Log("[PassengerSelectLogic] autoRunOnStart=TRUE → ejecutando selección al inicio.");
             RunSelectionSafe();
         }
     }
@@ -38,16 +38,16 @@ public class passengerSelectLogic : MonoBehaviour
     {
         if (hasRun)
         {
-            Debug.Log("[passengerSelectLogic] RunSelectionSafe llamado pero ya corrió este ciclo. Ignorado.");
+            Debug.Log("[PassengerSelectLogic] RunSelectionSafe llamado pero ya corrió este ciclo. Ignorado.");
             return;
         }
 
         if (placementLogic == null)
-            placementLogic = FindFirstObjectByType<passengerPlacementLogic>();
+            placementLogic = FindFirstObjectByType<PassengerPlacementLogic>();
 
         if (placementLogic == null)
         {
-            Debug.LogError("[passengerSelectLogic] No se encontró passengerPlacementLogic en la escena.");
+            Debug.LogError("[PassengerSelectLogic] No se encontró PassengerPlacementLogic en la escena.");
             return;
         }
 
@@ -73,11 +73,11 @@ public class passengerSelectLogic : MonoBehaviour
 
         if (prefabs == null || prefabs.Count == 0)
         {
-            Debug.LogWarning("[passengerSelectLogic] No hay prefabs de pasajeros asignados. Se usarán personajes default.");
+            Debug.LogWarning("[PassengerSelectLogic] No hay prefabs de pasajeros asignados. Se usarán personajes default.");
             prefabs = placementLogic.defaultPassengers;
             if (prefabs == null || prefabs.Count == 0)
             {
-                Debug.LogError("[passengerSelectLogic] Tampoco hay personajes default disponibles.");
+                Debug.LogError("[PassengerSelectLogic] Tampoco hay personajes default disponibles.");
                 yield break;
             }
         }
@@ -107,7 +107,7 @@ public class passengerSelectLogic : MonoBehaviour
         }
 
         // Mostrar todos los rolls
-        Debug.Log("[passengerSelectLogic] Rolls de todos los candidatos:");
+        Debug.Log("[PassengerSelectLogic] Rolls de todos los candidatos:");
         foreach (var c in candidateRolls)
         {
             Debug.Log($"- {c.prefab.name}: Roll={c.roll}, DemandaMin={c.demandaMin}");
@@ -135,7 +135,7 @@ public class passengerSelectLogic : MonoBehaviour
         finalSelection = finalSelection.Take(numToSpawn).ToList();
 
         // Mostrar selección final
-        Debug.Log("[passengerSelectLogic] Selección final de pasajeros:");
+        Debug.Log("[PassengerSelectLogic] Selección final de pasajeros:");
         foreach (var p in finalSelection)
         {
             Debug.Log($"- {p.name}");
@@ -143,6 +143,6 @@ public class passengerSelectLogic : MonoBehaviour
 
         // Instanciar
         placementLogic.SpawnPassengers(finalSelection);
-        Debug.Log($"[passengerSelectLogic] ✅ Spawn solicitado ({finalSelection.Count}).");
+        Debug.Log($"[PassengerSelectLogic] ✅ Spawn solicitado ({finalSelection.Count}).");
     }
 }

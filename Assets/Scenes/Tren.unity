@@ -278,8 +278,8 @@ MonoBehaviour:
   slideDistance: 150
   slideSpeed: 4
   anticipationTime: 0.15
-  passengerPlacement: {fileID: 718991118}
-  passengerSelect: {fileID: 1885016454}
+  passengerPlacement: {fileID: 0}
+  passengerSelect: {fileID: 0}
   relojManecilla: {fileID: 1151969894}
   relojRotacionCompleta: 360
   relojInvertido: 1
@@ -1072,7 +1072,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 558993610}
-  - component: {fileID: 558993611}
   m_Layer: 5
   m_Name: engimonosInGame
   m_TagString: Untagged
@@ -1099,18 +1098,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &558993611
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 558993609}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5050b953b39fea24cac114adf2fdd84c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &564812861
 GameObject:
   m_ObjectHideFlags: 1
@@ -1242,6 +1229,8 @@ MonoBehaviour:
   dayLogic: {fileID: 76587298}
   availableEngimonos:
   - {fileID: 1162188520849999511, guid: 8d0683f7998c1644983d3e18bc16483b, type: 3}
+  - {fileID: 1162188520849999511, guid: bf07acbd5f7caf244b8917ecab05793a, type: 3}
+  - {fileID: 1162188520849999511, guid: dff1e5ed3cf295c42b31e7f9f0401c7e, type: 3}
   Size: 300
   updateEachDay: 1
 --- !u!114 &627559431
@@ -1649,12 +1638,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   passengers: []
   passengerPrefabs:
-  - {fileID: 618542321095490944, guid: 1c50895a1ff32d4428160464be10fd54, type: 3}
   - {fileID: 7529655200778128035, guid: 05bcc941575b72b4681fad85041150c6, type: 3}
   - {fileID: 172376899591694313, guid: 03ca0604afec7474ba939345596ecb76, type: 3}
+  - {fileID: 618542321095490944, guid: 1c50895a1ff32d4428160464be10fd54, type: 3}
   - {fileID: 86341387967933143, guid: 4020acd5ec02e384c8494c2246787d19, type: 3}
   - {fileID: 2046608415895934198, guid: cefb3267ff78a5b44b15032c1f80fa2c, type: 3}
-  - {fileID: 2611211793170235259, guid: 96bbd01f6839cfb47abad5a4f56b526d, type: 3}
+  - {fileID: 618542321095490944, guid: 07e947557bc38b149ac9d26c95a421d9, type: 3}
   spawnPoints: []
   defaultPassengers: []
   minRatingRoll: 0
@@ -2685,7 +2674,6 @@ GameObject:
   - component: {fileID: 1376492743}
   - component: {fileID: 1376492744}
   - component: {fileID: 1376492745}
-  - component: {fileID: 1376492746}
   m_Layer: 0
   m_Name: uiEngimonosInventoryManager
   m_TagString: Untagged
@@ -2736,35 +2724,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentItem: {fileID: 0}
---- !u!114 &1376492746
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1376492742}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceef0763ec5ca9a4f91ae9a67d71bae0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  debugLogs: 1
-  infoContainerPrefab: {fileID: 3990893205806384362, guid: bbc356cb80da5d74dbb044e0765f755b, type: 3}
-  offsetTiendaNoComprado: {x: -300, y: 0}
-  offsetTiendaComprado: {x: 0, y: -140}
-  offsetInventario: {x: 0, y: -140}
-  infoScale: 1
-  popInSpeed: 20
-  popInOvershoot: 1.2
-  hoverGrowScale: 1.12
-  hoverSettleScale: 1.05
-  hoverGrowSpeed: 0.08
-  hoverSettleSpeed: 0.08
-  hoverReturnSpeed: 0.08
-  spawnPhase1Speed: 0.08
-  spawnPhase2Speed: 0.08
-  spawnPhase1Scale: 1.4
-  spawnPhase2Scale: 0.8
 --- !u!1 &1424758531
 GameObject:
   m_ObjectHideFlags: 0
@@ -3977,7 +3936,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fa3cc2918c62ad468bcf5dfff2b8a7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  placementLogic: {fileID: 718991118}
+  placementLogic: {fileID: 0}
   autoRunOnStart: 0
 --- !u!1 &1960106225
 GameObject:

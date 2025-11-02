@@ -3,81 +3,116 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine.UI;
 
+////////////////////////////////////////////////////////////////////////////////////////////
+// sistema de tienda
+//
+// este script se encarga de generar y actualizar los Engimonos visibles en la tienda
+// instancia dos Engimonos diferentes en los slots asignados (shopSlot01 y shopSlot02)
+// escucha el evento OnDayReset para regenerar la tienda si esta activado updateEachDay
+// ajusta la escala visual de los Engimonos segun el parametro Size
+// se asegura de limpiar los anteriores antes de generar nuevos
+// si algo no esta asignado en el inspector intenta buscarlo automaticamente
+////////////////////////////////////////////////////////////////////////////////////////////
+
 public class ShopSystem : MonoBehaviour
 {
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    // referencias de objetos necesarios para la tienda
+    ////////////////////////////////////////////////////////////////////////////////////////////
     [Header("Referencias")]
     [SerializeField] private Transform shopSlot01;
     [SerializeField] private Transform shopSlot02;
     [SerializeField] private DayLogic dayLogic;
 
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    // prefabs disponibles para la tienda
+    ////////////////////////////////////////////////////////////////////////////////////////////
     [Header("Prefabs disponibles para la tienda")]
     [SerializeField] private List<GameObject> availableEngimonos = new List<GameObject>();
 
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    // configuracion visual del tamaño
+    ////////////////////////////////////////////////////////////////////////////////////////////
     [Header("Tamaño visual")]
-    [Tooltip("Tamaño de los engimonos (se aplica igual a X e Y)")]
+    [Tooltip("Tamaño de los Engimonos (se aplica igual a X e Y)")]
     [SerializeField] private float Size = 300f;
 
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    // otras configuraciones
+    ////////////////////////////////////////////////////////////////////////////////////////////
     [Header("Otras configuraciones")]
-    [SerializeField] private bool updateEachDay = true; // si está activo, regenera en ResetDay()
+    [SerializeField] private bool updateEachDay = true; // si esta activo regenera en ResetDay
 
     private const float baseSize = 300f;
 
     private GameObject currentEngimono1;
     private GameObject currentEngimono2;
 
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    // awake se ejecuta antes de todo
+    ////////////////////////////////////////////////////////////////////////////////////////////
     private void Awake()
     {
         if (shopSlot01 == null) shopSlot01 = GameObject.Find("shopSlot01")?.transform;
         if (shopSlot02 == null) shopSlot02 = GameObject.Find("shopSlot02")?.transform;
-        if (dayLogic == null) dayLogic = FindObjectOfType<DayLogic>();
+        if (dayLogic == null) dayLogic = FindFirstObjectByType<DayLogic>();
 
         if (dayLogic != null)
         {
-            // Escuchar SOLO el reinicio de día
             dayLogic.OnDayReset += OnDayReset;
         }
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    // start inicio del juego
+    ////////////////////////////////////////////////////////////////////////////////////////////
     private void Start()
     {
         if (shopSlot01 == null || shopSlot02 == null)
         {
-            Debug.LogError("[ShopSystem] No se encontraron 'shopSlot01' o 'shopSlot02' en la escena.");
+            Debug.LogError("[ShopSystem] no se encontraron 'shopSlot01' o 'shopSlot02' en la escena");
             return;
         }
 
         if (availableEngimonos.Count == 0)
         {
-            Debug.LogWarning("[ShopSystem] No hay Engimonos asignados en la lista de prefabs disponibles.");
+            Debug.LogWarning("[ShopSystem] no hay Engimonos asignados en la lista de prefabs disponibles");
             return;
         }
 
-        // Generar una vez al iniciar el juego
         GenerateShopItems();
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    // ondestroy limpia suscripciones
+    ////////////////////////////////////////////////////////////////////////////////////////////
     private void OnDestroy()
     {
         if (dayLogic != null)
             dayLogic.OnDayReset -= OnDayReset;
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    // evento de reinicio de dia
+    ////////////////////////////////////////////////////////////////////////////////////////////
     private void OnDayReset()
     {
         if (!updateEachDay) return;
-        Debug.Log("[ShopSystem] Día reiniciado → generando nuevos Engimonos");
+
+        Debug.Log("[ShopSystem] dia reiniciado → generando nuevos Engimonos");
         GenerateShopItems();
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    // generar nuevos Engimonos en la tienda
+    ////////////////////////////////////////////////////////////////////////////////////////////
     public void GenerateShopItems()
     {
         if (availableEngimonos.Count == 0) return;
 
-        // Limpiar anteriores
         if (currentEngimono1 != null) Destroy(currentEngimono1);
         if (currentEngimono2 != null) Destroy(currentEngimono2);
 
-        // Seleccionar dos ítems distintos de forma aleatoria
         int index1 = Random.Range(0, availableEngimonos.Count);
         int index2 = index1;
         while (index2 == index1 && availableEngimonos.Count > 1)
@@ -95,9 +130,12 @@ public class ShopSystem : MonoBehaviour
         RefrescarVisual(currentEngimono1);
         RefrescarVisual(currentEngimono2);
 
-        Debug.Log($"[ShopSystem] Nuevos Engimonos: {prefab1.name} y {prefab2.name}");
+        Debug.Log($"[ShopSystem] nuevos Engimonos {prefab1.name} y {prefab2.name}");
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    // ajusta la escala y transform de un Engimono
+    ////////////////////////////////////////////////////////////////////////////////////////////
     private void AdjustEngimonoTransform(GameObject go, Transform parentSlot)
     {
         if (go == null) return;
@@ -106,6 +144,8 @@ public class ShopSystem : MonoBehaviour
         Vector3 desiredWorldScale = new Vector3(uniformWorldScale, uniformWorldScale, uniformWorldScale);
 
         Vector3 parentLossy = parentSlot != null ? parentSlot.lossyScale : Vector3.one;
+
+        // Unity es puto retrasado y a veces divide por 0 porque es puto retrasado asi que me asegure que no divida por 0 para que no sea un puto retrasado
         Vector3 safeParentLossy = new Vector3(
             Mathf.Approximately(parentLossy.x, 0f) ? 1f : parentLossy.x,
             Mathf.Approximately(parentLossy.y, 0f) ? 1f : parentLossy.y,
@@ -123,14 +163,19 @@ public class ShopSystem : MonoBehaviour
         go.transform.localScale = localScaleToApply;
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    // refresca los componentes visuales del Engimono
+    ////////////////////////////////////////////////////////////////////////////////////////////
     private void RefrescarVisual(GameObject engimono)
     {
         if (engimono == null) return;
+
         var shopItem = engimono.GetComponent<EngimonoShopItem>();
         if (shopItem != null)
             shopItem.SendMessage("ActualizarUI", SendMessageOptions.DontRequireReceiver);
 
         foreach (var img in engimono.GetComponentsInChildren<Image>(true)) img.enabled = true;
+
         foreach (var txt in engimono.GetComponentsInChildren<TextMeshProUGUI>(true))
         {
             txt.enabled = true;

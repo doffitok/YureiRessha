@@ -20,5 +20,5 @@ MonoBehaviour:
   demandaMax: 100
   exigencia: 14
   debugColor: {r: 0.7264203, g: 1, b: 0.5613208, a: 1}
-  debugTexture: {fileID: 3506167780502562645, guid: bb3c4ab58caefc540a529ce6be70d2bd, type: 3}
+  debugTexture: {fileID: 2800000, guid: c3d12f5dece3c2e46b74d009104fe7e2, type: 3}
   notas: 

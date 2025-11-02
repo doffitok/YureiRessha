@@ -3,39 +3,60 @@ using TMPro;
 using UnityEngine.EventSystems;
 using System.Collections;
 
+////////////////////////////////////////////////////////////////////////////////////////////
+// hover de engimonos con tooltip animado que aparece mostrando el nombre y descripcion del engimono
+//
+// autodetecta si el contexto es tienda o inventario porque el engimono de inventario en realidad es un objeto nulo al que se le asigna la info del comprado
+// genuinamente no se si sea la mejor forma de hacerlo o mas optimizado pero es lo que me sirvio y no pienso hacerelo de nuevo
+// spawnea una capa de tooltip en el root canvas y coloca la cajita cerca del item con offsets (porque si no se spawnea muy cerca o muy lejos)
+// tiene animaciones de pop in y efectos de hover
+// POR CIERTO ESTE SCRIPT ES ASI COMO HORRIBLE??? Genuinamente no tengo idea de como esto funciona
+////////////////////////////////////////////////////////////////////////////////////////////
+
 [DisallowMultipleComponent]
 public class EngimonoHoverInfo : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    [Header("Depuración")]
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    // configuracion general y depuracion
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    [Header("Depuracion")]
     [SerializeField] private bool debugLogs = true;
 
-    [Header("Prefab de información")]
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    // prefab base del tooltip y offsets por contexto
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    [Header("Prefab de informacion")]
     [SerializeField] private GameObject infoContainerPrefab;
 
-    [Header("Posiciones (XY en el Canvas)")]
+    [Header("Posiciones XY en el Canvas")]
     [SerializeField] private Vector2 offsetTiendaNoComprado = new Vector2(-300f, 0f);
-    [SerializeField] private Vector2 offsetTiendaComprado   = new Vector2(0f, -140f);
-    [SerializeField] private Vector2 offsetInventario       = new Vector2(0f, -140f);
+    [SerializeField] private Vector2 offsetTiendaComprado = new Vector2(0f, -140f);
+    [SerializeField] private Vector2 offsetInventario = new Vector2(0f, -140f);
 
-    [Header("Escala y animación del tooltip")]
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    // configuracion de escala y animaciones varias del tooltip
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    [Header("Escala y animacion del tooltip")]
     [SerializeField, Min(0.0001f)] private float infoScale = 1f;
-    [SerializeField] private float popInSpeed     = 20f;
+    [SerializeField] private float popInSpeed = 20f;
     [SerializeField] private float popInOvershoot = 1.2f;
 
-    [Header("Animación Hover (Pop Out simplificada)")]
-    [SerializeField] private float hoverGrowScale   = 1.12f;
+    [Header("Animacion hover pop out")]
+    [SerializeField] private float hoverGrowScale = 1.12f;
     [SerializeField] private float hoverSettleScale = 1.05f;
-    [SerializeField] private float hoverGrowSpeed   = 0.08f;
+    [SerializeField] private float hoverGrowSpeed = 0.08f;
     [SerializeField] private float hoverSettleSpeed = 0.08f;
     [SerializeField] private float hoverReturnSpeed = 0.08f;
 
-    [Header("Animación aparición inicial")]
+    [Header("Animacion aparicion inicial")]
     [SerializeField] private float spawnPhase1Speed = 0.08f;
     [SerializeField] private float spawnPhase2Speed = 0.08f;
     [SerializeField] private float spawnPhase1Scale = 1.40f;
     [SerializeField] private float spawnPhase2Scale = 0.80f;
 
-    // Internos
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    // internos de estado y referencias
+    ////////////////////////////////////////////////////////////////////////////////////////////
     private GameObject currentInfoBox;
     private RectTransform rectTransform;
     private Canvas rootCanvas;
@@ -44,7 +65,7 @@ public class EngimonoHoverInfo : MonoBehaviour, IPointerEnterHandler, IPointerEx
     private Coroutine hoverRoutine;
     private Vector3 baseScale;
 
-    // Tipos detectados
+    // tipos detectados
     private EngimonoShopItem shopItem;
     private InventoryItemUI inventoryItem;
 
@@ -59,10 +80,13 @@ public class EngimonoHoverInfo : MonoBehaviour, IPointerEnterHandler, IPointerEx
         if (debugLogs) Debug.LogWarning(Tag + msg, this);
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    // awake inicializa referencias y prepara la capa de tooltips
+    ////////////////////////////////////////////////////////////////////////////////////////////
     private void Awake()
     {
         rectTransform = GetComponent<RectTransform>();
-        shopItem      = GetComponent<EngimonoShopItem>();
+        shopItem = GetComponent<EngimonoShopItem>();
         inventoryItem = GetComponent<InventoryItemUI>();
 
         var anyCanvas = GetComponentInParent<Canvas>();
@@ -79,54 +103,62 @@ public class EngimonoHoverInfo : MonoBehaviour, IPointerEnterHandler, IPointerEx
         StartCoroutine(DelayedSpawn());
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    // detecta si esto vive en tienda o inventario y se adapta
+    ////////////////////////////////////////////////////////////////////////////////////////////
     private void DetectContext()
     {
-        // 🧠 Autodetección inteligente
         if (inventoryItem != null)
         {
-            Log("Contexto detectado: INVENTARIO (tiene InventoryItemUI).");
+            Log("contexto detectado inventario");
             return;
         }
 
         if (shopItem != null)
         {
-            // Si el EngimonoShopItem está dentro de un contenedor del inventario, reasignar
             Transform t = transform;
             while (t != null)
             {
                 if (t.name.ToLower().Contains("inventory") || t.GetComponent<InventoryItemUI>() != null)
                 {
                     inventoryItem = t.GetComponent<InventoryItemUI>();
-                    shopItem = null; // 🔄 fuerza el modo inventario
-                    Log("Contexto corregido a INVENTARIO (contenedor o padre llamado Inventory).");
+                    shopItem = null;
+                    Log("contexto corregido a inventario por jerarquia");
                     return;
                 }
                 t = t.parent;
             }
 
-            // Si ya fue comprado, también tratamos como inventario
             if (shopItem.Comprado)
             {
-                Log("Contexto corregido a INVENTARIO (shopItem marcado como Comprado).");
-                inventoryItem = GetComponent<InventoryItemUI>(); // intentar asignar si existe
+                Log("contexto corregido a inventario por comprado");
+                inventoryItem = GetComponent<InventoryItemUI>();
                 shopItem = null;
                 return;
             }
 
-            Log("Contexto detectado: TIENDA.");
+            Log("contexto detectado tienda");
             return;
         }
 
-        Log("Contexto desconocido (sin ShopItem ni InventoryItemUI).");
+        Log("contexto desconocido sin componentes conocidos");
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    // animacion inicial del propio item para que no aparezca rigido
+    ////////////////////////////////////////////////////////////////////////////////////////////
     private IEnumerator DelayedSpawn()
     {
+        // no se por que un frame extra arregla esto pero lo hace asi que lo dejamos
         yield return null;
+
         baseScale = rectTransform.localScale;
         yield return SpawnPopInAnimation(baseScale);
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    // crea una capa full screen para alojar los tooltips
+    ////////////////////////////////////////////////////////////////////////////////////////////
     private RectTransform CreateTooltipLayer(Canvas root)
     {
         var go = new GameObject("TooltipLayer", typeof(RectTransform));
@@ -140,9 +172,8 @@ public class EngimonoHoverInfo : MonoBehaviour, IPointerEnterHandler, IPointerEx
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////
-    // Interacción del mouse
+    // entrada y salida del puntero
     ////////////////////////////////////////////////////////////////////////////////////////////
-
     public void OnPointerEnter(PointerEventData eventData)
     {
         pointerInside = true;
@@ -150,29 +181,28 @@ public class EngimonoHoverInfo : MonoBehaviour, IPointerEnterHandler, IPointerEx
             StopCoroutine(hoverRoutine);
         hoverRoutine = StartCoroutine(HoverPopOutSequence(true));
 
-        // 🔍 Redetectar en caso de que el objeto haya cambiado de jerarquía
         DetectContext();
 
         if (shopItem != null)
         {
             if (shopItem.Comprado)
             {
-                Log("PointerEnter -> item COMPRADO, se trata como INVENTARIO.");
+                Log("pointer enter tienda comprado se trata como inventario");
                 StartCoroutine(EsperarYCrearTooltipInventario());
                 return;
             }
 
-            Log("PointerEnter -> contexto TIENDA.");
+            Log("pointer enter contexto tienda");
             StartCoroutine(EsperarYCrearTooltipTienda());
         }
         else if (inventoryItem != null)
         {
-            Log("PointerEnter -> contexto INVENTARIO.");
+            Log("pointer enter contexto inventario");
             StartCoroutine(EsperarYCrearTooltipInventario());
         }
         else
         {
-            Warn("PointerEnter -> contexto DESCONOCIDO.");
+            Warn("pointer enter contexto desconocido");
         }
     }
 
@@ -186,9 +216,8 @@ public class EngimonoHoverInfo : MonoBehaviour, IPointerEnterHandler, IPointerEx
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////
-    // Tooltip tienda
+    // espera datos de tienda si aun no existen y luego crea tooltip
     ////////////////////////////////////////////////////////////////////////////////////////////
-
     private IEnumerator EsperarYCrearTooltipTienda()
     {
         int frames = 0;
@@ -197,18 +226,20 @@ public class EngimonoHoverInfo : MonoBehaviour, IPointerEnterHandler, IPointerEx
 
         if (shopItem == null || shopItem.engimonoData == null)
         {
-            Warn("Tooltip cancelado: engimonoData nulo o shopItem inexistente.");
+            Warn("tooltip cancelado por datos nulos en tienda");
             yield break;
         }
 
-        CrearTooltip(shopItem.engimonoData.Nombre, shopItem.engimonoData.Descripcion,
-                     shopItem.Comprado ? offsetTiendaComprado : offsetTiendaNoComprado);
+        CrearTooltip(
+            shopItem.engimonoData.Nombre,
+            shopItem.engimonoData.Descripcion,
+            shopItem.Comprado ? offsetTiendaComprado : offsetTiendaNoComprado
+        );
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////
-    // Tooltip inventario (DIOS MIO ESTO ESMUY HORRIBLE VOY A MATARME AAAAAAAAAAA)
+    // espera datos de inventario si aun no existen y luego crea tooltip
     ////////////////////////////////////////////////////////////////////////////////////////////
-
     private IEnumerator EsperarYCrearTooltipInventario()
     {
         int frames = 0;
@@ -219,19 +250,20 @@ public class EngimonoHoverInfo : MonoBehaviour, IPointerEnterHandler, IPointerEx
 
         if (inventoryItem == null || inventoryItem.instance == null || inventoryItem.instance.data == null)
         {
-            Warn("Tooltip cancelado: data nula o inventoryItem inexistente.");
+            Warn("tooltip cancelado por datos nulos en inventario");
             yield break;
         }
 
-        CrearTooltip(inventoryItem.instance.data.Nombre,
-                     inventoryItem.instance.data.Descripcion,
-                     offsetInventario);
+        CrearTooltip(
+            inventoryItem.instance.data.Nombre,
+            inventoryItem.instance.data.Descripcion,
+            offsetInventario
+        );
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////
-    // Creación genérica del tooltip
+    // crea el tooltip y rellena textos posicion y canvas group
     ////////////////////////////////////////////////////////////////////////////////////////////
-
     private void CrearTooltip(string nombre, string descripcion, Vector2 offset)
     {
         if (currentInfoBox != null || infoContainerPrefab == null)
@@ -247,10 +279,10 @@ public class EngimonoHoverInfo : MonoBehaviour, IPointerEnterHandler, IPointerEx
         var nameText = currentInfoBox.transform.Find("EngimonoNameContainer/EngimonoNameBox/EngimonoNameText")?.GetComponent<TextMeshProUGUI>();
         var descText = currentInfoBox.transform.Find("EngimonoInfoContainer/EngimonoInfoBox/EngimonoInfoText")?.GetComponent<TextMeshProUGUI>();
 
-        if (nameText) nameText.text = string.IsNullOrEmpty(nombre) ? "[Sin nombre]" : nombre;
-        if (descText) descText.text = string.IsNullOrEmpty(descripcion) ? "[Sin descripción]" : descripcion;
+        if (nameText) nameText.text = string.IsNullOrEmpty(nombre) ? "[Sin nombre]" : nombre; // si el diseno viene vacio muestra algo legible
+        if (descText) descText.text = string.IsNullOrEmpty(descripcion) ? "[Sin descripcion]" : descripcion;
 
-        Log($"CrearTooltip: '{nombre}' - '{descripcion}' offset={offset}");
+        Log($"crear tooltip nombre {nombre} descripcion {descripcion} offset {offset}");
 
         PositionTooltip(infoRect, offset);
 
@@ -262,9 +294,8 @@ public class EngimonoHoverInfo : MonoBehaviour, IPointerEnterHandler, IPointerEx
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////
-    // Animaciones y utilidades
+    // animaciones de hover y de spawn para el item y para el tooltip
     ////////////////////////////////////////////////////////////////////////////////////////////
-
     private IEnumerator HoverPopOutSequence(bool entering)
     {
         if (baseScale == Vector3.zero)
@@ -310,6 +341,9 @@ public class EngimonoHoverInfo : MonoBehaviour, IPointerEnterHandler, IPointerEx
         target.localScale = to;
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    // calcula la posicion del tooltip en coordenadas de la capa
+    ////////////////////////////////////////////////////////////////////////////////////////////
     private void PositionTooltip(RectTransform infoRect, Vector2 offset)
     {
         var cam = (rootCanvas != null && rootCanvas.renderMode != RenderMode.ScreenSpaceOverlay)
@@ -320,6 +354,9 @@ public class EngimonoHoverInfo : MonoBehaviour, IPointerEnterHandler, IPointerEx
         infoRect.anchoredPosition = localPos + offset;
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    // oculta el tooltip un ratito despues de salir para evitar parpadeos asquerosos (no tengo idea por que pasa esto pero ok)
+    ////////////////////////////////////////////////////////////////////////////////////////////
     private IEnumerator HideLater()
     {
         yield return new WaitForSeconds(0.05f);
@@ -330,6 +367,9 @@ public class EngimonoHoverInfo : MonoBehaviour, IPointerEnterHandler, IPointerEx
         }
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    // limpieza de objetos instanciados cuando este componente se apaga o destruye
+    ////////////////////////////////////////////////////////////////////////////////////////////
     private void OnDisable() => Cleanup(false);
     private void OnDestroy() => Cleanup(true);
 
@@ -341,6 +381,9 @@ public class EngimonoHoverInfo : MonoBehaviour, IPointerEnterHandler, IPointerEx
         currentInfoBox = null;
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    // animacion de entrada del tooltip con overshoot controlado
+    ////////////////////////////////////////////////////////////////////////////////////////////
     private IEnumerator PopInAnimation(RectTransform infoRect, float baseScale)
     {
         float elapsed = 0f;

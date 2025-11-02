@@ -4,21 +4,41 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
+////////////////////////////////////////////////////////////////////////////////////////////
+// administrador del inventario de engimonos
+//
+// este script administra todos los slots del inventario y controla donde se crean los engimonos
+// mantiene una lista de todos los slots y busca el primero libre al agregar un nuevo engimono
+// tambien gestiona los raycasters de la escena para poder detectar donde esta el puntero (ESTO FUNCIONA DE LA PERRA OK HONESTAMENT NO SÉ SI VAYA A USAR ESTO)
+////////////////////////////////////////////////////////////////////////////////////////////
+
 [DisallowMultipleComponent]
 public class uiEngimonosInventoryManager : MonoBehaviour
 {
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    // instancia singleton para acceso global
+    ////////////////////////////////////////////////////////////////////////////////////////////
     public static uiEngimonosInventoryManager Instance { get; private set; }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    // referencias de configuracion
+    ////////////////////////////////////////////////////////////////////////////////////////////
     [Header("Referencias")]
-    [SerializeField] private Transform slotsParent;            // padre de slots (engimonosLista)
-    [SerializeField] private GameObject inventoryItemPrefab;   // prefab GENÉRICO del inventario
+    [SerializeField] private Transform slotsParent;
+    [SerializeField] private GameObject inventoryItemPrefab;
 
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    // opciones adicionales
+    ////////////////////////////////////////////////////////////////////////////////////////////
     [Header("Opciones")]
-    [SerializeField] private bool cleanChildrenOnSpawn = true; // borra hijos del prefab al instanciar
+    [SerializeField] private bool cleanChildrenOnSpawn = true;
 
     private readonly List<InventorySlotUI> slots = new List<InventorySlotUI>();
     private GraphicRaycaster[] raycasters;
 
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    // inicializacion principal
+    ////////////////////////////////////////////////////////////////////////////////////////////
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -29,9 +49,9 @@ public class uiEngimonosInventoryManager : MonoBehaviour
         Instance = this;
 
         if (slotsParent == null)
-            Debug.LogError("[InventoryManager] slotsParent no asignado.");
+            Debug.LogError("[InventoryManager] slotsParent no asignado");
         if (inventoryItemPrefab == null)
-            Debug.LogError("[InventoryManager] inventoryItemPrefab no asignado.");
+            Debug.LogError("[InventoryManager] inventoryItemPrefab no asignado");
 
         slots.Clear();
         if (slotsParent != null)
@@ -43,34 +63,37 @@ public class uiEngimonosInventoryManager : MonoBehaviour
             }
         }
 
-        raycasters = FindObjectsOfType<GraphicRaycaster>(true);
+        // no estoy realmente seguro si esta es una buena forma de implementar esto pero funciona asi que lo voy a dejar así
+        raycasters = FindObjectsByType<GraphicRaycaster>(FindObjectsSortMode.None);
         if (raycasters == null || raycasters.Length == 0)
-            Debug.LogWarning("[InventoryManager] No hay GraphicRaycaster en escena.");
+            Debug.LogWarning("[InventoryManager] no hay GraphicRaycaster en escena");
     }
 
-    /// <summary>
-    /// Crea un ítem en el primer slot libre (corrutina segura para esperar 1 frame)
-    /// </summary>
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    // agrega un engimono al primer slot libre
+    ////////////////////////////////////////////////////////////////////////////////////////////
     public void AddEngimono(EngimonoInstance inst)
     {
         StartCoroutine(AddEngimonoDelayed(inst));
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    // corrutina que espera un frame antes de crear el item
+    ////////////////////////////////////////////////////////////////////////////////////////////
     private IEnumerator AddEngimonoDelayed(EngimonoInstance inst)
     {
-        // Esperar un frame para garantizar que los slots y la UI estén listos
         yield return null;
 
         if (inventoryItemPrefab == null)
         {
-            Debug.LogError("inventoryItemPrefab no asignado.");
+            Debug.LogError("inventoryItemPrefab no asignado");
             yield break;
         }
 
         var free = GetFirstFreeSlot();
         if (free == null)
         {
-            Debug.Log("Inventario lleno.");
+            Debug.Log("inventario lleno");
             yield break;
         }
 
@@ -78,7 +101,7 @@ public class uiEngimonosInventoryManager : MonoBehaviour
         var itemUI = go.GetComponent<InventoryItemUI>();
         if (itemUI == null)
         {
-            Debug.LogError("InventoryItemPrefab no tiene InventoryItemUI.");
+            Debug.LogError("InventoryItemPrefab no tiene InventoryItemUI");
             Destroy(go);
             yield break;
         }
@@ -86,6 +109,9 @@ public class uiEngimonosInventoryManager : MonoBehaviour
         itemUI.Setup(inst, free, cleanChildrenOnSpawn);
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    // obtiene el primer slot libre disponible
+    ////////////////////////////////////////////////////////////////////////////////////////////
     public InventorySlotUI GetFirstFreeSlot()
     {
         foreach (var s in slots)
@@ -95,9 +121,9 @@ public class uiEngimonosInventoryManager : MonoBehaviour
         return null;
     }
 
-    /// <summary>
-    /// Slot bajo el puntero (raycast UI)
-    /// </summary>
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    // obtiene el slot que esta bajo el puntero del mouse
+    ////////////////////////////////////////////////////////////////////////////////////////////
     public InventorySlotUI GetSlotUnderPointer(PointerEventData evt)
     {
         if (raycasters == null) return null;

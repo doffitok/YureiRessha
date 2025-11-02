@@ -15,7 +15,7 @@ public class Profile
     [Range(0, 20)] public int exigencia;
 }
 
-public class passengerPlacementLogic : MonoBehaviour
+public class PassengerPlacementLogic : MonoBehaviour
 {
     public List<Profile> passengers;
     [Header("Prefabs de pasajeros")]
@@ -37,7 +37,7 @@ public class passengerPlacementLogic : MonoBehaviour
     {
         gameStats = FindFirstObjectByType<GameStats>();
         if (gameStats == null)
-            Debug.LogError("[passengerPlacementLogic] No se encontró GameStats en la escena.");
+            Debug.LogError("[PassengerPlacementLogic] No se encontró GameStats en la escena.");
 
         AutoDetectSpawnPoints();
     }
@@ -50,11 +50,11 @@ public class passengerPlacementLogic : MonoBehaviour
             spawnPoints.Clear();
             foreach (Transform child in parent.transform)
                 spawnPoints.Add(child);
-            Debug.Log($"[passengerPlacementLogic] Detectados {spawnPoints.Count} spawn points en 'passengerSpawns'.");
+            Debug.Log($"[PassengerPlacementLogic] Detectados {spawnPoints.Count} spawn points en 'passengerSpawns'.");
         }
         else
         {
-            Debug.LogError("[passengerPlacementLogic] No se encontró el objeto 'passengerSpawns' en la escena.");
+            Debug.LogError("[PassengerPlacementLogic] No se encontró el objeto 'passengerSpawns' en la escena.");
         }
     }
 
@@ -64,13 +64,13 @@ public class passengerPlacementLogic : MonoBehaviour
 
         if (prefabsToUse == null || prefabsToUse.Count == 0)
         {
-            Debug.LogWarning("[passengerPlacementLogic] No se encontraron pasajeros, se usarán personajes default.");
+            Debug.LogWarning("[PassengerPlacementLogic] No se encontraron pasajeros, se usarán personajes default.");
             prefabsToUse = defaultPassengers;
         }
 
         if (prefabsToUse == null || prefabsToUse.Count == 0)
         {
-            Debug.LogError("[passengerPlacementLogic] No hay personajes default disponibles. No se pueden instanciar pasajeros.");
+            Debug.LogError("[PassengerPlacementLogic] No hay personajes default disponibles. No se pueden instanciar pasajeros.");
             return new List<GameObject>();
         }
 
@@ -119,7 +119,7 @@ public class passengerPlacementLogic : MonoBehaviour
             AddProfilePassenger(c.ID, c);
         }
 
-        Debug.Log($"[passengerPlacementLogic] Se han generado {instantiatedPassengers.Count} pasajeros (mínimo 2, rating {gameStats?.rating ?? 0}).");
+        Debug.Log($"[PassengerPlacementLogic] Se han generado {instantiatedPassengers.Count} pasajeros (mínimo 2, rating {gameStats?.rating ?? 0}).");
         return instantiatedPassengers;
     }
 

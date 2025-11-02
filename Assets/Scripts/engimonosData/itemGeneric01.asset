@@ -16,10 +16,9 @@ MonoBehaviour:
   Nombre: Objeto nulo
   Icono: {fileID: 21300000, guid: 8fc0251e1b4136247a912ba283e9f138, type: 3}
   clase: 2
-  Descripcion: xxx
+  Descripcion: Aumenta el rating en +0.5
   notas: "El item aumenta el rating en 10 internamente porque el rating m\xE1ximo
-    es de 100\nNOTA: FUNCIONA PERO SOLO UNA INSTANCIA DEL OBJETO, SI HAY MAS DE UNA
-    NO SUMA M\xC1S QUE LA PRIMERA, ARREGLALO :P"
+    es de 100"
   efectoScript: {fileID: 0}
   Compra: 75
   Venta: 35

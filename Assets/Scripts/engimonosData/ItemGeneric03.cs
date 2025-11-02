@@ -1,59 +1,58 @@
 using UnityEngine;
 
-//
-// ItemGeneric03.cs
-//
-// - Convierte automáticamente el 0.005% del dinero total del jugador en suerte.
-// - Este bono se actualiza cada frame (o cada X segundos, si quisieras optimizarlo).
-// - Es acumulable: cada copia del ítem agrega su propio conversor.
-// - La suerte extra se añade de forma pasiva (no modifica el valor base).
-//
+////////////////////////////////////////////////////////////////////////////////////////////
+// este item convierte automaticamente una pequena fraccion del dinero total del jugador
+// en suerte pasiva adicional
+// cada copia del item agrega su propio conversor independiente
+// el efecto se aplica de forma pasiva sin alterar los valores base del jugador
+////////////////////////////////////////////////////////////////////////////////////////////
 
-/// <summary>
-/// Item genérico #03:
-/// - Convierte el 0.005% del dinero total en suerte adicional.
-/// - Cada copia añade un conversor independiente.
-/// </summary>
 public class ItemGeneric03 : MonoBehaviour, IEngimonoApply
 {
-    [Header("Configuración del efecto")]
-    [Tooltip("Porcentaje de dinero convertido a suerte (por ejemplo, 0.005 para 0.005%).")]
-    [SerializeField] private float porcentajeConversion = 0.00005f; // 0.005%
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    // configuracion del efecto
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    [Header("Configuracion del efecto")]
+    [Tooltip("Porcentaje de dinero convertido a suerte por ejemplo 0.005 para 0.005%")]
+    [SerializeField] private float porcentajeConversion = 0.00005f;
 
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    // aplica el efecto al objetivo asignado
+    ////////////////////////////////////////////////////////////////////////////////////////////
     public void AplicarEfecto(GameObject objetivo)
     {
         if (objetivo == null)
         {
-            Debug.LogWarning("[ItemGeneric03] Objetivo nulo al aplicar efecto.");
+            Debug.LogWarning("[ItemGeneric03] objetivo nulo al aplicar efecto");
             return;
         }
 
         GameStats stats = objetivo.GetComponent<GameStats>();
         if (stats == null)
         {
-            Debug.LogWarning("[ItemGeneric03] No se encontró GameStats en el objetivo.");
+            Debug.LogWarning("[ItemGeneric03] no se encontro GameStats en el objetivo");
             return;
         }
 
-        // Añadimos un conversor pasivo al GameStats
         ItemGeneric03Ticker ticker = objetivo.AddComponent<ItemGeneric03Ticker>();
         ticker.Init(stats, porcentajeConversion);
 
-        Debug.Log($"[ItemGeneric03] Conversor creado: convierte el {porcentajeConversion * 100f}% del dinero en suerte pasiva.");
+        Debug.Log($"[ItemGeneric03] conversor creado convierte el {porcentajeConversion * 100f}% del dinero en suerte pasiva");
     }
 }
 
-/// <summary>
-/// Componente pasivo que actualiza la suerte en función del dinero actual.
-/// </summary>
+////////////////////////////////////////////////////////////////////////////////////////////
+// componente pasivo que actualiza la suerte en funcion del dinero actual
+////////////////////////////////////////////////////////////////////////////////////////////
 public class ItemGeneric03Ticker : MonoBehaviour
 {
     private GameStats stats;
     private float porcentaje;
     private bool inicializado = false;
 
-    private float suerteExtraActual = 0f;
-
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    // inicializa el componente con sus datos base
+    ////////////////////////////////////////////////////////////////////////////////////////////
     public void Init(GameStats stats, float porcentajeConversion)
     {
         this.stats = stats;
@@ -62,6 +61,9 @@ public class ItemGeneric03Ticker : MonoBehaviour
         enabled = true;
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    // actualiza la suerte adicional segun el dinero del jugador
+    ////////////////////////////////////////////////////////////////////////////////////////////
     private void Update()
     {
         if (!inicializado || stats == null)
@@ -70,16 +72,8 @@ public class ItemGeneric03Ticker : MonoBehaviour
             return;
         }
 
-        // Calcula la suerte pasiva basada en el dinero actual
         float suerteCalculada = stats.GetDineroTotal() * porcentaje;
-
-        // Diferencia respecto a la suerte anterior
         int nuevaSuerteExtra = Mathf.FloorToInt(suerteCalculada);
-
-        // Aplicar el valor (sin acumulación infinita)
         stats.suerteExtra = nuevaSuerteExtra;
-
-        // Debug opcional
-        // Debug.Log($"[ItemGeneric03Ticker] Dinero: ¥{stats.GetDineroTotal()} → Suerte extra: +{nuevaSuerteExtra}");
     }
 }

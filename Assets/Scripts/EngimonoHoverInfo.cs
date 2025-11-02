@@ -6,6 +6,9 @@ using System.Collections;
 [DisallowMultipleComponent]
 public class EngimonoHoverInfo : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
+    [Header("Depuración")]
+    [SerializeField] private bool debugLogs = true;
+
     [Header("Prefab de información")]
     [SerializeField] private GameObject infoContainerPrefab;
 
@@ -32,7 +35,7 @@ public class EngimonoHoverInfo : MonoBehaviour, IPointerEnterHandler, IPointerEx
     [SerializeField] private float spawnPhase1Scale = 1.40f;
     [SerializeField] private float spawnPhase2Scale = 0.80f;
 
-    // 🧩 Variables internas
+    // Internos
     private GameObject currentInfoBox;
     private RectTransform rectTransform;
     private Canvas rootCanvas;
@@ -41,9 +44,20 @@ public class EngimonoHoverInfo : MonoBehaviour, IPointerEnterHandler, IPointerEx
     private Coroutine hoverRoutine;
     private Vector3 baseScale;
 
-    // Tipos de engimonos detectados
+    // Tipos detectados
     private EngimonoShopItem shopItem;
     private InventoryItemUI inventoryItem;
+
+    private string Tag => $"[HoverInfo] ({gameObject.name}) ";
+
+    private void Log(string msg)
+    {
+        if (debugLogs) Debug.Log(Tag + msg, this);
+    }
+    private void Warn(string msg)
+    {
+        if (debugLogs) Debug.LogWarning(Tag + msg, this);
+    }
 
     private void Awake()
     {
@@ -61,12 +75,54 @@ public class EngimonoHoverInfo : MonoBehaviour, IPointerEnterHandler, IPointerEx
             tooltipLayer = existing != null ? existing as RectTransform : CreateTooltipLayer(rootCanvas);
         }
 
+        DetectContext();
         StartCoroutine(DelayedSpawn());
+    }
+
+    private void DetectContext()
+    {
+        // 🧠 Autodetección inteligente
+        if (inventoryItem != null)
+        {
+            Log("Contexto detectado: INVENTARIO (tiene InventoryItemUI).");
+            return;
+        }
+
+        if (shopItem != null)
+        {
+            // Si el EngimonoShopItem está dentro de un contenedor del inventario, reasignar
+            Transform t = transform;
+            while (t != null)
+            {
+                if (t.name.ToLower().Contains("inventory") || t.GetComponent<InventoryItemUI>() != null)
+                {
+                    inventoryItem = t.GetComponent<InventoryItemUI>();
+                    shopItem = null; // 🔄 fuerza el modo inventario
+                    Log("Contexto corregido a INVENTARIO (contenedor o padre llamado Inventory).");
+                    return;
+                }
+                t = t.parent;
+            }
+
+            // Si ya fue comprado, también tratamos como inventario
+            if (shopItem.Comprado)
+            {
+                Log("Contexto corregido a INVENTARIO (shopItem marcado como Comprado).");
+                inventoryItem = GetComponent<InventoryItemUI>(); // intentar asignar si existe
+                shopItem = null;
+                return;
+            }
+
+            Log("Contexto detectado: TIENDA.");
+            return;
+        }
+
+        Log("Contexto desconocido (sin ShopItem ni InventoryItemUI).");
     }
 
     private IEnumerator DelayedSpawn()
     {
-        yield return null; // esperar a que todo se inicialice
+        yield return null;
         baseScale = rectTransform.localScale;
         yield return SpawnPopInAnimation(baseScale);
     }
@@ -84,86 +140,102 @@ public class EngimonoHoverInfo : MonoBehaviour, IPointerEnterHandler, IPointerEx
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////
-    //Esta parte administra las interacciones del mouse con la tienda
+    // Interacción del mouse
     ////////////////////////////////////////////////////////////////////////////////////////////
 
     public void OnPointerEnter(PointerEventData eventData)
     {
         pointerInside = true;
-
         if (hoverRoutine != null)
             StopCoroutine(hoverRoutine);
         hoverRoutine = StartCoroutine(HoverPopOutSequence(true));
 
-        // Detectar si es un Engimono de TIENDA
-        if (shopItem != null && shopItem.engimonoData != null)
+        // 🔍 Redetectar en caso de que el objeto haya cambiado de jerarquía
+        DetectContext();
+
+        if (shopItem != null)
         {
-            CrearTooltipTienda();
+            if (shopItem.Comprado)
+            {
+                Log("PointerEnter -> item COMPRADO, se trata como INVENTARIO.");
+                StartCoroutine(EsperarYCrearTooltipInventario());
+                return;
+            }
+
+            Log("PointerEnter -> contexto TIENDA.");
+            StartCoroutine(EsperarYCrearTooltipTienda());
         }
-        // Detectar si es un Engimono del INVENTARIO
-        else if (inventoryItem != null && inventoryItem.instance != null && inventoryItem.instance.data != null)
+        else if (inventoryItem != null)
         {
-            CrearTooltipInventario();
+            Log("PointerEnter -> contexto INVENTARIO.");
+            StartCoroutine(EsperarYCrearTooltipInventario());
+        }
+        else
+        {
+            Warn("PointerEnter -> contexto DESCONOCIDO.");
         }
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         pointerInside = false;
-
         if (hoverRoutine != null)
             StopCoroutine(hoverRoutine);
         hoverRoutine = StartCoroutine(HoverPopOutSequence(false));
-
         StartCoroutine(HideLater());
     }
 
-    private void CrearTooltipTienda()
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    // Tooltip tienda
+    ////////////////////////////////////////////////////////////////////////////////////////////
+
+    private IEnumerator EsperarYCrearTooltipTienda()
     {
-        if (currentInfoBox != null || infoContainerPrefab == null)
-            return;
+        int frames = 0;
+        while (shopItem != null && shopItem.engimonoData == null && frames++ < 100)
+            yield return null;
 
-        var data = shopItem.engimonoData;
-        var comprado = shopItem.Comprado;
+        if (shopItem == null || shopItem.engimonoData == null)
+        {
+            Warn("Tooltip cancelado: engimonoData nulo o shopItem inexistente.");
+            yield break;
+        }
 
-        currentInfoBox = Instantiate(infoContainerPrefab, tooltipLayer);
-        var infoRect = currentInfoBox.GetComponent<RectTransform>();
-        infoRect.anchorMin = infoRect.anchorMax = infoRect.pivot = new Vector2(0.5f, 0.5f);
-
-        float s = Mathf.Max(0.0001f, infoScale);
-        infoRect.localScale = Vector3.one * (s * 0.85f);
-
-        var nameText = currentInfoBox.transform
-            .Find("EngimonoNameContainer/EngimonoNameBox/EngimonoNameText")
-            ?.GetComponent<TextMeshProUGUI>();
-        var descText = currentInfoBox.transform
-            .Find("EngimonoInfoContainer/EngimonoInfoBox/EngimonoInfoText")
-            ?.GetComponent<TextMeshProUGUI>();
-
-        if (nameText)
-            nameText.text = string.IsNullOrEmpty(data.Nombre) ? "[Sin nombre]" : data.Nombre;
-        if (descText)
-            descText.text = string.IsNullOrEmpty(data.Descripcion) ? "[Sin descripción]" : data.Descripcion;
-
-        PositionTooltip(infoRect, comprado ? offsetTiendaComprado : offsetTiendaNoComprado);
-
-        var cg = currentInfoBox.GetComponent<CanvasGroup>() ?? currentInfoBox.AddComponent<CanvasGroup>();
-        cg.blocksRaycasts = false;
-        cg.alpha = 1f;
-
-        StartCoroutine(PopInAnimation(infoRect, s));
+        CrearTooltip(shopItem.engimonoData.Nombre, shopItem.engimonoData.Descripcion,
+                     shopItem.Comprado ? offsetTiendaComprado : offsetTiendaNoComprado);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////
-    //Esta parte administra las interacciones del mouse con el inventario (DIOS MIO ESTO ESMUY HORRIBLE VOY A MATARME AAAAAAAAAAA)
+    // Tooltip inventario (DIOS MIO ESTO ESMUY HORRIBLE VOY A MATARME AAAAAAAAAAA)
     ////////////////////////////////////////////////////////////////////////////////////////////
 
-    private void CrearTooltipInventario()
+    private IEnumerator EsperarYCrearTooltipInventario()
+    {
+        int frames = 0;
+        while (inventoryItem != null &&
+               (inventoryItem.instance == null || inventoryItem.instance.data == null) &&
+               frames++ < 100)
+            yield return null;
+
+        if (inventoryItem == null || inventoryItem.instance == null || inventoryItem.instance.data == null)
+        {
+            Warn("Tooltip cancelado: data nula o inventoryItem inexistente.");
+            yield break;
+        }
+
+        CrearTooltip(inventoryItem.instance.data.Nombre,
+                     inventoryItem.instance.data.Descripcion,
+                     offsetInventario);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    // Creación genérica del tooltip
+    ////////////////////////////////////////////////////////////////////////////////////////////
+
+    private void CrearTooltip(string nombre, string descripcion, Vector2 offset)
     {
         if (currentInfoBox != null || infoContainerPrefab == null)
             return;
-
-        var data = inventoryItem.instance.data;
 
         currentInfoBox = Instantiate(infoContainerPrefab, tooltipLayer);
         var infoRect = currentInfoBox.GetComponent<RectTransform>();
@@ -172,19 +244,15 @@ public class EngimonoHoverInfo : MonoBehaviour, IPointerEnterHandler, IPointerEx
         float s = Mathf.Max(0.0001f, infoScale);
         infoRect.localScale = Vector3.one * (s * 0.85f);
 
-        var nameText = currentInfoBox.transform
-            .Find("EngimonoNameContainer/EngimonoNameBox/EngimonoNameText")
-            ?.GetComponent<TextMeshProUGUI>();
-        var descText = currentInfoBox.transform
-            .Find("EngimonoInfoContainer/EngimonoInfoBox/EngimonoInfoText")
-            ?.GetComponent<TextMeshProUGUI>();
+        var nameText = currentInfoBox.transform.Find("EngimonoNameContainer/EngimonoNameBox/EngimonoNameText")?.GetComponent<TextMeshProUGUI>();
+        var descText = currentInfoBox.transform.Find("EngimonoInfoContainer/EngimonoInfoBox/EngimonoInfoText")?.GetComponent<TextMeshProUGUI>();
 
-        if (nameText)
-            nameText.text = string.IsNullOrEmpty(data.Nombre) ? "[Sin nombre]" : data.Nombre;
-        if (descText)
-            descText.text = string.IsNullOrEmpty(data.Descripcion) ? "[Sin descripción]" : data.Descripcion;
+        if (nameText) nameText.text = string.IsNullOrEmpty(nombre) ? "[Sin nombre]" : nombre;
+        if (descText) descText.text = string.IsNullOrEmpty(descripcion) ? "[Sin descripción]" : descripcion;
 
-        PositionTooltip(infoRect, offsetInventario);
+        Log($"CrearTooltip: '{nombre}' - '{descripcion}' offset={offset}");
+
+        PositionTooltip(infoRect, offset);
 
         var cg = currentInfoBox.GetComponent<CanvasGroup>() ?? currentInfoBox.AddComponent<CanvasGroup>();
         cg.blocksRaycasts = false;

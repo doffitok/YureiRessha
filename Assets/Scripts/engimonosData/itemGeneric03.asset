@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: itemGeneric03
   Nombre: "Econom\xEDa Circular"
-  Icono: {fileID: 21300000, guid: 6e6121a5f3b7bf24a8aee09a8076da14, type: 3}
+  Icono: {fileID: 21300000, guid: 2ace537d042cac8499681dfe64af3449, type: 3}
   clase: 0
-  Descripcion: Every 5 seconds adds 2-12 money
+  Descripcion: Converts 0,005% of MONEY into LUCK
   notas: Cada 5 segundos, otorga aleatoriamente entre 2 a 12 yenes
   efectoScript: {fileID: 0}
   Compra: 140

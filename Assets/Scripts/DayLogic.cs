@@ -5,69 +5,94 @@ using System.Collections;
 [DisallowMultipleComponent]
 public class DayLogic : MonoBehaviour
 {
-    // Eventos públicos
-    public event System.Action OnDayStarted; // otros sistemas pueden usarlo si quieren
-    public event System.Action OnDayReset;   // ← la tienda escuchará este
+    // ============================================================================
+    // EVENTOS Y VARIABLES BÁSICAS
+    // ============================================================================
+    public event System.Action OnDayStarted;
+    public event System.Action OnDayReset;
 
-    // Tiempo actual del día (segundos)
     public int currentSecond { get; private set; } = 0;
 
     [Header("Configuración del día")]
     [Tooltip("Duración total del día en segundos")]
     public int maxSeconds = 300;
 
-    private bool isRunning = false; // Controla si el contador está activo
-    private float timer = 0f;       // Acumula el deltaTime
+    private bool isRunning = false;
+    private float timer = 0f;
 
+    // ============================================================================
+    // CONFIGURACIÓN DEL SOL (CICLO DÍA/NOCHE)
+    // ============================================================================
     [Header("Configuración del sol (Day/Night Cycle)")]
-    public Light sun; // Luz direccional (debe llamarse "sun" en la escena)
+    public Light sun;
     private Color startColor = new Color(202f / 255f, 88f / 255f, 0f / 255f);   // #CA5800
-    private Color endColor = new Color(30f / 255f, 79f / 255f, 78f / 255f);     // #1E4F4E
+    private Color endColor   = new Color(30f / 255f, 79f / 255f, 78f / 255f);   // #1E4F4E
     private float startRotationX = 25f;
-    private float endRotationX = 40f;
+    private float endRotationX   = 40f;
 
+    [Tooltip("Velocidad de transición del sol (0 = instantáneo)")]
+    [SerializeField] private float sunSmoothSpeed = 2f;
+
+    // Para suavizar transición
+    private float sunSmoothedT = 0f;
+
+    // ============================================================================
+    // BOTÓN DE INICIO
+    // ============================================================================
     [Header("Configuración del botón de inicio (UI)")]
-    [Tooltip("Botón del Canvas que inicia el día")]
     [SerializeField] private Button startButton;
-    [Tooltip("RectTransform del botón (mismo objeto del botón)")]
     [SerializeField] private RectTransform buttonTransform;
 
     [Space(5)]
-    [Tooltip("Altura del movimiento hacia arriba antes de bajar (anticipación)")]
     [SerializeField] private float anticipationHeight = 20f;
-
-    [Tooltip("Distancia hacia abajo que se moverá el botón al presionar")]
     [SerializeField] private float slideDistance = 150f;
-
-    [Tooltip("Velocidad de la animación (mayor = más rápido)")]
     [SerializeField] private float slideSpeed = 4f;
-
-    [Tooltip("Duración de la anticipación (en segundos)")]
     [SerializeField] private float anticipationTime = 0.15f;
 
     private Vector2 originalButtonPos;
     private bool originalButtonPosCaptured = false;
 
+    // ============================================================================
+    // PASAJEROS (referencias externas)
+    // ============================================================================
     [Header("Referencias a lógica de pasajeros")]
     [SerializeField] private passengerPlacementLogic passengerPlacement;
     [SerializeField] private passengerSelectLogic passengerSelect;
 
+    // ============================================================================
+    // RELOJ (manecilla UI)
+    // ============================================================================
+    [Header("Configuración del reloj")]
+    [Tooltip("RectTransform de la manecilla del reloj (UI Image)")]
+    [SerializeField] private RectTransform relojManecilla;
+
+    [Tooltip("Rotación total en grados que recorre en un día completo")]
+    [SerializeField] private float relojRotacionCompleta = 360f;
+
+    [Tooltip("Invertir sentido de rotación")]
+    [SerializeField] private bool relojInvertido = false;
+
+    private float relojAnguloInicialReal = 0f;
+
+    // ============================================================================
+    // INICIO
+    // ============================================================================
     private void Start()
     {
-        // Guardar la posición inicial del botón si existe
+        // Guardar posición original del botón
         if (buttonTransform != null && !originalButtonPosCaptured)
         {
             originalButtonPos = buttonTransform.anchoredPosition;
             originalButtonPosCaptured = true;
         }
 
-        // Asignar listener si el botón está asignado
+        // Asignar listener
         if (startButton != null)
             startButton.onClick.AddListener(OnStartButtonPressed);
         else
             Debug.LogWarning("[DayLogic] No hay botón asignado para iniciar el día.");
 
-        // Buscar la luz "sun" si no se asignó en el inspector
+        // Buscar luz
         if (sun == null)
         {
             GameObject sunObj = GameObject.Find("sun");
@@ -78,22 +103,29 @@ public class DayLogic : MonoBehaviour
                 Debug.LogWarning("[DayLogic] No se encontró la luz 'sun' en la escena.");
         }
 
-        // Estado inicial
-        isRunning = false;
-        timer = 0f;
-        currentSecond = 0;
-
-        // Asegurar referencias si no fueron asignadas
+        // Asegurar referencias
         if (passengerPlacement == null)
             passengerPlacement = FindFirstObjectByType<passengerPlacementLogic>();
         if (passengerSelect == null)
             passengerSelect = FindFirstObjectByType<passengerSelectLogic>();
 
-        // Dejar botón visible y usable al comienzo
+        // Estado inicial
+        isRunning = false;
+        timer = 0f;
+        currentSecond = 0;
+
+        // Capturar el ángulo inicial real del reloj
+        if (relojManecilla != null)
+            relojAnguloInicialReal = relojManecilla.localEulerAngles.z;
+
         RestoreStartButton();
-        UpdateSunCycle();
+        UpdateSunCycle(true);
+        UpdateClock();
     }
 
+    // ============================================================================
+    // UPDATE
+    // ============================================================================
     private void Update()
     {
         if (isRunning)
@@ -104,30 +136,32 @@ public class DayLogic : MonoBehaviour
             {
                 currentSecond++;
                 if (currentSecond > maxSeconds)
-                    currentSecond = 0; // Reinicia el contador al llegar al máximo
+                    currentSecond = 0;
 
                 timer = 0f;
             }
         }
 
-        UpdateSunCycle();
+        // ☀️ Sol fluido (usa Time.deltaTime para suavizar)
+        UpdateSunCycle(false);
+
+        // 🕒 Reloj a saltos
+        UpdateClock();
     }
 
-    // Inicia el día (activar el contador) — NO notifica a la tienda
+    // ============================================================================
+    // MÉTODOS PRINCIPALES DE DÍA
+    // ============================================================================
     public void StartDay()
     {
         if (isRunning) return;
 
         isRunning = true;
         Debug.Log("[DayLogic] 🌞 El día ha comenzado.");
-
-        // Notifica a otros sistemas (si los hay) — la TIENDA no escucha este
         OnDayStarted?.Invoke();
 
-        // Desactivar el botón para no re-spammear
         if (startButton != null) startButton.interactable = false;
 
-        // Lanzar selección y spawn de pasajeros de forma segura
         if (passengerSelect != null)
         {
             passengerSelect.ResetSelectionState();
@@ -139,38 +173,50 @@ public class DayLogic : MonoBehaviour
         }
     }
 
-    // Reinicia el día (contador a 0) y NO empieza el día — la tienda SÍ escucha esto
     public void ResetDay()
     {
         currentSecond = 0;
         timer = 0f;
         isRunning = false;
+        sunSmoothedT = 0f;
 
-        // Notificar que el día se ha reseteado (para que la tienda regenere items)
         OnDayReset?.Invoke();
-
         Debug.Log("[DayLogic] 🔁 Día reseteado (sin iniciar).");
+
+        UpdateSunCycle(true);
+        UpdateClock();
     }
 
-    // Permite que otros scripts modifiquen currentSecond
     public void SetCurrentSecond(int value)
     {
         currentSecond = Mathf.Clamp(value, 0, maxSeconds);
     }
 
-    // Actualiza el color y rotación de la luz del sol
-    private void UpdateSunCycle()
+    // ============================================================================
+    // CICLO SOLAR (ahora con suavizado)
+    // ============================================================================
+    private void UpdateSunCycle(bool instant)
     {
         if (sun == null) return;
 
-        float t = Mathf.Clamp01((float)currentSecond / maxSeconds);
-        sun.color = Color.Lerp(startColor, endColor, t);
+        float targetT = Mathf.Clamp01((float)currentSecond / maxSeconds);
+
+        // Suavizado entre frames
+        if (instant || sunSmoothSpeed <= 0f)
+            sunSmoothedT = targetT;
+        else
+            sunSmoothedT = Mathf.Lerp(sunSmoothedT, targetT, Time.deltaTime * sunSmoothSpeed);
+
+        sun.color = Color.Lerp(startColor, endColor, sunSmoothedT);
 
         Vector3 rot = sun.transform.rotation.eulerAngles;
-        rot.x = Mathf.Lerp(startRotationX, endRotationX, t);
+        rot.x = Mathf.Lerp(startRotationX, endRotationX, sunSmoothedT);
         sun.transform.rotation = Quaternion.Euler(rot);
     }
 
+    // ============================================================================
+    // ANIMACIÓN DEL BOTÓN
+    // ============================================================================
     private void OnStartButtonPressed()
     {
         StartCoroutine(AnimateButtonAndStartDay());
@@ -196,7 +242,6 @@ public class DayLogic : MonoBehaviour
         Vector2 upPos = startPos + Vector2.up * anticipationHeight;
         Vector2 downPos = startPos - Vector2.up * slideDistance;
 
-        // Anticipación hacia arriba
         float t = 0f;
         float dur = Mathf.Max(anticipationTime, 0.01f);
         while (t < 1f)
@@ -206,7 +251,6 @@ public class DayLogic : MonoBehaviour
             yield return null;
         }
 
-        // Deslizamiento hacia abajo
         t = 0f;
         float speed = Mathf.Max(slideSpeed, 0.01f);
         while (t < 1f)
@@ -219,7 +263,6 @@ public class DayLogic : MonoBehaviour
         StartDay();
     }
 
-    /// Restaura el botón de inicio a su posición y estado original.
     public void RestoreStartButton()
     {
         if (buttonTransform != null && originalButtonPosCaptured)
@@ -231,4 +274,22 @@ public class DayLogic : MonoBehaviour
             startButton.interactable = true;
         }
     }
+
+    // ============================================================================
+    // RELOJ (rotación de la manecilla)
+    // ============================================================================
+    private void UpdateClock()
+    {
+        if (relojManecilla == null || maxSeconds <= 0) return;
+
+        float progress = Mathf.Clamp01((float)currentSecond / maxSeconds);
+        float angle = relojAnguloInicialReal + (relojInvertido ? -1f : 1f) * progress * relojRotacionCompleta;
+
+        relojManecilla.localRotation = Quaternion.Euler(0f, 0f, angle);
+    }
+
+    // ============================================================================
+    // UTILIDAD PÚBLICA
+    // ============================================================================
+    public float DayProgress => Mathf.Clamp01((float)currentSecond / maxSeconds);
 }

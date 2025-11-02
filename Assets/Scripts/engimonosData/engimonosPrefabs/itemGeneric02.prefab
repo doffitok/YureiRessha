@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: -6173995657898340003}
   - component: {fileID: 8435048558224002031}
   - component: {fileID: 8651145704575717264}
-  - component: {fileID: -2832197555166438077}
+  - component: {fileID: 6540467803872950005}
   m_Layer: 5
   m_Name: itemGeneric02
   m_TagString: Untagged
@@ -129,8 +129,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   intervalo: 5
-  rangoDinero: {x: 2, y: 12}
---- !u!114 &-2832197555166438077
+  rangoDinero: {x: 90, y: 100}
+  sonidoActivacion: {fileID: 8300000, guid: 926e46b58e06a3b45aa4239f4f9d65ee, type: 3}
+  volumenMultiplicador: 3
+  pitchMin: 0.7
+  pitchMax: 1.5
+--- !u!114 &6540467803872950005
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -139,15 +143,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 1162188520849999511}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c2164ec6c1d40d4b9f16962ae1c1c3f, type: 3}
+  m_Script: {fileID: 11500000, guid: ceef0763ec5ca9a4f91ae9a67d71bae0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  debugLogs: 1
   infoContainerPrefab: {fileID: 3990893205806384362, guid: bbc356cb80da5d74dbb044e0765f755b, type: 3}
-  offsetNoComprado: {x: -300, y: 0}
-  offsetComprado: {x: 0, y: -140}
+  offsetTiendaNoComprado: {x: -300, y: 0}
+  offsetTiendaComprado: {x: 0, y: -140}
+  offsetInventario: {x: 0, y: -140}
   infoScale: 1
   popInSpeed: 20
   popInOvershoot: 1.2
+  hoverGrowScale: 1.12
+  hoverSettleScale: 1.05
+  hoverGrowSpeed: 0.08
+  hoverSettleSpeed: 0.08
+  hoverReturnSpeed: 0.08
+  spawnPhase1Speed: 0.08
+  spawnPhase2Speed: 0.08
+  spawnPhase1Scale: 1.4
+  spawnPhase2Scale: 0.8
 --- !u!1 &1516378883624060644
 GameObject:
   m_ObjectHideFlags: 0

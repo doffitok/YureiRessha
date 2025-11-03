@@ -3204,6 +3204,7 @@ MonoBehaviour:
   - {fileID: 86341387967933143, guid: 4020acd5ec02e384c8494c2246787d19, type: 3}
   - {fileID: 2046608415895934198, guid: cefb3267ff78a5b44b15032c1f80fa2c, type: 3}
   - {fileID: 618542321095490944, guid: 07e947557bc38b149ac9d26c95a421d9, type: 3}
+  - {fileID: 618542321095490944, guid: fac4324aa8412c24ca509949af324855, type: 3}
   spawnPoints: []
   defaultPassengers: []
   minRatingRoll: 0

@@ -16,11 +16,8 @@ MonoBehaviour:
   Nombre: Testeo
   Icono: {fileID: 21300000, guid: 0e6b1cd25c9cbb147bced7dc722c71a1, type: 3}
   clase: 2
-  descripcion: Item de testeo
+  Descripcion: Item test
   notas: Item de testeo
   efectoScript: {fileID: 0}
   Compra: 75
   Venta: 35
-  bonusRating: 0
-  bonusDinero: 0
-  bonusSuerte: 0

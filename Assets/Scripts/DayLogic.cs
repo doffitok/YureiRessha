@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 
 ////////////////////////////////////////////////////////////////////////////////////////////
-// logica del dia (DayLogic)
+// logica del dia
 //
 // este script controla el ciclo diario del juego incluyendo tiempo, sol, reloj y boton de inicio
 // mantiene el tiempo en segundos y ejecuta eventos cuando el dia comienza o se reinicia
@@ -20,14 +20,17 @@ public class DayLogic : MonoBehaviour
     ////////////////////////////////////////////////////////////////////////////////////////////
     public event System.Action OnDayStarted;
     public event System.Action OnDayReset;
+    public event System.Action OnDayEnded;
 
     public int currentSecond { get; private set; } = 0;
+    public int currentDay { get; private set; } = 1; // nuevo contador de días
 
     [Header("Configuracion del dia")]
     [Tooltip("Duracion total del dia en segundos")]
     public int maxSeconds = 300;
 
     private bool isRunning = false;
+    private bool dayFinished = false;
     private float timer = 0f;
 
     ////////////////////////////////////////////////////////////////////////////////////////////
@@ -112,6 +115,7 @@ public class DayLogic : MonoBehaviour
             passengerSelect = FindFirstObjectByType<PassengerSelectLogic>();
 
         isRunning = false;
+        dayFinished = false;
         timer = 0f;
         currentSecond = 0;
 
@@ -128,22 +132,25 @@ public class DayLogic : MonoBehaviour
     ////////////////////////////////////////////////////////////////////////////////////////////
     private void Update()
     {
-        if (isRunning)
+        if (isRunning && !dayFinished)
         {
             timer += Time.deltaTime;
 
             if (timer >= 1f)
             {
                 currentSecond++;
-                if (currentSecond > maxSeconds)
-                    currentSecond = 0;
-
                 timer = 0f;
-            }
-        }
 
-        UpdateSunCycle(false);
-        UpdateClock();
+                if (currentSecond >= maxSeconds)
+                {
+                    currentSecond = maxSeconds;
+                    EndDay();
+                }
+            }
+
+            UpdateSunCycle(false);
+            UpdateClock();
+        }
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////
@@ -151,9 +158,10 @@ public class DayLogic : MonoBehaviour
     ////////////////////////////////////////////////////////////////////////////////////////////
     public void StartDay()
     {
-        if (isRunning) return;
+        if (isRunning || dayFinished) return;
 
         isRunning = true;
+        dayFinished = false;
         Debug.Log("[DayLogic] el dia ha comenzado");
         OnDayStarted?.Invoke();
 
@@ -175,6 +183,7 @@ public class DayLogic : MonoBehaviour
         currentSecond = 0;
         timer = 0f;
         isRunning = false;
+        dayFinished = false;
         sunSmoothedT = 0f;
 
         OnDayReset?.Invoke();
@@ -182,6 +191,15 @@ public class DayLogic : MonoBehaviour
 
         UpdateSunCycle(true);
         UpdateClock();
+    }
+
+    private void EndDay()
+    {
+        isRunning = false;
+        dayFinished = true;
+        currentDay++; // 🔸 sumamos un día nuevo al finalizar
+        OnDayEnded?.Invoke();
+        Debug.Log("[DayLogic] el dia ha terminado (Día " + currentDay + ")");
     }
 
     public void SetCurrentSecond(int value)
@@ -194,7 +212,7 @@ public class DayLogic : MonoBehaviour
     ////////////////////////////////////////////////////////////////////////////////////////////
     private void UpdateSunCycle(bool instant)
     {
-        if (sun == null) return;
+        if (sun == null || dayFinished) return;
 
         float targetT = Mathf.Clamp01((float)currentSecond / maxSeconds);
 
@@ -280,6 +298,10 @@ public class DayLogic : MonoBehaviour
 
         float progress = Mathf.Clamp01((float)currentSecond / maxSeconds);
         float angle = relojAnguloInicialReal + (relojInvertido ? -1f : 1f) * progress * relojRotacionCompleta;
+
+        if (angle > 360f) angle = 360f;
+        if (angle < -360f) angle = -360f;
+
         relojManecilla.localRotation = Quaternion.Euler(0f, 0f, angle);
     }
 

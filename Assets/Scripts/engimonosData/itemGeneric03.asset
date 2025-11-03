@@ -17,7 +17,7 @@ MonoBehaviour:
   Icono: {fileID: 21300000, guid: 2ace537d042cac8499681dfe64af3449, type: 3}
   clase: 0
   Descripcion: Converts 0,005% of MONEY into LUCK
-  notas: Cada 5 segundos, otorga aleatoriamente entre 2 a 12 yenes
+  notas: Blank
   efectoScript: {fileID: 0}
-  Compra: 140
-  Venta: 35
+  Compra: 14000
+  Venta: 3400

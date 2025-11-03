@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using TMPro;
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 // logica del dia
@@ -23,7 +24,7 @@ public class DayLogic : MonoBehaviour
     public event System.Action OnDayEnded;
 
     public int currentSecond { get; private set; } = 0;
-    public int currentDay { get; private set; } = 1; // nuevo contador de días
+    public int currentDay { get; private set; } = 1;
 
     [Header("Configuracion del dia")]
     [Tooltip("Duracion total del dia en segundos")]
@@ -84,6 +85,13 @@ public class DayLogic : MonoBehaviour
     private float relojAnguloInicialReal = 0f;
 
     ////////////////////////////////////////////////////////////////////////////////////////////
+    // texto del día
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    [Header("Texto de día (opcional)")]
+    [Tooltip("Texto que mostrará el número de día en formato 'Día X'")]
+    [SerializeField] private TextMeshProUGUI textoDia;
+
+    ////////////////////////////////////////////////////////////////////////////////////////////
     // inicio del script
     ////////////////////////////////////////////////////////////////////////////////////////////
     private void Start()
@@ -125,6 +133,7 @@ public class DayLogic : MonoBehaviour
         RestoreStartButton();
         UpdateSunCycle(true);
         UpdateClock();
+        UpdateTextoDia();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////
@@ -191,15 +200,31 @@ public class DayLogic : MonoBehaviour
 
         UpdateSunCycle(true);
         UpdateClock();
+        UpdateTextoDia();
+
+        // 🔹 restaurar botón de inicio
+        RestoreStartButton();
+
+        // 🔹 eliminar pasajeros de la escena
+        if (passengerPlacement != null)
+        {
+            foreach (Transform child in passengerPlacement.transform)
+                GameObject.Destroy(child.gameObject);
+        }
+
+        // 🔹 resetear selección de pasajeros
+        if (passengerSelect != null)
+            passengerSelect.ResetSelectionState();
     }
 
     private void EndDay()
     {
         isRunning = false;
         dayFinished = true;
-        currentDay++; // 🔸 sumamos un día nuevo al finalizar
+        currentDay++;
         OnDayEnded?.Invoke();
         Debug.Log("[DayLogic] el dia ha terminado (Día " + currentDay + ")");
+        UpdateTextoDia();
     }
 
     public void SetCurrentSecond(int value)
@@ -309,4 +334,13 @@ public class DayLogic : MonoBehaviour
     // utilidad publica de progreso del dia
     ////////////////////////////////////////////////////////////////////////////////////////////
     public float DayProgress => Mathf.Clamp01((float)currentSecond / maxSeconds);
+
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    // actualizacion del texto de día
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    private void UpdateTextoDia()
+    {
+        if (textoDia != null)
+            textoDia.text = $"Día {currentDay}";
+    }
 }

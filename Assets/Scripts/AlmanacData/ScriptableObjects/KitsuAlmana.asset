@@ -29,7 +29,7 @@ MonoBehaviour:
   buttonFontSize: 24
   engimonoNames:
   - Teru Teru Bozu
-  - 
+  - Magic Tail
   - 
   engimonoDescriptions:
   - 
@@ -37,5 +37,5 @@ MonoBehaviour:
   - 
   engimonoIcons:
   - {fileID: 21300000, guid: e04850e17a19358439b20c2e12242814, type: 3}
-  - {fileID: 0}
+  - {fileID: 21300000, guid: 25304571aa9b5b44f94cd2ab9741e771, type: 3}
   - {fileID: 0}

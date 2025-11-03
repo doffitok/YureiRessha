@@ -32,9 +32,11 @@ MonoBehaviour:
   - Saved for later
   - Check-it List
   engimonoDescriptions:
-  - 
-  - 
-  - 
+  - She used this fan a lot, it has a hole in the middle. It doesn't event work!
+    But she still uses it
+  - 'There''s a list with a lot of names! I don''t know anyone in here, maybe they
+    are her clients from her job... There''s also a lot of numbers.. Ugh.. '
+  - 'Check - Check --- CHECK! '
   engimonoIcons:
   - {fileID: 21300000, guid: 5f3af472df05ebf4ebd4a46859ec7c4e, type: 3}
   - {fileID: 21300000, guid: 4daae07886a5e5c4ea02bd567e517f47, type: 3}

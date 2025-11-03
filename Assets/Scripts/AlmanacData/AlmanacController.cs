@@ -179,6 +179,10 @@ public class AlmanacController : MonoBehaviour
                 portraitImage.sprite = c.portrait;
                 portraitImage.gameObject.SetActive(true);
                 portraitImage.preserveAspect = true;
+
+                // ✅ Añade movimiento leve si no existe
+                if (portraitImage.GetComponent<PortraitFloat>() == null)
+                    portraitImage.gameObject.AddComponent<PortraitFloat>();
             }
             else portraitImage.gameObject.SetActive(false);
         }

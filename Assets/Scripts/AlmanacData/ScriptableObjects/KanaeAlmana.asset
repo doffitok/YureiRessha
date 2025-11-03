@@ -32,9 +32,11 @@ MonoBehaviour:
   - Latest Record
   - Monterey Strat
   engimonoDescriptions:
-  - 
-  - 
-  - 
+  - 'A concert of her most recent concert! I''m hyped to go and see her on the stage! '
+  - 'It''s a vinyl from her single "Eyes!" ...  There''s a lot of screaming and..
+    I can''t even.. What is this? '
+  - Her guitar pick! By accident she dropped it at her concert and now I HAVE IT!
+    HAHAHA
   engimonoIcons:
   - {fileID: 21300000, guid: 3337d229ee442f741b90ca2c2942a517, type: 3}
   - {fileID: 21300000, guid: 521d28e1512fdd140b84da9d0dadf053, type: 3}

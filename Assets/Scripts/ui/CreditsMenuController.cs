@@ -4,71 +4,74 @@ using System.Collections;
 public class CreditsMenuController : MonoBehaviour
 {
     [Header("Referencias")]
-    public GameObject creditsPanel;
-    public GameObject buttonsPanel;
-    public GameObject logo;
-    public float fadeDuration = 1f;
+    public CanvasGroup creditsGroup;
+    public CanvasGroup buttonsGroup;
+    public CanvasGroup logoGroup;
 
-    private CanvasGroup creditsCanvasGroup;
+    [Header("Configuración")]
+    public float fadeDuration = 1f;
 
     void Start()
     {
-        if (creditsPanel != null)
+        // Aseguramos que el panel de créditos comience invisible
+        if (creditsGroup != null)
         {
-            creditsCanvasGroup = creditsPanel.GetComponent<CanvasGroup>();
-            if (creditsCanvasGroup == null)
-                creditsCanvasGroup = creditsPanel.AddComponent<CanvasGroup>();
-
-            creditsPanel.SetActive(false);
-            creditsCanvasGroup.alpha = 0f;
-            creditsCanvasGroup.interactable = false;
-            creditsCanvasGroup.blocksRaycasts = false;
+            creditsGroup.alpha = 0f;
+            creditsGroup.interactable = false;
+            creditsGroup.blocksRaycasts = false;
         }
     }
 
     public void ShowCredits()
     {
-        if (creditsPanel == null) return;
-
-        buttonsPanel.SetActive(false);
-        logo.SetActive(false);
-
-        creditsPanel.SetActive(true);
         StopAllCoroutines();
-        StartCoroutine(FadeCanvasGroup(creditsCanvasGroup, 0f, 1f, fadeDuration, true));
+
+        // Fade OUT botones + logo
+        if (buttonsGroup != null)
+            StartCoroutine(FadeCanvasGroup(buttonsGroup, buttonsGroup.alpha, 0f, fadeDuration, false));
+
+        if (logoGroup != null)
+            StartCoroutine(FadeCanvasGroup(logoGroup, logoGroup.alpha, 0f, fadeDuration, false));
+
+        // Fade IN créditos
+        if (creditsGroup != null)
+            StartCoroutine(FadeCanvasGroup(creditsGroup, creditsGroup.alpha, 1f, fadeDuration, true));
     }
 
     public void HideCredits()
     {
-        if (creditsPanel == null) return;
-
         StopAllCoroutines();
-        StartCoroutine(FadeCanvasGroup(creditsCanvasGroup, 1f, 0f, fadeDuration, false, () =>
-        {
-            creditsPanel.SetActive(false);
-            buttonsPanel.SetActive(true);
-            logo.SetActive(true);
-        }));
+
+        // Fade OUT créditos
+        if (creditsGroup != null)
+            StartCoroutine(FadeCanvasGroup(creditsGroup, creditsGroup.alpha, 0f, fadeDuration, false));
+
+        // Fade IN botones + logo
+        if (buttonsGroup != null)
+            StartCoroutine(FadeCanvasGroup(buttonsGroup, buttonsGroup.alpha, 1f, fadeDuration, true));
+
+        if (logoGroup != null)
+            StartCoroutine(FadeCanvasGroup(logoGroup, logoGroup.alpha, 1f, fadeDuration, true));
+
+        // Reactivar wobble del logo
+        var logoScript = logoGroup?.GetComponent<LogoSplash>();
+        if (logoScript != null)
+            logoScript.RestartWobble();
     }
 
-    private IEnumerator FadeCanvasGroup(CanvasGroup cg, float from, float to, float duration, bool makeInteractable, System.Action onEnd = null)
+    private IEnumerator FadeCanvasGroup(CanvasGroup cg, float from, float to, float duration, bool interactable)
     {
         float time = 0f;
-        cg.alpha = from;
-
-        cg.interactable = makeInteractable;
-        cg.blocksRaycasts = makeInteractable;
+        cg.interactable = interactable;
+        cg.blocksRaycasts = interactable;
 
         while (time < duration)
         {
-            cg.alpha = Mathf.Lerp(from, to, time / duration);
             time += Time.deltaTime;
+            cg.alpha = Mathf.Lerp(from, to, time / duration);
             yield return null;
         }
 
         cg.alpha = to;
-
-        if (onEnd != null)
-            onEnd();
     }
 }

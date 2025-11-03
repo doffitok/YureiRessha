@@ -32,9 +32,12 @@ MonoBehaviour:
   - Kagami Mochi
   - "Karakuri Ningy\u014D"
   engimonoDescriptions:
-  - 
-  - 
-  - 
+  - 'I saw a lot of these decorations on my Home town... I saw a dragon one, a fox..
+    I want my own! '
+  - 'A traditional New year decoration! Sounds delicious and expensive... It gets
+    eaten in a ritual called Kagami Biraki and its to bring good heatlh and fortune! '
+  - OKAY I DON'T LIKE THIS... It's like a doll that can serve tea? All by itself?
+    ... Okaaay..
   engimonoIcons:
   - {fileID: 21300000, guid: d180be144c1206a47bec60def7c2a552, type: 3}
   - {fileID: 21300000, guid: e24dddd53863ee840abf27de199e5ad4, type: 3}

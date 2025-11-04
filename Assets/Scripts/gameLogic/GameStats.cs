@@ -74,6 +74,17 @@ public class GameStats : MonoBehaviour
     ////////////////////////////////////////////////////////////////////////////////////////////
     public void SpendMoney(int amount)
     {
-        dinero -= amount; // puede volverse negativo para irse a una deuda (no recuerdo iesto esta realmente implementado pero bueno)
+        dinero -= amount; // puede volverse negativo para irse a una deuda (no recuerdo si esto esta realmente implementado pero bueno)
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    // NUEVO: valor máximo de suerte total (para normalización global)
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    public float GetSuerteMaximaTotal()
+    {
+        // 🔹 Este valor define la suerte máxima posible en todo el juego.
+        //    Si más adelante decides aumentar la escala (por ejemplo a 1000 o 10000),
+        //    solo cambia este número y todo se ajustará automáticamente.
+        return 100f;
     }
 }

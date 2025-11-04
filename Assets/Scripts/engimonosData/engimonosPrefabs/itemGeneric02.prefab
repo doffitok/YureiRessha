@@ -11,9 +11,8 @@ GameObject:
   - component: {fileID: 4818527420322761959}
   - component: {fileID: 3135804639540039661}
   - component: {fileID: 3201446104376612187}
-  - component: {fileID: -6173995657898340003}
-  - component: {fileID: 8435048558224002031}
-  - component: {fileID: 8651145704575717264}
+  - component: {fileID: -1202462371991092394}
+  - component: {fileID: 7617928229606378240}
   m_Layer: 5
   m_Name: itemGeneric02
   m_TagString: Untagged
@@ -79,7 +78,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &-6173995657898340003
+--- !u!114 &-1202462371991092394
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -88,34 +87,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 1162188520849999511}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0314f969a36ef25419989cb3bbcae22b, type: 3}
+  m_Script: {fileID: 11500000, guid: 143cccc584e953e4bafd618e4bfb0039, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  instance:
-    data: {fileID: 0}
-    comprado: 0
-  currentSlot: {fileID: 0}
-  canvasGroup: {fileID: 0}
---- !u!114 &8435048558224002031
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1162188520849999511}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c8b6123c60b7efd4188e4497ba77a526, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  engimonoData: {fileID: 11400000, guid: 56616c4a8e8eca542b3cb2a1c53188bc, type: 2}
+  ID: default_id
+  Nombre: "A\xF1ade dinero cada X momento"
+  Descripcion: "Otorga aleatoriamente entre 15 y 100 de dinero seg\xFAn tu suerte"
+  Icono: {fileID: 21300000, guid: 6e6121a5f3b7bf24a8aee09a8076da14, type: 3}
+  PrecioCompra: 500
+  PrecioVenta: 250
   Comprado: 0
-  icono: {fileID: 0}
+  iconoUI: {fileID: 0}
   nombreTexto: {fileID: 0}
-  precioTexto: {fileID: 8410373766928436940}
+  precioTexto: {fileID: 0}
   gameStats: {fileID: 0}
   inventory: {fileID: 0}
---- !u!114 &8651145704575717264
+--- !u!114 &7617928229606378240
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -127,12 +114,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60a3a832e2cc9744ba495143741c5b1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  intervalo: 5
-  rangoDinero: {x: 90, y: 100}
+  intervaloBase: 2
+  intervaloFactorMax: 6
+  variacionFijaMin: 0.4
+  variacionFijaMax: 1.7
+  intervaloMinimoAbsoluto: 0.5
+  rangoDinero: {x: 15, y: 100}
   sonidoActivacion: {fileID: 8300000, guid: 926e46b58e06a3b45aa4239f4f9d65ee, type: 3}
-  volumenMultiplicador: 3
+  volumenMultiplicador: 2
   pitchMin: 0.7
   pitchMax: 1.5
+  escalaFase1: 1.3
+  escalaFase2: 0.7
+  duracionFase: 0.08
+  gameStats: {fileID: 0}
 --- !u!1 &1516378883624060644
 GameObject:
   m_ObjectHideFlags: 0

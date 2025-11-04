@@ -51,8 +51,8 @@ public class EngimonoHoverManager : MonoBehaviour
         GameObject hovered = null;
         foreach (var r in results)
         {
-            if (r.gameObject.GetComponent<EngimonoShopItem>() ||
-                r.gameObject.GetComponent<InventoryItemUI>())
+            // Ahora detecta directamente objetos con EngimonoItem
+            if (r.gameObject.GetComponent<EngimonoItem>())
             {
                 hovered = r.gameObject;
                 break;
@@ -64,7 +64,7 @@ public class EngimonoHoverManager : MonoBehaviour
             if (hovered == null)
                 HideTooltip();
             else
-                ShowTooltip(hovered); // ⚡ Instantáneo, sin coroutine
+                ShowTooltip(hovered);
 
             currentTarget = hovered;
         }
@@ -89,35 +89,52 @@ public class EngimonoHoverManager : MonoBehaviour
 
         HideTooltip();
 
+        // Datos a mostrar
         string nombre = "[Sin nombre]";
         string descripcion = "[Sin descripción]";
         Vector2 offset = Vector2.zero;
 
-        var inv = target.GetComponent<InventoryItemUI>();
-        var shop = target.GetComponent<EngimonoShopItem>();
+        // Obtener el EngimonoItem directamente
+        var item = target.GetComponent<EngimonoItem>();
 
-        if (inv != null && inv.instance != null && inv.instance.data != null)
+        if (item != null)
         {
-            nombre = inv.instance.data.Nombre;
-            descripcion = inv.instance.data.Descripcion;
-            offset = offsetInventario;
-        }
-        else if (shop != null && shop.engimonoData != null)
-        {
-            nombre = shop.engimonoData.Nombre;
-            descripcion = shop.engimonoData.Descripcion;
-            offset = shop.Comprado ? offsetTiendaComprado : offsetTiendaNoComprado;
+            nombre = item.Nombre;
+            descripcion = item.Descripcion;
+
+            // Decidir offset según dónde está (tienda o inventario)
+            // Si el objeto tiene padre con "shop" en el nombre → tienda
+            Transform t = target.transform;
+            bool esTienda = false;
+            while (t != null)
+            {
+                if (t.name.ToLower().Contains("shop"))
+                {
+                    esTienda = true;
+                    break;
+                }
+                t = t.parent;
+            }
+
+            if (esTienda)
+                offset = item.Comprado ? offsetTiendaComprado : offsetTiendaNoComprado;
+            else
+                offset = offsetInventario;
         }
 
+        // Crear tooltip
         currentTooltip = Instantiate(infoContainerPrefab, tooltipLayer);
         var rect = currentTooltip.GetComponent<RectTransform>();
         rect.anchorMin = rect.anchorMax = rect.pivot = new Vector2(0.5f, 0.5f);
 
+        // Llenar textos
         var nameText = currentTooltip.transform.Find("EngimonoNameContainer/EngimonoNameBox/EngimonoNameText")?.GetComponent<TextMeshProUGUI>();
         var descText = currentTooltip.transform.Find("EngimonoInfoContainer/EngimonoInfoBox/EngimonoInfoText")?.GetComponent<TextMeshProUGUI>();
+
         if (nameText) nameText.text = nombre;
         if (descText) descText.text = descripcion;
 
+        // CanvasGroup para evitar raycasts
         var cg = currentTooltip.GetComponent<CanvasGroup>() ?? currentTooltip.AddComponent<CanvasGroup>();
         cg.blocksRaycasts = false;
         cg.alpha = 1f;
@@ -126,7 +143,7 @@ public class EngimonoHoverManager : MonoBehaviour
         StartCoroutine(PopIn(rect, infoScale));
 
         if (debugLogs)
-            Debug.Log($"[HoverManager] Tooltip creado instantáneamente → {nombre}");
+            Debug.Log($"[HoverManager] Tooltip creado → {nombre}");
     }
 
     private void PositionTooltip(RectTransform tooltipRect, RectTransform targetRect, Vector2 offset)
@@ -143,7 +160,6 @@ public class EngimonoHoverManager : MonoBehaviour
         tooltipRect.anchoredPosition = localPos + offset;
     }
 
-    // 👇 Aquí especificamos explícitamente System.Collections.IEnumerator
     private System.Collections.IEnumerator PopIn(RectTransform rect, float scale)
     {
         if (rect == null) yield break;

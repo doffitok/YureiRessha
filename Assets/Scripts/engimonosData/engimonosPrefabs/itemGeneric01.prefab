@@ -11,9 +11,8 @@ GameObject:
   - component: {fileID: 4818527420322761959}
   - component: {fileID: 3135804639540039661}
   - component: {fileID: 3201446104376612187}
-  - component: {fileID: -6173995657898340003}
-  - component: {fileID: 8435048558224002031}
-  - component: {fileID: -7904470493298382752}
+  - component: {fileID: 2454755207011662205}
+  - component: {fileID: -9059751464282325474}
   m_Layer: 5
   m_Name: itemGeneric01
   m_TagString: Untagged
@@ -79,7 +78,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &-6173995657898340003
+--- !u!114 &2454755207011662205
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -88,34 +87,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 1162188520849999511}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0314f969a36ef25419989cb3bbcae22b, type: 3}
+  m_Script: {fileID: 11500000, guid: 143cccc584e953e4bafd618e4bfb0039, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  instance:
-    data: {fileID: 0}
-    comprado: 0
-  currentSlot: {fileID: 0}
-  canvasGroup: {fileID: 0}
---- !u!114 &8435048558224002031
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1162188520849999511}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c8b6123c60b7efd4188e4497ba77a526, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  engimonoData: {fileID: 11400000, guid: 92b216a973d654247adde949293561aa, type: 2}
+  ID: default_id
+  Nombre: +0.5 Stars
+  Descripcion: Adds +0.5 Stars
+  Icono: {fileID: 21300000, guid: 5f3af472df05ebf4ebd4a46859ec7c4e, type: 3}
+  PrecioCompra: 500
+  PrecioVenta: 250
   Comprado: 0
-  icono: {fileID: 0}
+  iconoUI: {fileID: 0}
   nombreTexto: {fileID: 0}
-  precioTexto: {fileID: 8410373766928436940}
+  precioTexto: {fileID: 0}
   gameStats: {fileID: 0}
   inventory: {fileID: 0}
---- !u!114 &-7904470493298382752
+--- !u!114 &-9059751464282325474
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

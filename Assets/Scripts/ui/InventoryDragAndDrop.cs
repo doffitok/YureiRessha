@@ -1,212 +1,211 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.UI;
-using System.Collections;
+using UnityEngine.EventSystems;
+using System.Collections.Generic;
 
-////////////////////////////////////////////////////////////////////////////////////////////
-// sistema de arrastre y suelta del inventario
-//
-// este script permite arrastrar y soltar items dentro del inventario
-// detecta clicks del mouse y controla el inicio, arrastre y fin de la accion
-// si se suelta un item sobre otro slot vacio se mueve
-// si se suelta sobre un slot ocupado los intercambia
-// si no hay slot cerca vuelve al slot original
-// en realidad es algo solo visual, al momento de escribir esto no tiene mucha utilidad practica mas alla de que se vea lindo :P
-////////////////////////////////////////////////////////////////////////////////////////////
-
+[DisallowMultipleComponent]
 public class InventoryDragAndDrop : MonoBehaviour
 {
-    ////////////////////////////////////////////////////////////////////////////////////////////
-    // referencias principales
-    ////////////////////////////////////////////////////////////////////////////////////////////
+    [Header("Referencias")]
+    [SerializeField] private Transform slotsParent;
+    [SerializeField] private RectTransform dragLayer;
+
+    [Header("Depuración")]
+    [SerializeField] private bool debugLogs = true;
+
     private Canvas canvas;
     private Camera cam;
+    private EngimonoItem dragged;
+    private RectTransform draggedRect;
+    private Transform originalParent;
+    private int originalIndex;
+    private CanvasGroup draggedCG;
 
-    ////////////////////////////////////////////////////////////////////////////////////////////
-    // variables de control del arrastre
-    ////////////////////////////////////////////////////////////////////////////////////////////
-    private InventoryItemUI dragged;
-    private Vector2 offset;
-
-    ////////////////////////////////////////////////////////////////////////////////////////////
-    // awake inicializa referencias
-    ////////////////////////////////////////////////////////////////////////////////////////////
     private void Awake()
     {
         canvas = GetComponentInParent<Canvas>();
-        cam = canvas.worldCamera;
+        cam = canvas != null ? canvas.worldCamera : null;
+
+        if (slotsParent == null)
+        {
+            var inv = FindFirstObjectByType<EngimonosInventoryManager>();
+            if (inv != null)
+                slotsParent = inv.transform.childCount > 0 ? inv.transform.GetChild(0) : inv.transform;
+        }
+
+        if (dragLayer == null && canvas != null)
+        {
+            var go = new GameObject("DragLayer", typeof(RectTransform));
+            dragLayer = go.GetComponent<RectTransform>();
+            dragLayer.SetParent(canvas.transform, false);
+            dragLayer.SetAsLastSibling();
+        }
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////
-    // update controla cada frame el estado del mouse
-    ////////////////////////////////////////////////////////////////////////////////////////////
     private void Update()
     {
         if (Mouse.current == null) return;
 
         if (Mouse.current.leftButton.wasPressedThisFrame)
-        {
             TryBeginDrag();
-        }
 
         if (dragged != null && Mouse.current.leftButton.isPressed)
-        {
             Drag();
-        }
 
         if (Mouse.current.leftButton.wasReleasedThisFrame && dragged != null)
-        {
             Drop();
-        }
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////
-    // intenta iniciar el arrastre si se clickea sobre un item
-    ////////////////////////////////////////////////////////////////////////////////////////////
+    // === INICIAR DRAG ===
     private void TryBeginDrag()
     {
         Vector2 mousePos = Mouse.current.position.ReadValue();
+        var pointer = new PointerEventData(EventSystem.current) { position = mousePos };
+        var results = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(pointer, results);
 
-        var hits = Physics2D.RaycastAll(mousePos, Vector2.zero);
-        foreach (var hit in hits)
+        foreach (var r in results)
         {
-            var item = hit.collider?.GetComponent<InventoryItemUI>();
-            if (item != null)
+            var item = r.gameObject.GetComponent<EngimonoItem>();
+            if (item != null && item.Comprado)
             {
                 dragged = item;
-                dragged.transform.SetAsLastSibling();
+                draggedRect = item.transform as RectTransform;
 
-                RectTransformUtility.ScreenPointToLocalPointInRectangle(
-                    canvas.transform as RectTransform,
-                    mousePos,
-                    cam,
-                    out offset
-                );
-                offset -= dragged.GetComponent<RectTransform>().anchoredPosition;
+                originalParent = item.transform.parent;
+                originalIndex = item.transform.GetSiblingIndex();
+
+                draggedCG = item.GetComponent<CanvasGroup>();
+                if (draggedCG == null)
+                    draggedCG = item.gameObject.AddComponent<CanvasGroup>();
+                draggedCG.blocksRaycasts = false;
+                draggedCG.alpha = 0.9f;
+
+                if (dragLayer != null)
+                    draggedRect.SetParent(dragLayer, true);
+
+                if (debugLogs)
+                    Debug.Log($"[DragDrop] 🖐 Arrastrando '{item.Nombre}' desde {originalParent.name}");
                 return;
             }
         }
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////
-    // mueve el item mientras se arrastra
-    ////////////////////////////////////////////////////////////////////////////////////////////
+    // === DRAG ===
     private void Drag()
     {
         Vector2 mousePos = Mouse.current.position.ReadValue();
         RectTransformUtility.ScreenPointToLocalPointInRectangle(
-            canvas.transform as RectTransform,
-            mousePos,
-            cam,
-            out var pos
-        );
-        dragged.GetComponent<RectTransform>().anchoredPosition = pos - offset;
+            canvas.transform as RectTransform, mousePos, cam, out var localPoint);
+        draggedRect.anchoredPosition = localPoint;
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////
-    // suelta el item y determina donde debe quedar
-    ////////////////////////////////////////////////////////////////////////////////////////////
+    // === DROP ===
     private void Drop()
     {
-        InventorySlotUI target = FindClosestSlot(dragged);
+        if (dragged == null) return;
 
-        if (target != null)
+        Transform targetSlot = DetectarSlotBajoMouse();
+        if (targetSlot == null)
         {
-            if (target.currentItem == null)
-            {
-                MoveToSlot(dragged, target);
-            }
-            else
-            {
-                SwapItems(dragged, target.currentItem);
-            }
+            draggedRect.SetParent(originalParent, false);
+            draggedRect.SetSiblingIndex(originalIndex);
+            ResetVisual();
+            if (debugLogs) Debug.Log($"[DragDrop] ↩ Volviendo a {originalParent.name} (sin slot válido)");
+            dragged = null;
+            return;
+        }
+
+        var other = BuscarHijoEngimono(targetSlot);
+
+        if (other != null && other != dragged)
+        {
+            // Intercambio
+            var parentA = originalParent;
+            var parentB = other.transform.parent;
+
+            other.transform.SetParent(parentA, false);
+            dragged.transform.SetParent(parentB, false);
+
+            if (debugLogs)
+                Debug.Log($"[DragDrop] 🔄 Intercambio '{dragged.Nombre}' ↔ '{other.Nombre}'");
         }
         else
         {
-            SnapBack(dragged);
+            // Slot vacío → mover
+            dragged.transform.SetParent(targetSlot, false);
+            if (debugLogs)
+                Debug.Log($"[DragDrop] ✅ Movido '{dragged.Nombre}' a slot vacío '{targetSlot.name}'");
         }
 
+        ResetVisual();
         dragged = null;
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////
-    // busca el slot mas cercano al item soltado
-    ////////////////////////////////////////////////////////////////////////////////////////////
-    private InventorySlotUI FindClosestSlot(InventoryItemUI item)
+    // === DETECTAR SLOT BAJO EL CURSOR ===
+    private Transform DetectarSlotBajoMouse()
     {
-        float best = float.MaxValue;
-        InventorySlotUI bestSlot = null;
+        Vector2 mousePos = Mouse.current.position.ReadValue();
+        Transform mejorSlot = null;
+        float mejorDist = float.MaxValue;
 
-        // esto no deberia funcionar pero lo hice funcionar asi asi que mejor no tocarlo :c
-        foreach (var slot in FindObjectsByType<InventorySlotUI>(FindObjectsSortMode.None))
+        foreach (Transform slot in slotsParent)
         {
-            float dist = Vector2.Distance(item.transform.position, slot.transform.position);
-            if (dist < best)
+            var rect = slot as RectTransform;
+            if (rect == null) continue;
+
+            bool dentro = RectTransformUtility.RectangleContainsScreenPoint(rect, mousePos, cam);
+
+            if (dentro)
             {
-                best = dist;
-                bestSlot = slot;
+                if (debugLogs) Debug.Log($"[DragDrop] 🎯 Slot bajo mouse: {slot.name}");
+                return slot;
+            }
+
+            // Si no está dentro, usar la distancia al centro como fallback
+            float dist = Vector2.Distance(mousePos, RectTransformUtility.WorldToScreenPoint(cam, rect.position));
+            if (dist < mejorDist)
+            {
+                mejorDist = dist;
+                mejorSlot = slot;
             }
         }
 
-        return bestSlot;
+        if (debugLogs && mejorSlot != null)
+            Debug.Log($"[DragDrop] 🔍 Fallback slot más cercano: {mejorSlot.name} (dist={mejorDist:0.0})");
+
+        return mejorSlot;
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////
-    // mueve un item a un slot vacio
-    ////////////////////////////////////////////////////////////////////////////////////////////
-    private void MoveToSlot(InventoryItemUI item, InventorySlotUI slot)
+    // === RESET VISUAL ===
+    private void ResetVisual()
     {
-        if (item.currentSlot != null)
-            item.currentSlot.currentItem = null;
-
-        slot.currentItem = item;
-        item.currentSlot = slot;
-
-        StartCoroutine(Snap(item.GetComponent<RectTransform>(), slot.GetComponent<RectTransform>()));
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////
-    // intercambia dos items de lugar
-    ////////////////////////////////////////////////////////////////////////////////////////////
-    private void SwapItems(InventoryItemUI a, InventoryItemUI b)
-    {
-        InventorySlotUI slotA = a.currentSlot;
-        InventorySlotUI slotB = b.currentSlot;
-
-        slotA.currentItem = b;
-        b.currentSlot = slotA;
-
-        slotB.currentItem = a;
-        a.currentSlot = slotB;
-
-        StartCoroutine(Snap(a.GetComponent<RectTransform>(), slotB.GetComponent<RectTransform>()));
-        StartCoroutine(Snap(b.GetComponent<RectTransform>(), slotA.GetComponent<RectTransform>()));
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////
-    // devuelve el item a su slot original
-    ////////////////////////////////////////////////////////////////////////////////////////////
-    private void SnapBack(InventoryItemUI item)
-    {
-        StartCoroutine(Snap(item.GetComponent<RectTransform>(), item.currentSlot.transform as RectTransform));
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////
-    // animacion suave para mover el item hacia un destino
-    ////////////////////////////////////////////////////////////////////////////////////////////
-    private IEnumerator Snap(RectTransform rect, RectTransform target)
-    {
-        Vector2 start = rect.anchoredPosition;
-        Vector2 end = target.localPosition;
-        float t = 0;
-
-        while (t < 1)
+        if (draggedCG != null)
         {
-            t += Time.deltaTime * 8f;
-            rect.anchoredPosition = Vector2.Lerp(start, end, t);
-            yield return null;
+            draggedCG.blocksRaycasts = true;
+            draggedCG.alpha = 1f;
         }
 
-        rect.anchoredPosition = end;
+        if (draggedRect != null)
+        {
+            draggedRect.anchoredPosition = Vector2.zero;
+            draggedRect.localScale = Vector3.one;
+            draggedRect.localRotation = Quaternion.identity;
+        }
+
+        draggedCG = null;
+        draggedRect = null;
+    }
+
+    // === BUSCAR ENGIMONO EN SLOT ===
+    private EngimonoItem BuscarHijoEngimono(Transform slot)
+    {
+        foreach (Transform child in slot)
+        {
+            var eng = child.GetComponent<EngimonoItem>();
+            if (eng != null)
+                return eng;
+        }
+        return null;
     }
 }

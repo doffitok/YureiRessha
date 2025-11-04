@@ -3,54 +3,28 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine.UI;
 
-////////////////////////////////////////////////////////////////////////////////////////////
-// sistema de tienda
-//
-// este script se encarga de generar y actualizar los Engimonos visibles en la tienda
-// instancia dos Engimonos diferentes en los slots asignados (shopSlot01 y shopSlot02)
-// escucha el evento OnDayReset para regenerar la tienda si esta activado updateEachDay
-// ajusta la escala visual de los Engimonos segun el parametro Size
-// se asegura de limpiar los anteriores antes de generar nuevos
-// si algo no esta asignado en el inspector intenta buscarlo automaticamente
-////////////////////////////////////////////////////////////////////////////////////////////
-
 public class ShopSystem : MonoBehaviour
 {
-    ////////////////////////////////////////////////////////////////////////////////////////////
-    // referencias de objetos necesarios para la tienda
-    ////////////////////////////////////////////////////////////////////////////////////////////
     [Header("Referencias")]
     [SerializeField] private Transform shopSlot01;
     [SerializeField] private Transform shopSlot02;
     [SerializeField] private DayLogic dayLogic;
 
-    ////////////////////////////////////////////////////////////////////////////////////////////
-    // prefabs disponibles para la tienda
-    ////////////////////////////////////////////////////////////////////////////////////////////
     [Header("Prefabs disponibles para la tienda")]
     [SerializeField] private List<GameObject> availableEngimonos = new List<GameObject>();
 
-    ////////////////////////////////////////////////////////////////////////////////////////////
-    // configuracion visual del tamaño
-    ////////////////////////////////////////////////////////////////////////////////////////////
     [Header("Tamaño visual")]
     [Tooltip("Tamaño de los Engimonos (se aplica igual a X e Y)")]
     [SerializeField] private float Size = 300f;
 
-    ////////////////////////////////////////////////////////////////////////////////////////////
-    // otras configuraciones
-    ////////////////////////////////////////////////////////////////////////////////////////////
     [Header("Otras configuraciones")]
-    [SerializeField] private bool updateEachDay = true; // si esta activo regenera en ResetDay
+    [SerializeField] private bool updateEachDay = true;
 
     private const float baseSize = 300f;
 
     private GameObject currentEngimono1;
     private GameObject currentEngimono2;
 
-    ////////////////////////////////////////////////////////////////////////////////////////////
-    // awake se ejecuta antes de todo
-    ////////////////////////////////////////////////////////////////////////////////////////////
     private void Awake()
     {
         if (shopSlot01 == null) shopSlot01 = GameObject.Find("shopSlot01")?.transform;
@@ -58,14 +32,9 @@ public class ShopSystem : MonoBehaviour
         if (dayLogic == null) dayLogic = FindFirstObjectByType<DayLogic>();
 
         if (dayLogic != null)
-        {
             dayLogic.OnDayReset += OnDayReset;
-        }
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////
-    // start inicio del juego
-    ////////////////////////////////////////////////////////////////////////////////////////////
     private void Start()
     {
         if (shopSlot01 == null || shopSlot02 == null)
@@ -83,18 +52,12 @@ public class ShopSystem : MonoBehaviour
         GenerateShopItems();
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////
-    // ondestroy limpia suscripciones
-    ////////////////////////////////////////////////////////////////////////////////////////////
     private void OnDestroy()
     {
         if (dayLogic != null)
             dayLogic.OnDayReset -= OnDayReset;
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////
-    // evento de reinicio de dia
-    ////////////////////////////////////////////////////////////////////////////////////////////
     private void OnDayReset()
     {
         if (!updateEachDay) return;
@@ -103,9 +66,6 @@ public class ShopSystem : MonoBehaviour
         GenerateShopItems();
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////
-    // generar nuevos Engimonos en la tienda
-    ////////////////////////////////////////////////////////////////////////////////////////////
     public void GenerateShopItems()
     {
         if (availableEngimonos.Count == 0) return;
@@ -133,9 +93,6 @@ public class ShopSystem : MonoBehaviour
         Debug.Log($"[ShopSystem] nuevos Engimonos {prefab1.name} y {prefab2.name}");
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////
-    // ajusta la escala y transform de un Engimono
-    ////////////////////////////////////////////////////////////////////////////////////////////
     private void AdjustEngimonoTransform(GameObject go, Transform parentSlot)
     {
         if (go == null) return;
@@ -145,7 +102,6 @@ public class ShopSystem : MonoBehaviour
 
         Vector3 parentLossy = parentSlot != null ? parentSlot.lossyScale : Vector3.one;
 
-        // Unity es puto retrasado y a veces divide por 0 porque es puto retrasado asi que me asegure que no divida por 0 para que no sea un puto retrasado
         Vector3 safeParentLossy = new Vector3(
             Mathf.Approximately(parentLossy.x, 0f) ? 1f : parentLossy.x,
             Mathf.Approximately(parentLossy.y, 0f) ? 1f : parentLossy.y,
@@ -163,17 +119,16 @@ public class ShopSystem : MonoBehaviour
         go.transform.localScale = localScaleToApply;
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////
-    // refresca los componentes visuales del Engimono
-    ////////////////////////////////////////////////////////////////////////////////////////////
     private void RefrescarVisual(GameObject engimono)
     {
         if (engimono == null) return;
 
-        var shopItem = engimono.GetComponent<EngimonoShopItem>();
-        if (shopItem != null)
-            shopItem.SendMessage("ActualizarUI", SendMessageOptions.DontRequireReceiver);
+        // 🔁 Ahora usamos EngimonoItem (sistema nuevo)
+        var item = engimono.GetComponent<EngimonoItem>();
+        if (item != null)
+            item.ActualizarUI();
 
+        // Reactivar imágenes y textos por si el prefab venía desactivado
         foreach (var img in engimono.GetComponentsInChildren<Image>(true)) img.enabled = true;
 
         foreach (var txt in engimono.GetComponentsInChildren<TextMeshProUGUI>(true))

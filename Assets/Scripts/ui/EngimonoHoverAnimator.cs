@@ -28,12 +28,13 @@ public class EngimonoHoverAnimator : MonoBehaviour
 
     private void Start()
     {
-        // Animación inicial para todos los engimonos visibles
-        foreach (var rect in FindObjectsOfType<RectTransform>())
+        // Animación inicial para todos los Engimonos activos (tienda e inventario)
+        foreach (var item in FindObjectsOfType<EngimonoItem>())
         {
-            if (rect.GetComponent<EngimonoShopItem>() || rect.GetComponent<InventoryItemUI>())
+            var rect = item.GetComponent<RectTransform>();
+            if (rect != null)
             {
-                baseScales[rect.gameObject] = rect.localScale;
+                baseScales[item.gameObject] = rect.localScale;
                 StartCoroutine(SpawnPopInAnimation(rect));
             }
         }
@@ -41,7 +42,8 @@ public class EngimonoHoverAnimator : MonoBehaviour
 
     private void Update()
     {
-        if (Mouse.current == null) return;
+        if (Mouse.current == null || EventSystem.current == null)
+            return;
 
         var pointer = new PointerEventData(EventSystem.current)
         {
@@ -54,14 +56,15 @@ public class EngimonoHoverAnimator : MonoBehaviour
         GameObject hovered = null;
         foreach (var r in results)
         {
-            if (r.gameObject.GetComponent<EngimonoShopItem>() ||
-                r.gameObject.GetComponent<InventoryItemUI>())
+            // Ahora detecta cualquier objeto con EngimonoItem
+            if (r.gameObject.GetComponent<EngimonoItem>())
             {
                 hovered = r.gameObject;
                 break;
             }
         }
 
+        // Detectar cambio de hover
         if (hovered != currentHovered)
         {
             if (currentHovered != null)
@@ -76,6 +79,8 @@ public class EngimonoHoverAnimator : MonoBehaviour
 
     private IEnumerator AnimateHover(GameObject target)
     {
+        if (target == null) yield break;
+
         var rect = target.GetComponent<RectTransform>();
         if (rect == null) yield break;
 
@@ -94,7 +99,9 @@ public class EngimonoHoverAnimator : MonoBehaviour
 
     private IEnumerator AnimateReturn(GameObject target)
     {
-        var rect = target != null ? target.GetComponent<RectTransform>() : null;
+        if (target == null) yield break;
+
+        var rect = target.GetComponent<RectTransform>();
         if (rect == null) yield break;
 
         if (!baseScales.ContainsKey(target))

@@ -44,9 +44,13 @@ public class AlmanacController : MonoBehaviour
     [Header("Engimono Slots")]
     public Image[] engimonoSlots = new Image[3];
 
+    [Header("Extra Credits Text")]
+    public TextMeshProUGUI artCreditTMP; // 🆕 Texto fijo para créditos especiales
+
     private string[] currentEngimonoNames = new string[3];
     private string[] currentEngimonoDescriptions = new string[3];
     private Sprite[] currentEngimonoIcons = new Sprite[3];
+    private string[] currentEngimonoCredits = new string[3]; // 🆕 Créditos actuales por Engimono
 
     [Range(0.1f, 100f)] public float scrollSpeed = 100f;
     private List<Button> spawnedButtons = new List<Button>();
@@ -219,6 +223,12 @@ public class AlmanacController : MonoBehaviour
         if (c.engimonoIcons != null)
             currentEngimonoIcons = c.engimonoIcons;
 
+        // 🆕 Créditos por Engimono
+        if (c.engimonoCredits != null)
+            currentEngimonoCredits = c.engimonoCredits;
+        else
+            currentEngimonoCredits = new string[3];
+
         for (int i = 0; i < engimonoSlots.Length; i++)
         {
             if (i < currentEngimonoIcons.Length && currentEngimonoIcons[i] != null)
@@ -240,6 +250,9 @@ public class AlmanacController : MonoBehaviour
         if (engimonoPanel != null)
             engimonoPanel.SetActive(false);
 
+        if (artCreditTMP != null)
+            artCreditTMP.gameObject.SetActive(false); // 🆕 Limpia texto inicial
+
         for (int i = 0; i < spawnedButtons.Count; i++)
         {
             if (spawnedButtons[i] == null) continue;
@@ -259,6 +272,16 @@ public class AlmanacController : MonoBehaviour
         if (engimonoIcon != null)
             engimonoIcon.sprite = currentEngimonoIcons[index];
 
+        // 🆕 Mostrar crédito del arte adicional
+        if (artCreditTMP != null)
+        {
+            string credit = (currentEngimonoCredits != null && index < currentEngimonoCredits.Length && !string.IsNullOrEmpty(currentEngimonoCredits[index]))
+                ? $"Additional Art by: {currentEngimonoCredits[index]}"
+                : "";
+            artCreditTMP.text = credit;
+            artCreditTMP.gameObject.SetActive(!string.IsNullOrEmpty(credit));
+        }
+
         engimonoPanel.SetActive(true);
     }
 
@@ -266,6 +289,10 @@ public class AlmanacController : MonoBehaviour
     {
         if (engimonoPanel != null)
             engimonoPanel.SetActive(false);
+
+        // 🆕 Ocultar créditos al salir del engimono
+        if (artCreditTMP != null)
+            artCreditTMP.gameObject.SetActive(false);
     }
 
     void ClearDetail()

@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: KITSUITEM
   m_EditorClassIdentifier: 
   engimonoName: Teru teru bozu
-  engimonoDescription: Test
+  engimonoDescription: For each passenger that arrives at a station, it will give
+    0.2x in the rating at the end of the day.
   engimonoIcon: {fileID: 21300000, guid: e04850e17a19358439b20c2e12242814, type: 3}
   engimonoMainSprite: {fileID: 21300000, guid: e04850e17a19358439b20c2e12242814, type: 3}
   backgroundSprite: {fileID: 21300000, guid: 2baa9e41b6ea0454eb8707d7580e8702, type: 3}

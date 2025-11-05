@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: SAYOKOITEM2
   m_EditorClassIdentifier: 
   engimonoName: The Last Outfit
-  engimonoDescription: Test
+  engimonoDescription: Each time the player doesn't stop at a Station, the next interaction
+    with a passenger will be by 2x exp
   engimonoIcon: {fileID: 21300000, guid: b4b810dafca8c0d47b7e8885aa6e07e2, type: 3}
   engimonoMainSprite: {fileID: 21300000, guid: b4b810dafca8c0d47b7e8885aa6e07e2, type: 3}
   backgroundSprite: {fileID: 21300000, guid: d843f49ef6d58d347a8c5a1167bdf1f1, type: 3}

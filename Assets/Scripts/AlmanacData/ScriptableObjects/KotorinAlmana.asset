@@ -29,13 +29,18 @@ MonoBehaviour:
   buttonFontSize: 24
   engimonoNames:
   - Armored Padlock
-  - 
-  - 
+  - Lock
+  - Lock with combination
   engimonoDescriptions:
-  - 
-  - 
-  - 
+  - This lock is super heavy! In what situation you want to use one of these?!
+  - The one and good ooold lock. It's just a lock.
+  - It's a simple Combination Lock. My books said most fools keep the combination
+    no more than twenty feet away. Let's hope we find one of those fools.
   engimonoIcons:
   - {fileID: 21300000, guid: 09bba20d2f14864468aef7195bd04b32, type: 3}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 21300000, guid: 09bba20d2f14864468aef7195bd04b32, type: 3}
+  - {fileID: 21300000, guid: 09bba20d2f14864468aef7195bd04b32, type: 3}
+  engimonoCredits:
+  - 
+  - 
+  - 

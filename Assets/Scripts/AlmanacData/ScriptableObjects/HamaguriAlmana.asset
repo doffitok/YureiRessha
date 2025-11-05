@@ -28,14 +28,19 @@ MonoBehaviour:
   buttonFontSize: 24
   engimonoNames:
   - Acevichado Roll
-  - 
-  - 
+  - Goka Kenran Roll
+  - Panco Tako Ebi Roll
   engimonoDescriptions:
   - 'She is always testing new stuff... this roll is like spicy but it''s not? It''s
     delicious! '
-  - 
-  - 
+  - 'It''s a roll full of... everything! Tako, Ebi, sake.. Everything! '
+  - It's pink by some reason. I'm not here to question Hamaguri ideals but I want
+    a good reason.
   engimonoIcons:
   - {fileID: 21300000, guid: 83bba02ded33c96478b5f9e38f6ba95f, type: 3}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 21300000, guid: 83bba02ded33c96478b5f9e38f6ba95f, type: 3}
+  - {fileID: 21300000, guid: 83bba02ded33c96478b5f9e38f6ba95f, type: 3}
+  engimonoCredits:
+  - 
+  - 
+  - 

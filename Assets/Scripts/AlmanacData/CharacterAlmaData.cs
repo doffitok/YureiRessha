@@ -26,4 +26,7 @@ public class CharacterAlmaData : ScriptableObject
     public string[] engimonoNames = new string[3];
     [TextArea(2, 4)] public string[] engimonoDescriptions = new string[3];
     public Sprite[] engimonoIcons = new Sprite[3];
+
+    [Header("Créditos de Engimonos")] // 🆕
+    public string[] engimonoCredits = new string[3];
 }

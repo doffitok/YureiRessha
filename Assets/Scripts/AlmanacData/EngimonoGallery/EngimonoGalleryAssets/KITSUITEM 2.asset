@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: KITSUITEM 2
   m_EditorClassIdentifier: 
   engimonoName: 'Magic tail '
-  engimonoDescription: Test
+  engimonoDescription: Each time a you stop at a station a Ofuda will be added to
+    a random item.
   engimonoIcon: {fileID: 21300000, guid: 25304571aa9b5b44f94cd2ab9741e771, type: 3}
   engimonoMainSprite: {fileID: 21300000, guid: 25304571aa9b5b44f94cd2ab9741e771, type: 3}
   backgroundSprite: {fileID: 21300000, guid: 12f251605a7b19b48896391e281b3d85, type: 3}

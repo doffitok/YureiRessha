@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: KANAEITEM1
   m_EditorClassIdentifier: 
   engimonoName: Spiked Seat.
-  engimonoDescription: Test
+  engimonoDescription: For each change in demand this item will give you a set amount
+    of money.
   engimonoIcon: {fileID: 21300000, guid: eafa46881cd563f409293fc2fa30f4d2, type: 3}
   engimonoMainSprite: {fileID: 21300000, guid: eafa46881cd563f409293fc2fa30f4d2, type: 3}
   backgroundSprite: {fileID: 21300000, guid: 6f6505c161f8ef9418fc030f3dac8af0, type: 3}

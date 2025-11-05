@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: NOZOMIITEM 1
   m_EditorClassIdentifier: 
   engimonoName: Hammer
-  engimonoDescription: Test
+  engimonoDescription: If this item is sold, you will get +0.5 in rating. But when
+    it's held, a passenger in the train with have their requierement at mininum.
   engimonoIcon: {fileID: 21300000, guid: db556450981418449840ae1c300d46d1, type: 3}
   engimonoMainSprite: {fileID: 21300000, guid: db556450981418449840ae1c300d46d1, type: 3}
   backgroundSprite: {fileID: 21300000, guid: 06edb56590ce5bb47a0bf3a346288e78, type: 3}

@@ -30,7 +30,7 @@ MonoBehaviour:
   engimonoNames:
   - Rhytmn & Legends
   - Beyond Death
-  - 
+  - Dream Walter
   engimonoDescriptions:
   - 'A very fun game! It''s like a boss rush with music and combat mechanics! I should
     try it later today, but first I gotta fix the train! '
@@ -40,4 +40,8 @@ MonoBehaviour:
   engimonoIcons:
   - {fileID: 21300000, guid: e3f038a60ca1e0a4c919254c25c66a8d, type: 3}
   - {fileID: 21300000, guid: d347565f93663b543b193767214bb019, type: 3}
-  - {fileID: 0}
+  - {fileID: 21300000, guid: ea8f56c43254d41728f5ac4e8299b6c9, type: 3}
+  engimonoCredits:
+  - Fiorellarts
+  - Ani-Myruuu
+  - Zikuuul

@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: EBIMARUITEM2
   m_EditorClassIdentifier: 
   engimonoName: Kagami Mochi
-  engimonoDescription: Test
+  engimonoDescription: At the end of the day, the lower score in the rating will
+    be increased by 0.3 points.
   engimonoIcon: {fileID: 21300000, guid: e24dddd53863ee840abf27de199e5ad4, type: 3}
   engimonoMainSprite: {fileID: 21300000, guid: e24dddd53863ee840abf27de199e5ad4, type: 3}
   backgroundSprite: {fileID: 21300000, guid: cb5bd0146a0a632469cbeec4f4cf9cee, type: 3}

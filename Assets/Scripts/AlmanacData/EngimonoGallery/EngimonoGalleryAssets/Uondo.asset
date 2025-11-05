@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Uondo
   m_EditorClassIdentifier: 
   engimonoName: Uondo
-  engimonoDescription: Test
+  engimonoDescription: 50% of your money is added to your pocket instantly.
   engimonoIcon: {fileID: 21300000, guid: b22c68a9f3bee9b4cada44b2623f0f6a, type: 3}
   engimonoMainSprite: {fileID: 21300000, guid: b22c68a9f3bee9b4cada44b2623f0f6a, type: 3}
   backgroundSprite: {fileID: 0}

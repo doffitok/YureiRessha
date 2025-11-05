@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Mokugyo
   m_EditorClassIdentifier: 
   engimonoName: Mokugyo
-  engimonoDescription: Test
+  engimonoDescription: +0.5 rating to each passenger with a high friendship level.
   engimonoIcon: {fileID: 21300000, guid: 53787b188805abf4fb59554b690409c3, type: 3}
   engimonoMainSprite: {fileID: 21300000, guid: 53787b188805abf4fb59554b690409c3, type: 3}
   backgroundSprite: {fileID: 0}

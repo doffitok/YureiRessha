@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42345c0616838074894ae73527ecb772, type: 3}
   m_Name: Circular Economy
   m_EditorClassIdentifier: 
-  engimonoName: Circular Economy
-  engimonoDescription: Test
+  engimonoName: PAWS!
+  engimonoDescription: Each 5-10 seconds you will get a set amount of money randomly
+    in a range.
   engimonoIcon: {fileID: 21300000, guid: 6e6121a5f3b7bf24a8aee09a8076da14, type: 3}
   engimonoMainSprite: {fileID: 21300000, guid: 6e6121a5f3b7bf24a8aee09a8076da14, type: 3}
   backgroundSprite: {fileID: 21300000, guid: 6e6121a5f3b7bf24a8aee09a8076da14, type: 3}

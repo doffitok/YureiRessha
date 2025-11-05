@@ -13,8 +13,10 @@ MonoBehaviour:
   m_Name: BrokenBalance
   m_EditorClassIdentifier: 
   engimonoName: Broken Justice
-  engimonoDescription: Test
+  engimonoDescription: Each day a passenger will have their demand reduced and other
+    passenger will have theirs increased by a lot.
   engimonoIcon: {fileID: 21300000, guid: 919a8efae8dc13d4991d6813340fd5df, type: 3}
+  engimonoMainSprite: {fileID: 0}
   backgroundSprite: {fileID: 21300000, guid: 919a8efae8dc13d4991d6813340fd5df, type: 3}
   backgroundColor: {r: 1, g: 1, b: 1, a: 1}
   highlightOnHover: 1

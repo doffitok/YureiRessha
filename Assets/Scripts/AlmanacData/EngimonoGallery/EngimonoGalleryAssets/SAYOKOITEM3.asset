@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: SAYOKOITEM3
   m_EditorClassIdentifier: 
   engimonoName: The Old one
-  engimonoDescription: Test
+  engimonoDescription: Each time you stop at a station or pass it. This Engimono
+    will trigger. It has a 1 in 5 chances to delete a random Engimono in your pocket
+    line, but it will activate it 5 consecutive times.
   engimonoIcon: {fileID: 21300000, guid: 3ecc5186f8ef1a94d9069cae5f12783e, type: 3}
   engimonoMainSprite: {fileID: 21300000, guid: 3ecc5186f8ef1a94d9069cae5f12783e, type: 3}
   backgroundSprite: {fileID: 21300000, guid: f9252860067992c4586fe53870c96b37, type: 3}

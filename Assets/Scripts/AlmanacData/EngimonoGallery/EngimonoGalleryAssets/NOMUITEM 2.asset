@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42345c0616838074894ae73527ecb772, type: 3}
   m_Name: NOMUITEM 2
   m_EditorClassIdentifier: 
-  engimonoName: Yielding
-  engimonoDescription: Test
+  engimonoName: Coffee Beans
+  engimonoDescription: Increases the chances of Engimonos with Ofudas on the store
   engimonoIcon: {fileID: 21300000, guid: 7c0802559ae2c004daa20d01dcea83a0, type: 3}
   engimonoMainSprite: {fileID: 21300000, guid: 7c0802559ae2c004daa20d01dcea83a0, type: 3}
   backgroundSprite: {fileID: 21300000, guid: 3ef5714976277ca48b878f19d33e1250, type: 3}

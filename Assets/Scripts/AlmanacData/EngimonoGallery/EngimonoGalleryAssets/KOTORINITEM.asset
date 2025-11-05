@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: KOTORINITEM
   m_EditorClassIdentifier: 
   engimonoName: Armored Padlock
-  engimonoDescription: Test
+  engimonoDescription: Now a passenger will be not able to leave the train by any
+    means. Not even if it reaches their station or not.
   engimonoIcon: {fileID: 21300000, guid: 09bba20d2f14864468aef7195bd04b32, type: 3}
   engimonoMainSprite: {fileID: 21300000, guid: 09bba20d2f14864468aef7195bd04b32, type: 3}
   backgroundSprite: {fileID: 21300000, guid: 556fdeefc013f5a41b58555f940b2c13, type: 3}

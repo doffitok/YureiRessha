@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42345c0616838074894ae73527ecb772, type: 3}
   m_Name: NOMUITEM 1
   m_EditorClassIdentifier: 
-  engimonoName: Yielding
-  engimonoDescription: Test
+  engimonoName: Dad's Favorite
+  engimonoDescription: There will be a free item in the store but the other will
+    be not available for purchase.
   engimonoIcon: {fileID: 21300000, guid: 5cb9ce9709dbf0a41a5adf430664a33e, type: 3}
   engimonoMainSprite: {fileID: 21300000, guid: 5cb9ce9709dbf0a41a5adf430664a33e, type: 3}
   backgroundSprite: {fileID: 21300000, guid: 3ec0ade2b476358458c501d438fa71cb, type: 3}

@@ -21,7 +21,25 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  portraitScale: 5
+  portraitYPosition: 0
   buttonBackground: {fileID: 21300000, guid: 2798c4b8aeaf73246907a33141f41067, type: 3}
   buttonFont: {fileID: 0}
   buttonTextColor: {r: 1, g: 1, b: 1, a: 1}
   buttonFontSize: 24
+  engimonoNames:
+  - 
+  - 
+  - 
+  engimonoDescriptions:
+  - 
+  - 
+  - 
+  engimonoIcons:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  engimonoCredits:
+  - 
+  - 
+  - 

@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
-using UnityEngine.InputSystem; // ✅ Nuevo Input System
+using UnityEngine.InputSystem;
 
 public class AlmanacController : MonoBehaviour
 {
@@ -27,6 +27,12 @@ public class AlmanacController : MonoBehaviour
 
     [Header("Options")]
     public int defaultIndex = 0;
+    
+    [Header("Portrait Scale Options")]
+    public float basePortraitScale = 1f;
+
+    [Header("Portrait Position Options")]
+    public float basePortraitYPosition = 0f;
 
     [Header("Audio")]
     public AudioClip buttonSFX;
@@ -45,36 +51,39 @@ public class AlmanacController : MonoBehaviour
     public Image[] engimonoSlots = new Image[3];
 
     [Header("Extra Credits Text")]
-    public TextMeshProUGUI artCreditTMP; // 🆕 Texto fijo para créditos especiales
+    public TextMeshProUGUI artCreditTMP;
 
     private string[] currentEngimonoNames = new string[3];
     private string[] currentEngimonoDescriptions = new string[3];
     private Sprite[] currentEngimonoIcons = new Sprite[3];
-    private string[] currentEngimonoCredits = new string[3]; // 🆕 Créditos actuales por Engimono
+    private string[] currentEngimonoCredits = new string[3];
 
     [Range(0.1f, 100f)] public float scrollSpeed = 100f;
     private List<Button> spawnedButtons = new List<Button>();
 
+    // 🔥 NUEVO: Guardar la posición Y original
+    private float originalPortraitY;
+
     void Start()
     {
+        // 🔥 Guardar la posición Y original del portrait
+        if (portraitImage != null)
+        {
+            originalPortraitY = portraitImage.rectTransform.anchoredPosition.y;
+        }
+        
         GenerateCharacterButtons();
     }
 
     void Update()
     {
-        if (scrollView != null)
+        if (scrollView != null && Mouse.current != null)
         {
-            // ✅ Nuevo Input System: usamos Mouse.current.scroll
-            if (Mouse.current != null)
+            float scrollInput = Mouse.current.scroll.ReadValue().y;
+            if (Mathf.Abs(scrollInput) > 0.01f)
             {
-                float scrollInput = Mouse.current.scroll.ReadValue().y;
-
-                if (Mathf.Abs(scrollInput) > 0.01f)
-                {
-                    // Scroll positivo = arriba, negativo = abajo
-                    scrollView.verticalNormalizedPosition += scrollInput * 0.001f * scrollSpeed;
-                    scrollView.verticalNormalizedPosition = Mathf.Clamp01(scrollView.verticalNormalizedPosition);
-                }
+                scrollView.verticalNormalizedPosition += scrollInput * 0.001f * scrollSpeed;
+                scrollView.verticalNormalizedPosition = Mathf.Clamp01(scrollView.verticalNormalizedPosition);
             }
         }
     }
@@ -117,16 +126,11 @@ public class AlmanacController : MonoBehaviour
                 background.preserveAspect = true;
             }
 
-            // 🟡 TÍTULO DESACTIVADO (se quita texto del botón)
             Text label = newButton.GetComponentInChildren<Text>();
             TextMeshProUGUI labelTMP = newButton.GetComponentInChildren<TextMeshProUGUI>();
+            if (label != null) label.gameObject.SetActive(false);
+            if (labelTMP != null) labelTMP.gameObject.SetActive(false);
 
-            if (label != null)
-                label.gameObject.SetActive(false);
-            if (labelTMP != null)
-                labelTMP.gameObject.SetActive(false);
-
-            // Ícono del personaje
             Image[] imgs = newButton.GetComponentsInChildren<Image>();
             if (imgs != null && imgs.Length > 0 && c.portrait != null)
             {
@@ -139,13 +143,13 @@ public class AlmanacController : MonoBehaviour
                 }
             }
 
-            // Click del botón
             Button btn = newButton.GetComponent<Button>();
             if (btn != null)
             {
                 btn.onClick.RemoveAllListeners();
                 btn.onClick.AddListener(() => ShowCharacter(index));
-                btn.onClick.AddListener(() => {
+                btn.onClick.AddListener(() =>
+                {
                     if (audioSource != null && buttonSFX != null)
                         audioSource.PlayOneShot(buttonSFX);
                 });
@@ -184,11 +188,21 @@ public class AlmanacController : MonoBehaviour
                 portraitImage.gameObject.SetActive(true);
                 portraitImage.preserveAspect = true;
 
-                // ✅ Añade movimiento leve si no existe
                 if (portraitImage.GetComponent<PortraitFloat>() == null)
                     portraitImage.gameObject.AddComponent<PortraitFloat>();
             }
             else portraitImage.gameObject.SetActive(false);
+
+            // 🔥 ESCALA - Exactamente igual que antes
+            float scaleToUse = c.portraitScale > 0 ? c.portraitScale : basePortraitScale;
+            portraitImage.rectTransform.localScale = Vector3.one * scaleToUse;
+
+            // 🔥 POSICIÓN - Mismo sistema que la escala
+            float yPositionToUse = c.portraitYPosition; // Usar directamente el valor del personaje
+            Vector2 currentPosition = portraitImage.rectTransform.anchoredPosition;
+            portraitImage.rectTransform.anchoredPosition = new Vector2(currentPosition.x, originalPortraitY + yPositionToUse);
+
+            Debug.Log($"Personaje: {c.displayName}, Escala: {scaleToUse}, PosY: {yPositionToUse}");
         }
 
         string nameToShow = string.IsNullOrEmpty(c.displayName) ? "—" : c.displayName;
@@ -215,15 +229,12 @@ public class AlmanacController : MonoBehaviour
             }
         }
 
-        // Engimonos
         if (c.engimonoNames != null)
             currentEngimonoNames = c.engimonoNames;
         if (c.engimonoDescriptions != null)
             currentEngimonoDescriptions = c.engimonoDescriptions;
         if (c.engimonoIcons != null)
             currentEngimonoIcons = c.engimonoIcons;
-
-        // 🆕 Créditos por Engimono
         if (c.engimonoCredits != null)
             currentEngimonoCredits = c.engimonoCredits;
         else
@@ -251,7 +262,7 @@ public class AlmanacController : MonoBehaviour
             engimonoPanel.SetActive(false);
 
         if (artCreditTMP != null)
-            artCreditTMP.gameObject.SetActive(false); // 🆕 Limpia texto inicial
+            artCreditTMP.gameObject.SetActive(false);
 
         for (int i = 0; i < spawnedButtons.Count; i++)
         {
@@ -272,7 +283,6 @@ public class AlmanacController : MonoBehaviour
         if (engimonoIcon != null)
             engimonoIcon.sprite = currentEngimonoIcons[index];
 
-        // 🆕 Mostrar crédito del arte adicional
         if (artCreditTMP != null)
         {
             string credit = (currentEngimonoCredits != null && index < currentEngimonoCredits.Length && !string.IsNullOrEmpty(currentEngimonoCredits[index]))
@@ -289,8 +299,6 @@ public class AlmanacController : MonoBehaviour
     {
         if (engimonoPanel != null)
             engimonoPanel.SetActive(false);
-
-        // 🆕 Ocultar créditos al salir del engimono
         if (artCreditTMP != null)
             artCreditTMP.gameObject.SetActive(false);
     }
@@ -302,7 +310,6 @@ public class AlmanacController : MonoBehaviour
         if (titleTMP != null) titleTMP.text = "";
         if (descriptionText != null) descriptionText.text = "";
         if (descriptionTMP != null) descriptionTMP.text = "";
-
         foreach (var img in galleryImages)
             if (img != null) img.gameObject.SetActive(false);
     }

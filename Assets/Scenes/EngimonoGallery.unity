@@ -238,6 +238,7 @@ MonoBehaviour:
   relojManecilla: {fileID: 0}
   relojRotacionCompleta: 360
   relojInvertido: 0
+  textoDia: {fileID: 0}
 --- !u!4 &76587299
 Transform:
   m_ObjectHideFlags: 0
@@ -1344,6 +1345,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 21f3d3d06220a8747af08bf5db4e90f9, type: 2}
   - {fileID: 11400000, guid: b2969b5c7ca5a3542a86706d250120a9, type: 2}
   - {fileID: 11400000, guid: fce7f2bd92be39a468ac0032ed4a5f3d, type: 2}
+  - {fileID: 11400000, guid: ac54f0f446484ed49b644e6a3769d933, type: 2}
+  - {fileID: 11400000, guid: 3c78728a14fe705428de141687cb9516, type: 2}
   - {fileID: 11400000, guid: 2bbb642b21979824082cbebe953b9a52, type: 2}
   - {fileID: 11400000, guid: e5c9e5f6729c6094e8fe970e5fdd039c, type: 2}
   - {fileID: 11400000, guid: 0386c47c16808b9418495726da4fc0b1, type: 2}
@@ -3517,7 +3520,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 562f88a390bb45c4997029f7a309d42e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uiDocument: {fileID: 1594326482}
 --- !u!114 &1594326487
 MonoBehaviour:
   m_ObjectHideFlags: 0

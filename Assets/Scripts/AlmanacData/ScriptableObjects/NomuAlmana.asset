@@ -40,6 +40,6 @@ MonoBehaviour:
   - A little stylish flourish by spinning the tamper on the coffee puck for a Smooth
     surface
   engimonoIcons:
-  - {fileID: 21300000, guid: ea8f56c43254d41728f5ac4e8299b6c9, type: 3}
+  - {fileID: 21300000, guid: 7c0802559ae2c004daa20d01dcea83a0, type: 3}
   - {fileID: 21300000, guid: 72ce4421b1d02094397256799c0f94c7, type: 3}
-  - {fileID: 21300000, guid: ea8f56c43254d41728f5ac4e8299b6c9, type: 3}
+  - {fileID: 21300000, guid: 5cb9ce9709dbf0a41a5adf430664a33e, type: 3}

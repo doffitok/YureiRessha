@@ -31,6 +31,10 @@ public class EndscreenResults : MonoBehaviour
     [SerializeField] private float duracionMaximaIngresos = 8f;
     [Range(0f, 1f)] [SerializeField] private float porcentajeEscalaFinalIngresos = 0.5f;
 
+    [Header("Rebote final de Ingresos")]
+    [SerializeField] private float reboteEscalaFactor = 0.9f; // 🔹 cuánto se encoge (0.9 = 90%)
+    [SerializeField] private float reboteDuracion = 0.25f;    // 🔹 duración del rebote
+
     [Header("Animación de Balance")]
     [SerializeField] private float duracionAleatoriaBalance = 3f;
     [SerializeField] private float rangoBalanceAleatorio = 3000f;
@@ -41,7 +45,6 @@ public class EndscreenResults : MonoBehaviour
     private EstadoPantalla estadoActual = EstadoPantalla.Inactiva;
     private bool skipSolicitado = false;
 
-    // Guardamos la escala original de cada texto
     private Vector3 escalaBaseIngresos;
     private Vector3 escalaBaseImpuestos;
     private Vector3 escalaBaseBalance;
@@ -62,7 +65,6 @@ public class EndscreenResults : MonoBehaviour
         if (panelResultados != null)
             panelResultados.SetActive(false);
 
-        // Guardar escalas iniciales
         if (textoIngresos != null) escalaBaseIngresos = textoIngresos.rectTransform.localScale;
         if (textoImpuestos != null) escalaBaseImpuestos = textoImpuestos.rectTransform.localScale;
         if (textoBalance != null) escalaBaseBalance = textoBalance.rectTransform.localScale;
@@ -79,7 +81,6 @@ public class EndscreenResults : MonoBehaviour
 
     private void Update()
     {
-        // ✅ Compatible con el nuevo Input System
         if (panelResultados != null && panelResultados.activeSelf &&
             Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
         {
@@ -107,19 +108,19 @@ public class EndscreenResults : MonoBehaviour
         if (textoIngresos != null)
         {
             textoIngresos.text = string.Empty;
-            textoIngresos.rectTransform.localScale = escalaBaseIngresos; // 🔁 restaurar escala
+            textoIngresos.rectTransform.localScale = escalaBaseIngresos;
         }
 
         if (textoImpuestos != null)
         {
             textoImpuestos.text = string.Empty;
-            textoImpuestos.rectTransform.localScale = escalaBaseImpuestos; // 🔁 restaurar escala
+            textoImpuestos.rectTransform.localScale = escalaBaseImpuestos;
         }
 
         if (textoBalance != null)
         {
             textoBalance.text = string.Empty;
-            textoBalance.rectTransform.localScale = escalaBaseBalance; // 🔁 restaurar escala
+            textoBalance.rectTransform.localScale = escalaBaseBalance;
         }
 
         Debug.Log("[EndscreenResults] 🔄 Día reiniciado: pantalla de resultados oculta y escalas restauradas.");
@@ -139,35 +140,20 @@ public class EndscreenResults : MonoBehaviour
 
         yield return new WaitForSeconds(delayInicio);
 
-        //───────────────────────────────────────────────
-        // 1️⃣ Calcular resultados reales
-        //───────────────────────────────────────────────
         goalsManager.CalcularResultadosDia(dayLogic.currentDay);
         float ingresos = goalsManager.GetIngresosFinales();
         float impuestos = goalsManager.GetImpuestosFinales();
         float balance = goalsManager.GetBalanceFinal();
 
-        //───────────────────────────────────────────────
-        // 2️⃣ Mostrar grupos uno por uno (clic = mostrar todos)
-        //───────────────────────────────────────────────
         estadoActual = EstadoPantalla.MostrandoGrupos;
         yield return StartCoroutine(AparecerGrupos(impuestos));
 
-        //───────────────────────────────────────────────
-        // 3️⃣ Animar ingresos (clic = saltar animación)
-        //───────────────────────────────────────────────
         estadoActual = EstadoPantalla.MostrandoIngresos;
         yield return StartCoroutine(AnimarNumeroConEscala(textoIngresos, ingresos));
 
-        //───────────────────────────────────────────────
-        // 4️⃣ Animar balance (clic = saltar animación)
-        //───────────────────────────────────────────────
         estadoActual = EstadoPantalla.MostrandoBalance;
         yield return StartCoroutine(AnimarBalanceAleatorio(textoBalance, balance));
 
-        //───────────────────────────────────────────────
-        // 5️⃣ Fin
-        //───────────────────────────────────────────────
         estadoActual = EstadoPantalla.Finalizada;
         yield return new WaitForSeconds(delayAntesDeCalcular);
 
@@ -175,9 +161,6 @@ public class EndscreenResults : MonoBehaviour
         Debug.Log("[EndscreenResults] 🎬 Secuencia completada.");
     }
 
-    //───────────────────────────────────────────────
-    //  Aparecer los grupos (con skip)
-    //───────────────────────────────────────────────
     private IEnumerator AparecerGrupos(float impuestos)
     {
         skipSolicitado = false;
@@ -229,7 +212,7 @@ public class EndscreenResults : MonoBehaviour
     }
 
     //───────────────────────────────────────────────
-    //  Animación de ingresos (conteo + escala + skip)
+    //  Animación de ingresos con rebote final
     //───────────────────────────────────────────────
     private IEnumerator AnimarNumeroConEscala(TextMeshProUGUI texto, float objetivo)
     {
@@ -240,7 +223,9 @@ public class EndscreenResults : MonoBehaviour
         float tiempo = 0f;
         Vector3 escalaBase = escalaBaseIngresos;
         float escalaFinalExtra = escalaExtra * porcentajeEscalaFinalIngresos;
+        Vector3 escalaFinal = escalaBase * (1f + escalaFinalExtra);
 
+        // Fase de conteo + escala ascendente
         while (tiempo < duracionFinal && !skipSolicitado)
         {
             tiempo += Time.deltaTime;
@@ -251,14 +236,23 @@ public class EndscreenResults : MonoBehaviour
             yield return null;
         }
 
-        texto.rectTransform.localScale = escalaBase * (1f + escalaFinalExtra);
+        // Rebote final (encoge → escala final)
+        float t = 0f;
+        Vector3 escalaMenor = escalaFinal * reboteEscalaFactor;
+        while (t < 1f)
+        {
+            t += Time.deltaTime / reboteDuracion;
+            float curva = Mathf.SmoothStep(0f, 1f, t);
+            texto.rectTransform.localScale = Vector3.Lerp(escalaMenor, escalaFinal, curva);
+            yield return null;
+        }
+
         texto.text = $"¥{objetivo:N0}";
+        texto.rectTransform.localScale = escalaFinal;
+
         yield return EsperarConSkip(tiempoEntreAnimaciones);
     }
 
-    //───────────────────────────────────────────────
-    //  Animación de balance (aleatorio + escala + skip)
-    //───────────────────────────────────────────────
     private IEnumerator AnimarBalanceAleatorio(TextMeshProUGUI texto, float balanceReal)
     {
         skipSolicitado = false;
@@ -277,7 +271,6 @@ public class EndscreenResults : MonoBehaviour
             yield return new WaitForSeconds(intervalo);
         }
 
-        // Vuelta suave a la escala original
         float tRegreso = 0f;
         while (tRegreso < 1f)
         {
@@ -291,9 +284,6 @@ public class EndscreenResults : MonoBehaviour
         texto.text = $"¥{balanceReal:N0}";
     }
 
-    //───────────────────────────────────────────────
-    //  Helper para pausas que se pueden adelantar
-    //───────────────────────────────────────────────
     private IEnumerator EsperarConSkip(float segundos)
     {
         float tiempo = 0f;

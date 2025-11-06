@@ -1852,7 +1852,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Debugger
+  m_text: Degrabber
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1984,7 +1984,7 @@ MonoBehaviour:
   multiplicadorCrecimiento: 0.1
   deudaExtraMin: 350
   deudaExtraMax: 2500
-  useGuaranteedLuckZones: 1
+  useGuaranteedLuckZones: 0
   suerteAltaGarantizada: 75
   suerteBajaGarantizada: 15
 --- !u!114 &289786442
@@ -2016,6 +2016,8 @@ MonoBehaviour:
   escalaExtra: 1.04
   duracionMaximaIngresos: 12
   porcentajeEscalaFinalIngresos: 0.5
+  reboteEscalaFactor: 0.9
+  reboteDuracion: 0.25
   duracionAleatoriaBalance: 3
   rangoBalanceAleatorio: 9999999
   escalaBalanceDuranteAnimacion: 0.4
@@ -8489,7 +8491,7 @@ MonoBehaviour:
   toggleClickTarget: {fileID: 285993646}
   panelContenido: {fileID: 1808375858}
   empiezaAbierto: 0
-  dragSmooth: 10
+  dragSmooth: 2
 --- !u!114 &1827130560
 MonoBehaviour:
   m_ObjectHideFlags: 0

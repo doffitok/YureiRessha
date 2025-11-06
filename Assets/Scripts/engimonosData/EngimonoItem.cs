@@ -10,7 +10,7 @@ public class EngimonoItem : MonoBehaviour, IPointerClickHandler
     [Header("Datos del Engimono")]
     public string ID = "default_id";
     public string Nombre = "Nuevo Engimono";
-    [TextArea(2, 5)] public string Descripcion = "Descripción genérica del Engimono.";
+    [TextArea(2, 5)] public string Descripcion = "Descripcion generica del Engimono.";
     public Sprite Icono;
     public int PrecioCompra = 500;
     public int PrecioVenta = 250;
@@ -19,7 +19,7 @@ public class EngimonoItem : MonoBehaviour, IPointerClickHandler
     [Header("Referencias UI")]
     [SerializeField] private Image iconoUI;
     [SerializeField] private TextMeshProUGUI nombreTexto;
-    [SerializeField] private TextMeshProUGUI precioTexto;
+    [SerializeField] private TextMeshProUGUI precioTexto; // Se vincula a shopSlotPricetag/shopSlotPrice
 
     [Header("Sistemas externos")]
     [SerializeField] private GameStats gameStats;
@@ -30,6 +30,15 @@ public class EngimonoItem : MonoBehaviour, IPointerClickHandler
         if (gameStats == null) gameStats = FindFirstObjectByType<GameStats>();
         if (inventory == null) inventory = FindFirstObjectByType<EngimonosInventoryManager>();
         if (iconoUI == null) iconoUI = ResolverImageDeIcono();
+
+        // 🔹 Vincular automáticamente el texto del precio si no se asignó manualmente
+        if (precioTexto == null)
+        {
+            var priceObj = transform.Find("shopSlotPricetag/shopSlotPrice");
+            if (priceObj != null)
+                precioTexto = priceObj.GetComponent<TextMeshProUGUI>();
+        }
+
         ActualizarUI();
     }
 
@@ -75,7 +84,7 @@ public class EngimonoItem : MonoBehaviour, IPointerClickHandler
         // 4️⃣ Actualizar visual
         ActualizarUI();
 
-        Debug.Log($"[{Nombre}] 🛍️ Has comprado este engimono correctamente.");
+        Debug.Log($"[{Nombre}] 🛍️ Has comprado este engimono correctamente por ¥{PrecioCompra:N0}.");
 
         // 5️⃣ Eliminar el original de la tienda
         Destroy(gameObject);
@@ -94,7 +103,16 @@ public class EngimonoItem : MonoBehaviour, IPointerClickHandler
             nombreTexto.text = Nombre;
 
         if (precioTexto != null)
-            precioTexto.text = Comprado ? "" : $"¥{PrecioCompra:N0}";
+        {
+            if (Comprado)
+            {
+                precioTexto.text = "";
+            }
+            else
+            {
+                precioTexto.text = $"¥{PrecioCompra:N0}";
+            }
+        }
     }
 
     // Crea la copia visual en el inventario

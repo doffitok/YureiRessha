@@ -4,24 +4,18 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 ////////////////////////////////////////////////////////////////////////////////////////////
-// DebuggerMenu
+// DebuggerMenu — versión final sin límite de tiempo
 //
-// Debugger retráctil y arrastrable con control de día, estadísticas y toggle de dinero infinito.
+// Permite mover el slider hasta maxSeconds y mantiene el tiempo corriendo correctamente.
 ////////////////////////////////////////////////////////////////////////////////////////////
 
 [DisallowMultipleComponent]
 public class DebuggerMenu : MonoBehaviour, IPointerDownHandler, IDragHandler
 {
-    ////////////////////////////////////////////////////////////////////////////////////////////
-    // referencias principales
-    ////////////////////////////////////////////////////////////////////////////////////////////
     [Header("Referencias principales")]
     [SerializeField] private DayLogic dayLogic;
     [SerializeField] private GameStats gameStats;
 
-    ////////////////////////////////////////////////////////////////////////////////////////////
-    // UI del Debugger (control del día)
-    ////////////////////////////////////////////////////////////////////////////////////////////
     [Header("Control del día")]
     [SerializeField] private TextMeshProUGUI diaActualText;
     [SerializeField] private Button botonDiaMas;
@@ -29,9 +23,6 @@ public class DebuggerMenu : MonoBehaviour, IPointerDownHandler, IDragHandler
     [SerializeField] private Button botonReiniciarDia;
     [SerializeField] private Slider sliderTiempo;
 
-    ////////////////////////////////////////////////////////////////////////////////////////////
-    // UI del Debugger (estadísticas)
-    ////////////////////////////////////////////////////////////////////////////////////////////
     [Header("Campos de edición de estadísticas base")]
     [SerializeField] private TMP_InputField inputDinero;
     [SerializeField] private TMP_InputField inputRating;
@@ -44,42 +35,24 @@ public class DebuggerMenu : MonoBehaviour, IPointerDownHandler, IDragHandler
     [Header("Dinero infinito")]
     [SerializeField] private Toggle toggleDineroInfinito;
 
-    ////////////////////////////////////////////////////////////////////////////////////////////
-    // retráctil y arrastrable
-    ////////////////////////////////////////////////////////////////////////////////////////////
     [Header("Retráctil y arrastrable")]
-    [Tooltip("Cualquier objeto clickeable que actuará como interruptor de abrir/cerrar.")]
     [SerializeField] private GameObject toggleClickTarget;
-
-    [Tooltip("Panel del contenido del debugger (lo que se oculta/muestra)")]
     [SerializeField] private GameObject panelContenido;
-
-    [Tooltip("¿El debugger comienza visible?")]
     [SerializeField] private bool empiezaAbierto = true;
-
-    [Tooltip("Velocidad del movimiento cuando se arrastra el panel")]
     [SerializeField] private float dragSmooth = 10f;
 
-    ////////////////////////////////////////////////////////////////////////////////////////////
-    // control interno
-    ////////////////////////////////////////////////////////////////////////////////////////////
     private RectTransform rectTransform;
     private Canvas canvas;
     private bool menuVisible;
     private Vector2 dragOffset;
     private Vector2 targetPosition;
 
-    private const int MAX_DINERO = 2147483640; // límite seguro de dinero
+    private const int MAX_DINERO = 2147483640;
 
-    ////////////////////////////////////////////////////////////////////////////////////////////
-    // inicio
-    ////////////////////////////////////////////////////////////////////////////////////////////
     private void Start()
     {
         rectTransform = GetComponent<RectTransform>();
         canvas = GetComponentInParent<Canvas>();
-
-        // Inicializar posición base para evitar salto visual
         targetPosition = rectTransform.anchoredPosition;
 
         if (dayLogic == null)
@@ -87,24 +60,21 @@ public class DebuggerMenu : MonoBehaviour, IPointerDownHandler, IDragHandler
         if (gameStats == null)
             gameStats = FindFirstObjectByType<GameStats>();
 
-        // Conectar botones
+        // Botones
         if (botonDiaMas != null) botonDiaMas.onClick.AddListener(() => CambiarDia(1));
         if (botonDiaMenos != null) botonDiaMenos.onClick.AddListener(() => CambiarDia(-1));
         if (botonReiniciarDia != null) botonReiniciarDia.onClick.AddListener(ReiniciarDia);
 
-        // Asignar evento de click al objeto toggle
+        // Toggle de apertura
         if (toggleClickTarget != null)
         {
-            EventTrigger trigger = toggleClickTarget.GetComponent<EventTrigger>();
-            if (trigger == null)
-                trigger = toggleClickTarget.AddComponent<EventTrigger>();
-
+            EventTrigger trigger = toggleClickTarget.GetComponent<EventTrigger>() ?? toggleClickTarget.AddComponent<EventTrigger>();
             var entry = new EventTrigger.Entry { eventID = EventTriggerType.PointerClick };
             entry.callback.AddListener((_) => ToggleMenu());
             trigger.triggers.Add(entry);
         }
 
-        // Slider dinámico
+        // Slider
         if (sliderTiempo != null && dayLogic != null)
         {
             sliderTiempo.minValue = 0;
@@ -113,7 +83,7 @@ public class DebuggerMenu : MonoBehaviour, IPointerDownHandler, IDragHandler
             sliderTiempo.onValueChanged.AddListener(OnSliderTiempoCambiado);
         }
 
-        // Inicializar inputs
+        // Inputs
         if (gameStats != null)
         {
             if (inputDinero != null) inputDinero.text = gameStats.dinero.ToString();
@@ -121,16 +91,13 @@ public class DebuggerMenu : MonoBehaviour, IPointerDownHandler, IDragHandler
             if (inputSuerte != null) inputSuerte.text = gameStats.suerte.ToString();
         }
 
-        // Validaciones
         if (inputDinero != null) inputDinero.onEndEdit.AddListener(OnDineroCambiado);
         if (inputRating != null) inputRating.onEndEdit.AddListener(OnRatingCambiado);
         if (inputSuerte != null) inputSuerte.onEndEdit.AddListener(OnSuerteCambiado);
 
-        // Toggle dinero infinito
         if (toggleDineroInfinito != null)
             toggleDineroInfinito.onValueChanged.AddListener(OnToggleDineroInfinito);
 
-        // Estado inicial
         menuVisible = empiezaAbierto;
         if (panelContenido != null)
             panelContenido.SetActive(menuVisible);
@@ -151,7 +118,6 @@ public class DebuggerMenu : MonoBehaviour, IPointerDownHandler, IDragHandler
             sliderTiempo.value = dayLogic.currentSecond;
         }
 
-        // Si el toggle de dinero infinito está activado, mantener el dinero al máximo
         if (toggleDineroInfinito != null && toggleDineroInfinito.isOn && gameStats != null)
         {
             gameStats.dinero = MAX_DINERO;
@@ -169,9 +135,9 @@ public class DebuggerMenu : MonoBehaviour, IPointerDownHandler, IDragHandler
         }
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////
-    // metodos de control del día
-    ////////////////////////////////////////////////////////////////////////////////////////////
+    //───────────────────────────────────────────────────────────────
+    // Control del día
+    //───────────────────────────────────────────────────────────────
     private void CambiarDia(int delta)
     {
         if (dayLogic == null) return;
@@ -179,7 +145,6 @@ public class DebuggerMenu : MonoBehaviour, IPointerDownHandler, IDragHandler
         int nuevoDia = Mathf.Max(1, dayLogic.currentDay + delta);
         var field = typeof(DayLogic).GetField("<currentDay>k__BackingField",
             System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-
         field?.SetValue(dayLogic, nuevoDia);
         ActualizarTextoDia();
     }
@@ -196,9 +161,22 @@ public class DebuggerMenu : MonoBehaviour, IPointerDownHandler, IDragHandler
     {
         if (dayLogic == null) return;
 
+        // 🧩 Ahora puede llegar hasta maxSeconds sin restar 2
         int segundos = Mathf.RoundToInt(valor);
-        segundos = Mathf.Clamp(segundos, 0, Mathf.Max(0, dayLogic.maxSeconds - 2));
+        segundos = Mathf.Clamp(segundos, 0, dayLogic.maxSeconds);
         dayLogic.SetCurrentSecond(segundos);
+
+        // 🔧 Sincronizar el timer privado del DayLogic
+        var timerField = typeof(DayLogic).GetField("timer",
+            System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+        if (timerField != null)
+            timerField.SetValue(dayLogic, (float)segundos);
+
+        // Mantener el día corriendo si ya estaba en ejecución
+        var isRunningField = typeof(DayLogic).GetField("isRunning",
+            System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+        if (isRunningField != null && (bool)isRunningField.GetValue(dayLogic))
+            isRunningField.SetValue(dayLogic, true);
     }
 
     private void ActualizarTextoDia()
@@ -207,9 +185,9 @@ public class DebuggerMenu : MonoBehaviour, IPointerDownHandler, IDragHandler
             diaActualText.text = $"Día actual: {dayLogic.currentDay}";
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////
-    // edición de estadísticas
-    ////////////////////////////////////////////////////////////////////////////////////////////
+    //───────────────────────────────────────────────────────────────
+    // Edición de estadísticas
+    //───────────────────────────────────────────────────────────────
     private void OnDineroCambiado(string value)
     {
         if (gameStats == null || inputDinero == null) return;
@@ -231,7 +209,6 @@ public class DebuggerMenu : MonoBehaviour, IPointerDownHandler, IDragHandler
     private void OnRatingCambiado(string value)
     {
         if (gameStats == null || inputRating == null) return;
-
         if (int.TryParse(value, out int nuevoValor))
         {
             nuevoValor = Mathf.Clamp(nuevoValor, 0, 100);
@@ -244,12 +221,11 @@ public class DebuggerMenu : MonoBehaviour, IPointerDownHandler, IDragHandler
     private void OnSuerteCambiado(string value)
     {
         if (gameStats == null || inputSuerte == null) return;
-
         if (int.TryParse(value, out int nuevoValor))
         {
             nuevoValor = Mathf.Clamp(nuevoValor, 0, 100);
             gameStats.suerte = nuevoValor;
-            inputSuerte.text = nuevoValor.ToString();
+            inputSuerte.text = gameStats.suerte.ToString();
         }
         else inputSuerte.text = gameStats.suerte.ToString();
     }
@@ -264,9 +240,9 @@ public class DebuggerMenu : MonoBehaviour, IPointerDownHandler, IDragHandler
             textoRatingActual.text = $"Rating total: {gameStats.GetRatingTotal()}";
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////
-    // toggle dinero infinito
-    ////////////////////////////////////////////////////////////////////////////////////////////
+    //───────────────────────────────────────────────────────────────
+    // Dinero infinito
+    //───────────────────────────────────────────────────────────────
     private void OnToggleDineroInfinito(bool activo)
     {
         if (activo && gameStats != null)
@@ -277,9 +253,9 @@ public class DebuggerMenu : MonoBehaviour, IPointerDownHandler, IDragHandler
         }
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////
-    // apertura / cierre del panel
-    ////////////////////////////////////////////////////////////////////////////////////////////
+    //───────────────────────────────────────────────────────────────
+    // Retráctil y arrastre
+    //───────────────────────────────────────────────────────────────
     private void ToggleMenu()
     {
         if (panelContenido == null) return;
@@ -288,9 +264,6 @@ public class DebuggerMenu : MonoBehaviour, IPointerDownHandler, IDragHandler
         Debug.Log($"[DebuggerMenu] Panel {(menuVisible ? "abierto" : "cerrado")}.");
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////
-    // arrastre del panel
-    ////////////////////////////////////////////////////////////////////////////////////////////
     public void OnPointerDown(PointerEventData eventData)
     {
         if (canvas == null) return;
@@ -306,7 +279,6 @@ public class DebuggerMenu : MonoBehaviour, IPointerDownHandler, IDragHandler
     public void OnDrag(PointerEventData eventData)
     {
         if (canvas == null) return;
-
         Vector2 localPoint;
         if (RectTransformUtility.ScreenPointToLocalPointInRectangle(
             canvas.transform as RectTransform,

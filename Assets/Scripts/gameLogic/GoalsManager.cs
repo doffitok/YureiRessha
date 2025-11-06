@@ -1,5 +1,4 @@
 using UnityEngine;
-using TMPro;
 
 [DisallowMultipleComponent]
 public class GoalsManager : MonoBehaviour
@@ -7,11 +6,6 @@ public class GoalsManager : MonoBehaviour
     [Header("Referencias principales")]
     [SerializeField] private DayLogic dayLogic;
     [SerializeField] private GameStats gameStats;
-
-    [Header("Textos dinámicos (UI)")]
-    [SerializeField] private TextMeshProUGUI textoIngresos;
-    [SerializeField] private TextMeshProUGUI textoImpuestos;
-    [SerializeField] private TextMeshProUGUI textoBalance;
 
     [Header("Configuración de impuestos")]
     public float impuestoBase = 10245f;
@@ -28,8 +22,16 @@ public class GoalsManager : MonoBehaviour
     [Range(0, 100)] public float suerteAltaGarantizada = 75f;
     [Range(0, 100)] public float suerteBajaGarantizada = 15f;
 
+    //───────────────────────────────────────────────────────────────
+    // Variables internas
+    //───────────────────────────────────────────────────────────────
     private int ultimoDiaCalculado = -1;
     private float impuestoFinal;
+    private float ultimoBalance;
+    private float ultimosIngresos;
+
+    // Flag de control para evitar múltiples cierres
+    private bool cierreAplicado = false;
 
     private void Start()
     {
@@ -38,98 +40,94 @@ public class GoalsManager : MonoBehaviour
         if (gameStats == null)
             gameStats = FindFirstObjectByType<GameStats>();
 
-        Debug.Log("[GoalsManager] Iniciado (lee la suerte máxima directamente desde GameStats).");
+        Debug.Log("[GoalsManager] Iniciado (modo cálculo puro).");
     }
 
-    private void Update()
+    //───────────────────────────────────────────────────────────────
+    // Cálculo principal del día
+    //───────────────────────────────────────────────────────────────
+    public void CalcularResultadosDia(int diaActual)
     {
-        if (gameStats == null || dayLogic == null) return;
+        if (gameStats == null) return;
 
-        int diaActual = dayLogic.currentDay;
+        cierreAplicado = false; // reset del cierre final
+
         float ingresos = gameStats.GetDineroTotal();
+        ultimosIngresos = ingresos;
 
-        if (diaActual != ultimoDiaCalculado)
+        float exponente = exponenteInicial + incrementoExponentePorDia * (diaActual - 1);
+        float crecimiento = Mathf.Pow(impuestoBase, exponente) * multiplicadorCrecimiento;
+        float impuestoBaseCrecido = impuestoBase + crecimiento;
+
+        int suerteTotal = gameStats.GetSuerteTotal();
+        float suerteMaximaGlobal = gameStats.GetSuerteMaximaTotal();
+        if (suerteMaximaGlobal <= 0f) suerteMaximaGlobal = 1f;
+
+        float suerteNorm = Mathf.Clamp01(suerteTotal / suerteMaximaGlobal);
+        float porcentajeSuerte = suerteNorm * 100f;
+
+        float deudaBase = deudaExtraMin + (deudaExtraMax - deudaExtraMin) * suerteNorm;
+        deudaBase += Random.Range(-(deudaExtraMax - deudaExtraMin) * 0.15f, (deudaExtraMax - deudaExtraMin) * 0.15f);
+        deudaBase = Mathf.Clamp(deudaBase, deudaExtraMin, deudaExtraMax);
+
+        bool restaDeuda;
+        if (useGuaranteedLuckZones)
         {
-            ultimoDiaCalculado = diaActual;
-
-            // === 1. Calcular exponente del día ===
-            float exponente = exponenteInicial + incrementoExponentePorDia * (diaActual - 1);
-
-            // === 2. Crecimiento exponencial ===
-            float crecimiento = Mathf.Pow(impuestoBase, exponente) * multiplicadorCrecimiento;
-            float impuestoBaseCrecido = impuestoBase + crecimiento;
-
-            // === 3. Obtener suerte total y máxima directamente desde GameStats ===
-            int suerteTotal = gameStats.GetSuerteTotal();
-            float suerteMaximaGlobal = gameStats.GetSuerteMaximaTotal(); // 👈 Nueva función que debes tener en GameStats
-            if (suerteMaximaGlobal <= 0f) suerteMaximaGlobal = 1f;
-
-            float suerteNorm = Mathf.Clamp01(suerteTotal / suerteMaximaGlobal);
-            float porcentajeSuerte = suerteNorm * 100f;
-
-            // === 4. Calcular deuda base según suerte ===
-            float deudaBase = deudaExtraMin + (deudaExtraMax - deudaExtraMin) * suerteNorm;
-            deudaBase += Random.Range(-(deudaExtraMax - deudaExtraMin) * 0.15f, (deudaExtraMax - deudaExtraMin) * 0.15f);
-            deudaBase = Mathf.Clamp(deudaBase, deudaExtraMin, deudaExtraMax);
-
-            // === 5. Determinar signo de la deuda ===
-            bool restaDeuda = false;
-            string motivoSuerte = "";
-
-            if (useGuaranteedLuckZones)
-            {
-                if (porcentajeSuerte >= suerteAltaGarantizada)
-                {
-                    restaDeuda = true;
-                    motivoSuerte = "garantía de buena suerte";
-                }
-                else if (porcentajeSuerte <= suerteBajaGarantizada)
-                {
-                    restaDeuda = false;
-                    motivoSuerte = "garantía de mala suerte";
-                }
-                else
-                {
-                    restaDeuda = Random.value < suerteNorm;
-                    motivoSuerte = $"azar normal ({suerteNorm * 100f:F0}% chance de restar)";
-                }
-            }
+            if (porcentajeSuerte >= suerteAltaGarantizada)
+                restaDeuda = true;
+            else if (porcentajeSuerte <= suerteBajaGarantizada)
+                restaDeuda = false;
             else
-            {
                 restaDeuda = Random.value < suerteNorm;
-                motivoSuerte = $"azar normal ({suerteNorm * 100f:F0}% chance de restar)";
-            }
-
-            // === 6. Aplicar signo y calcular impuesto final ===
-            float deudaFinal = restaDeuda ? -deudaBase : deudaBase;
-            impuestoFinal = Mathf.Max(0f, impuestoBaseCrecido + deudaFinal);
-
-            // === 7. Log detallado ===
-            Debug.Log(
-                $"[GoalsManager] Día {diaActual}\n" +
-                $"---------------------------------\n" +
-                $"• Exponente usado: {exponente:F3}\n" +
-                $"• Crecimiento base: {crecimiento:F2}\n" +
-                $"• Impuesto base crecido: {impuestoBaseCrecido:F2}\n" +
-                $"• Suerte total: {suerteTotal} / {suerteMaximaGlobal} ({porcentajeSuerte:F1}%)\n" +
-                $"• Deuda base generada: {deudaBase:F2}\n" +
-                $"• Resultado: {(restaDeuda ? "RESTA" : "SUMA")} ({motivoSuerte})\n" +
-                $"• Deuda final aplicada: {(restaDeuda ? "-" : "+")}{Mathf.Abs(deudaBase):F2}\n" +
-                $"• Impuesto final calculado: {impuestoFinal:F2}\n"
-            );
         }
+        else
+            restaDeuda = Random.value < suerteNorm;
 
-        // === 8. Actualizar UI ===
-        if (textoIngresos != null)
-            textoIngresos.text = $"{ingresos:N0}";
+        float deudaFinal = restaDeuda ? -deudaBase : deudaBase;
+        impuestoFinal = Mathf.Max(0f, impuestoBaseCrecido + deudaFinal);
 
-        if (textoImpuestos != null)
-            textoImpuestos.text = $"{impuestoFinal:N0}";
+        ultimoBalance = ingresos - impuestoFinal;
+        ultimoDiaCalculado = diaActual;
 
-        if (textoBalance != null)
-        {
-            float balanceVisible = ingresos - impuestoFinal;
-            textoBalance.text = $"{balanceVisible:N0}";
-        }
+        Debug.Log($"[GoalsManager] Día {diaActual} terminado → Ingresos: {ingresos:F0}, Impuestos: {impuestoFinal:F0}, Balance: {ultimoBalance:F0}");
     }
+
+    //───────────────────────────────────────────────────────────────
+    // Cierre final: aplica resultados, guarda, desbloquea continuar
+    //───────────────────────────────────────────────────────────────
+    public void IniciarCierreFinal()
+    {
+        if (gameStats == null || cierreAplicado)
+            return;
+
+        cierreAplicado = true;
+
+        Debug.Log("[GoalsManager] 🧾 Iniciando cierre final del día...");
+
+        float balance = GetBalanceFinal();
+
+        // Aplicar el balance al dinero total del jugador
+        int nuevoDinero = Mathf.Max(0, Mathf.RoundToInt(balance));
+        gameStats.dinero = nuevoDinero;
+
+        // Aquí podrías añadir guardado, estadísticas globales, etc.
+        // Ejemplo:
+        // SaveSystem.GuardarProgreso(diaActual, nuevoDinero, otrosDatos);
+
+        Debug.Log($"[GoalsManager] ✅ Cierre aplicado → Dinero final del jugador: {nuevoDinero}");
+
+        // 🔹 Lógica para notificar que ya puede aparecer el botón de "continuar"
+        // Esto podría ser un evento, por ahora lo dejamos preparado:
+        OnCierreFinalizado?.Invoke();
+    }
+
+    // Evento opcional para cuando se complete el cierre
+    public event System.Action OnCierreFinalizado;
+
+    //───────────────────────────────────────────────────────────────
+    // Getters públicos
+    //───────────────────────────────────────────────────────────────
+    public float GetIngresosFinales() => ultimosIngresos;
+    public float GetImpuestosFinales() => impuestoFinal;
+    public float GetBalanceFinal() => ultimoBalance;
 }

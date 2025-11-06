@@ -73,7 +73,7 @@ public class DayLogic : MonoBehaviour
         if (startButton != null)
             startButton.onClick.AddListener(OnStartButtonPressed);
         else
-            Debug.LogWarning("[DayLogic] no hay botón asignado para iniciar el día");
+            Debug.LogWarning("[DayLogic] ⚠️ No hay botón asignado para iniciar el día");
 
         if (sun == null)
         {
@@ -99,24 +99,32 @@ public class DayLogic : MonoBehaviour
         UpdateSunCycle(true);
         UpdateClock();
         UpdateTextoDia();
+
+        Debug.Log("[DayLogic] ✅ Sistema inicializado correctamente.");
     }
 
     private void Update()
     {
         if (isRunning && !dayFinished)
         {
+            // Avanzar el tiempo con acumulación segura
             timer += Time.deltaTime;
 
-            if (timer >= 1f)
-            {
-                currentSecond++;
-                timer = 0f;
+            // Cálculo de segundos enteros pasados (sin depender de flotantes exactos)
+            int segundosEnteros = Mathf.FloorToInt(timer);
 
-                if (currentSecond >= maxSeconds)
-                {
-                    currentSecond = maxSeconds;
-                    EndDay();
-                }
+            if (segundosEnteros > currentSecond)
+            {
+                currentSecond = segundosEnteros;
+                Debug.Log($"[DayLogic] ⏱️ Segundo actual: {currentSecond}/{maxSeconds}");
+            }
+
+            // Si llegamos o superamos el tiempo máximo, terminar el día
+            if (currentSecond >= maxSeconds)
+            {
+                currentSecond = maxSeconds;
+                Debug.Log($"[DayLogic] 🌅 Día alcanzó el límite de {maxSeconds} segundos");
+                EndDay();
             }
 
             UpdateSunCycle(false);
@@ -130,7 +138,10 @@ public class DayLogic : MonoBehaviour
 
         isRunning = true;
         dayFinished = false;
-        Debug.Log("[DayLogic] El día ha comenzado");
+        timer = 0f;
+        currentSecond = 0;
+
+        Debug.Log($"[DayLogic] 🚀 Día {currentDay} ha comenzado");
         OnDayStarted?.Invoke();
 
         if (startButton != null) startButton.interactable = false;
@@ -151,7 +162,7 @@ public class DayLogic : MonoBehaviour
         sunSmoothedT = 0f;
 
         OnDayReset?.Invoke();
-        Debug.Log("[DayLogic] Día reseteado sin iniciar");
+        Debug.Log("[DayLogic] 🔁 Día reseteado sin iniciar");
 
         UpdateSunCycle(true);
         UpdateClock();
@@ -166,8 +177,9 @@ public class DayLogic : MonoBehaviour
         isRunning = false;
         dayFinished = true;
 
+        Debug.Log($"[DayLogic] 🔔 Día {currentDay} FINALIZADO. Ejecutando evento OnDayEnded...");
         OnDayEnded?.Invoke();
-        Debug.Log($"[DayLogic] El día ha terminado (Día {currentDay})");
+        Debug.Log($"[DayLogic] ✅ Evento OnDayEnded INVOCADO correctamente (Día {currentDay}).");
 
         currentDay++;
         UpdateTextoDia();
@@ -175,7 +187,8 @@ public class DayLogic : MonoBehaviour
 
     public void SetCurrentSecond(int value)
     {
-        currentSecond = Mathf.Clamp(value, 0, maxSeconds);
+        // Mantiene el comportamiento del debugger (no permite llegar al final exacto)
+        currentSecond = Mathf.Clamp(value, 0, Mathf.Max(0, maxSeconds - 2));
     }
 
     private void UpdateSunCycle(bool instant)

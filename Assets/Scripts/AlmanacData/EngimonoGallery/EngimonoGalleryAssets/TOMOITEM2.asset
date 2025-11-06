@@ -12,11 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42345c0616838074894ae73527ecb772, type: 3}
   m_Name: TOMOITEM2
   m_EditorClassIdentifier: 
-  engimonoName: Spiked Seat.
-  engimonoDescription: Test
-  engimonoIcon: {fileID: 21300000, guid: d347565f93663b543b193767214bb019, type: 3}
-  engimonoMainSprite: {fileID: 21300000, guid: d347565f93663b543b193767214bb019, type: 3}
-  backgroundSprite: {fileID: 21300000, guid: 182c8b0beb6d1bb4cb02e97bc84525d2, type: 3}
+  engimonoName: Dream Walker
+  engimonoDescription: For each level of friendship reached, it will earn 0.05x of
+    money in any way. This amount will be increasing by each level earned. (Starts
+    with 0.00x)
+  engimonoIcon: {fileID: 21300000, guid: ea8f56c43254d41728f5ac4e8299b6c9, type: 3}
+  engimonoMainSprite: {fileID: 21300000, guid: ea8f56c43254d41728f5ac4e8299b6c9, type: 3}
+  backgroundSprite: {fileID: 21300000, guid: ea8f56c43254d41728f5ac4e8299b6c9, type: 3}
   backgroundColor: {r: 1, g: 1, b: 1, a: 1}
   highlightOnHover: 1
   panelOffset: {x: 400, y: 0}

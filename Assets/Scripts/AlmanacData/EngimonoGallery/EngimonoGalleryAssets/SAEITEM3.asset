@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: SAEITEM3
   m_EditorClassIdentifier: 
   engimonoName: Check list
-  engimonoDescription: Test
+  engimonoDescription: For each day passed, this item will increase in value. Sell
+    the item to collect it.
   engimonoIcon: {fileID: 21300000, guid: baa999390ac006946bfa2716e68c12b5, type: 3}
   engimonoMainSprite: {fileID: 21300000, guid: baa999390ac006946bfa2716e68c12b5, type: 3}
   backgroundSprite: {fileID: 21300000, guid: 4dcb3eb03e862f54d99f739f7e2ccdfe, type: 3}

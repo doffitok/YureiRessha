@@ -23,6 +23,8 @@ MonoBehaviour:
   - {fileID: 21300000, guid: d180be144c1206a47bec60def7c2a552, type: 3}
   - {fileID: 21300000, guid: e24dddd53863ee840abf27de199e5ad4, type: 3}
   - {fileID: 21300000, guid: 8fc0251e1b4136247a912ba283e9f138, type: 3}
+  portraitScale: 5.5
+  portraitYPosition: 0
   buttonBackground: {fileID: 21300000, guid: ab9a954c07ecadf4a909cd41c985bbfc, type: 3}
   buttonFont: {fileID: 0}
   buttonTextColor: {r: 1, g: 1, b: 1, a: 1}
@@ -42,3 +44,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: d180be144c1206a47bec60def7c2a552, type: 3}
   - {fileID: 21300000, guid: e24dddd53863ee840abf27de199e5ad4, type: 3}
   - {fileID: 21300000, guid: 8fc0251e1b4136247a912ba283e9f138, type: 3}
+  engimonoCredits:
+  - 
+  - 
+  - 

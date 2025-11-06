@@ -238,6 +238,7 @@ MonoBehaviour:
   relojManecilla: {fileID: 0}
   relojRotacionCompleta: 360
   relojInvertido: 0
+  textoDia: {fileID: 0}
 --- !u!4 &76587299
 Transform:
   m_ObjectHideFlags: 0
@@ -1320,6 +1321,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: dc1c87e2d2aabd34f9edc384420c5f27, type: 2}
   - {fileID: 11400000, guid: 1ed938bd72c0eac4c8f0a879b5e566f8, type: 2}
   - {fileID: 11400000, guid: a044761fc977d8a48801bfb968697e15, type: 2}
+  - {fileID: 11400000, guid: 404a1af3f6a0a464ea74bc8ce416d4ac, type: 2}
+  - {fileID: 11400000, guid: 1af426fdcce666e4d93ddc24d4f95e29, type: 2}
   - {fileID: 11400000, guid: b08149e316baded479b451f8399442ee, type: 2}
   - {fileID: 11400000, guid: 3f37b7e45b8007b4b9abf97e61a8abce, type: 2}
   - {fileID: 11400000, guid: b10a6b439ffcda24d988c9aec723d7d3, type: 2}
@@ -1339,11 +1342,20 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c96b7bf4addb2364bb24eeb7a3023b5d, type: 2}
   - {fileID: 11400000, guid: 12a6f1ec331281c4bac9c5301d035861, type: 2}
   - {fileID: 11400000, guid: 8dda02a945ae6de4b9de9f1e9fbfb671, type: 2}
+  - {fileID: 11400000, guid: 1135dc500f64d9b49be7b288469505f4, type: 2}
   - {fileID: 11400000, guid: 838bb448e79710341b527691ae01a061, type: 2}
   - {fileID: 11400000, guid: c1f6014828e0da34fb496610014edee9, type: 2}
+  - {fileID: 11400000, guid: 848ca42a41d76c445bb07de0cd03fac3, type: 2}
+  - {fileID: 11400000, guid: 8cd5ead421947b04dae74e9af8144693, type: 2}
   - {fileID: 11400000, guid: 21f3d3d06220a8747af08bf5db4e90f9, type: 2}
+  - {fileID: 11400000, guid: e1ba80acacfc0644fbc36477846ef9bd, type: 2}
+  - {fileID: 11400000, guid: 3fd05f7cce3924e4bbc10a18596932ba, type: 2}
   - {fileID: 11400000, guid: b2969b5c7ca5a3542a86706d250120a9, type: 2}
+  - {fileID: 11400000, guid: ed933781b6410134fbcf571cdca20bf8, type: 2}
+  - {fileID: 11400000, guid: 1c1f624fe38aba941a8952b7e2d363c6, type: 2}
   - {fileID: 11400000, guid: fce7f2bd92be39a468ac0032ed4a5f3d, type: 2}
+  - {fileID: 11400000, guid: ac54f0f446484ed49b644e6a3769d933, type: 2}
+  - {fileID: 11400000, guid: 3c78728a14fe705428de141687cb9516, type: 2}
   - {fileID: 11400000, guid: 2bbb642b21979824082cbebe953b9a52, type: 2}
   - {fileID: 11400000, guid: e5c9e5f6729c6094e8fe970e5fdd039c, type: 2}
   - {fileID: 11400000, guid: 0386c47c16808b9418495726da4fc0b1, type: 2}
@@ -3517,7 +3529,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 562f88a390bb45c4997029f7a309d42e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uiDocument: {fileID: 1594326482}
 --- !u!114 &1594326487
 MonoBehaviour:
   m_ObjectHideFlags: 0

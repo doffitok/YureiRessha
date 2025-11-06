@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: SHINAKIITEM3
   m_EditorClassIdentifier: 
   engimonoName: The Red choice
-  engimonoDescription: Test
+  engimonoDescription: The Engimono that you already collected can re-appear with
+    passengers.
   engimonoIcon: {fileID: 21300000, guid: 35b13f564603ce741a25dd9aea3eb634, type: 3}
   engimonoMainSprite: {fileID: 21300000, guid: 35b13f564603ce741a25dd9aea3eb634, type: 3}
   backgroundSprite: {fileID: 21300000, guid: e1fcb31c117ae9544b40b9f0c4e41505, type: 3}

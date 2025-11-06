@@ -23,6 +23,8 @@ MonoBehaviour:
   - {fileID: 21300000, guid: e04850e17a19358439b20c2e12242814, type: 3}
   - {fileID: 21300000, guid: ea8f56c43254d41728f5ac4e8299b6c9, type: 3}
   - {fileID: 21300000, guid: ea8f56c43254d41728f5ac4e8299b6c9, type: 3}
+  portraitScale: 7
+  portraitYPosition: 0
   buttonBackground: {fileID: 21300000, guid: 7c533829cae80d4408d03345d1e858a5, type: 3}
   buttonFont: {fileID: 0}
   buttonTextColor: {r: 1, g: 1, b: 1, a: 1}
@@ -30,12 +32,18 @@ MonoBehaviour:
   engimonoNames:
   - Teru Teru Bozu
   - Magic Tail
-  - 
+  - Kitsune Mask
   engimonoDescriptions:
-  - 
-  - 
-  - 
+  - 'A little buddy, it brings good luck to a specific person... I hope it can bring
+    a lot of good reviews at the end of the day for me! '
+  - One of Kitsu's tails! He grows a new one on the spot, so he wasn't so worried
+    when he gifted me this! Thank you I guess.
+  - 'His mask! Or at least a similar one... I will finally be able to see his face?! '
   engimonoIcons:
   - {fileID: 21300000, guid: e04850e17a19358439b20c2e12242814, type: 3}
   - {fileID: 21300000, guid: 25304571aa9b5b44f94cd2ab9741e771, type: 3}
-  - {fileID: 0}
+  - {fileID: 21300000, guid: ea8f56c43254d41728f5ac4e8299b6c9, type: 3}
+  engimonoCredits:
+  - 
+  - 
+  - 

@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: SAEITEM2
   m_EditorClassIdentifier: 
   engimonoName: Saved for later
-  engimonoDescription: Test
+  engimonoDescription: The money now its collected at the end of the day with a little
+    interest.
   engimonoIcon: {fileID: 21300000, guid: 4daae07886a5e5c4ea02bd567e517f47, type: 3}
   engimonoMainSprite: {fileID: 21300000, guid: 4daae07886a5e5c4ea02bd567e517f47, type: 3}
   backgroundSprite: {fileID: 21300000, guid: f0a031e580c22eb4793128026bfa9326, type: 3}

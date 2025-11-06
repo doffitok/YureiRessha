@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42345c0616838074894ae73527ecb772, type: 3}
   m_Name: NOZOMIITEM
   m_EditorClassIdentifier: 
-  engimonoName: "Wara Ningy\u014D"
-  engimonoDescription: Test
+  engimonoName: Don't hurt me please
+  engimonoDescription: Increases the requierement of all passengers by a lot. But
+    your earnings are by 2.5x
   engimonoIcon: {fileID: 21300000, guid: ed878fe6b7c4ebd4fa947f35d01fcac6, type: 3}
   engimonoMainSprite: {fileID: 21300000, guid: ed878fe6b7c4ebd4fa947f35d01fcac6, type: 3}
   backgroundSprite: {fileID: 21300000, guid: 9e36818f8f6f6ce41b990e6732c6fecc, type: 3}

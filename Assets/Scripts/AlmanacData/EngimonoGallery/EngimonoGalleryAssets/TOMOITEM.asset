@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: TOMOITEM
   m_EditorClassIdentifier: 
   engimonoName: Rhytmn & Legends
-  engimonoDescription: Test
+  engimonoDescription: At the start of a day, a random Engimono in your pocket line
+    will be changed by a random Engimono of the same passenger/Store.
   engimonoIcon: {fileID: 21300000, guid: e3f038a60ca1e0a4c919254c25c66a8d, type: 3}
   engimonoMainSprite: {fileID: 21300000, guid: e3f038a60ca1e0a4c919254c25c66a8d, type: 3}
   backgroundSprite: {fileID: 21300000, guid: c1eded706fd859d428abe535c0613321, type: 3}

@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: SAEITEM1
   m_EditorClassIdentifier: 
   engimonoName: Broke Aspiration
-  engimonoDescription: Test
+  engimonoDescription: If this item is sold at the moment you need to pay Taxes,
+    the cost of the tax will be decreased by 25%
   engimonoIcon: {fileID: 21300000, guid: 5f3af472df05ebf4ebd4a46859ec7c4e, type: 3}
   engimonoMainSprite: {fileID: 21300000, guid: 5f3af472df05ebf4ebd4a46859ec7c4e, type: 3}
   backgroundSprite: {fileID: 21300000, guid: f8b7942377a71cb4caef0f78d9afd54e, type: 3}

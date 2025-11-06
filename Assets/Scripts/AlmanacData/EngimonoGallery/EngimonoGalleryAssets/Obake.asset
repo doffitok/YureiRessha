@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Obake
   m_EditorClassIdentifier: 
   engimonoName: Obake
-  engimonoDescription: Test
+  engimonoDescription: Copies the ability of the latest purchased/obtained item.
   engimonoIcon: {fileID: 21300000, guid: a9653ccf5d3ff3f458a7d4ddd863bbba, type: 3}
   engimonoMainSprite: {fileID: 21300000, guid: a9653ccf5d3ff3f458a7d4ddd863bbba, type: 3}
   backgroundSprite: {fileID: 0}

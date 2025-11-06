@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Spiked Seat
   m_EditorClassIdentifier: 
   engimonoName: Spiked Seat
-  engimonoDescription: Test
+  engimonoDescription: The rating increases by a lot, even with a amount of money.
+    But a seat will be permanently disabled until this item is destroyed/selled
   engimonoIcon: {fileID: 21300000, guid: 04b57dc0ffbce454787978f908f1925a, type: 3}
   engimonoMainSprite: {fileID: 21300000, guid: 04b57dc0ffbce454787978f908f1925a, type: 3}
   backgroundSprite: {fileID: 0}

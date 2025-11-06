@@ -23,6 +23,8 @@ MonoBehaviour:
   - {fileID: 21300000, guid: e3f038a60ca1e0a4c919254c25c66a8d, type: 3}
   - {fileID: 21300000, guid: d347565f93663b543b193767214bb019, type: 3}
   - {fileID: 21300000, guid: c4a09ea1919eeab439e2af7203843ad4, type: 3}
+  portraitScale: 5
+  portraitYPosition: 0
   buttonBackground: {fileID: 21300000, guid: 9a42ecb7436130540895a54f2eb8d612, type: 3}
   buttonFont: {fileID: 0}
   buttonTextColor: {r: 1, g: 1, b: 1, a: 1}
@@ -30,7 +32,7 @@ MonoBehaviour:
   engimonoNames:
   - Rhytmn & Legends
   - Beyond Death
-  - 
+  - Dream Walter
   engimonoDescriptions:
   - 'A very fun game! It''s like a boss rush with music and combat mechanics! I should
     try it later today, but first I gotta fix the train! '
@@ -40,4 +42,8 @@ MonoBehaviour:
   engimonoIcons:
   - {fileID: 21300000, guid: e3f038a60ca1e0a4c919254c25c66a8d, type: 3}
   - {fileID: 21300000, guid: d347565f93663b543b193767214bb019, type: 3}
-  - {fileID: 0}
+  - {fileID: 21300000, guid: ea8f56c43254d41728f5ac4e8299b6c9, type: 3}
+  engimonoCredits:
+  - Fiorellarts
+  - Ani-Myruuu
+  - Zikuuul

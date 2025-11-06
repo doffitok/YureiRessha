@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: EBIMARUITEM1
   m_EditorClassIdentifier: 
   engimonoName: Jizai Okimono
-  engimonoDescription: Test
+  engimonoDescription: When the day finishes, it will transform into a Copy of an
+    existing item on your Engimono Pocket line.
   engimonoIcon: {fileID: 21300000, guid: d180be144c1206a47bec60def7c2a552, type: 3}
   engimonoMainSprite: {fileID: 21300000, guid: d180be144c1206a47bec60def7c2a552, type: 3}
   backgroundSprite: {fileID: 21300000, guid: faa5e11ac0fd988409778bbe10c53011, type: 3}

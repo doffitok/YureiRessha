@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: KANAEITEM2
   m_EditorClassIdentifier: 
   engimonoName: Latest Record
-  engimonoDescription: Test
+  engimonoDescription: There will be a passenger that choose to leave the train at
+    that exact moment. Their demand will be the lowest possible until the item gets
+    destroyed, but that passenger will give triple amount of money.
   engimonoIcon: {fileID: 21300000, guid: 521d28e1512fdd140b84da9d0dadf053, type: 3}
   engimonoMainSprite: {fileID: 21300000, guid: 521d28e1512fdd140b84da9d0dadf053, type: 3}
   backgroundSprite: {fileID: 21300000, guid: 73908bbe9c3fe9b4887d9b1c8a0b528b, type: 3}

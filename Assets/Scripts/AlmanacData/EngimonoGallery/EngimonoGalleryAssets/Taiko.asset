@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Taiko
   m_EditorClassIdentifier: 
   engimonoName: Taiko
-  engimonoDescription: Test
+  engimonoDescription: 50/50 chance of making the day more faster or slower.
   engimonoIcon: {fileID: 21300000, guid: e39886676bb42b847847f8687b76cdb0, type: 3}
   engimonoMainSprite: {fileID: 21300000, guid: e39886676bb42b847847f8687b76cdb0, type: 3}
   backgroundSprite: {fileID: 0}

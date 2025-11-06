@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: SHINKAIITEM1
   m_EditorClassIdentifier: 
   engimonoName: The blue choice
-  engimonoDescription: Test
+  engimonoDescription: The Engimonos in the store can re-appear even if you bought
+    them before.
   engimonoIcon: {fileID: 21300000, guid: c4a09ea1919eeab439e2af7203843ad4, type: 3}
   engimonoMainSprite: {fileID: 21300000, guid: c4a09ea1919eeab439e2af7203843ad4, type: 3}
   backgroundSprite: {fileID: 21300000, guid: 28255d4ee24ff3548baf794d7db96c9c, type: 3}

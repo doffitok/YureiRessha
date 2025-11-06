@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42345c0616838074894ae73527ecb772, type: 3}
   m_Name: SAYOKOITEM1
   m_EditorClassIdentifier: 
-  engimonoName: Spiked Seat.
-  engimonoDescription: Test
+  engimonoName: Hikori's letter
+  engimonoDescription: Each time you sell a Engimono you won't get your money back.
+    Instead this item will give a random Ofuda to a random Engimono
   engimonoIcon: {fileID: 21300000, guid: 04b57dc0ffbce454787978f908f1925a, type: 3}
   engimonoMainSprite: {fileID: 21300000, guid: 04b57dc0ffbce454787978f908f1925a, type: 3}
   backgroundSprite: {fileID: 0}

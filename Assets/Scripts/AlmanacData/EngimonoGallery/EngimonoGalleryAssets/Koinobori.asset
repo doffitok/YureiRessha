@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Koinobori
   m_EditorClassIdentifier: 
   engimonoName: Koinobori
-  engimonoDescription: Test
+  engimonoDescription: Each time you level up a friendship status with a passenger
+    a amount of money is added to your pocket. 10% of your earnings at the moment.
   engimonoIcon: {fileID: 21300000, guid: 7848c747d51a99541ab4e96078bdcc8f, type: 3}
   engimonoMainSprite: {fileID: 21300000, guid: 7848c747d51a99541ab4e96078bdcc8f, type: 3}
   backgroundSprite: {fileID: 0}

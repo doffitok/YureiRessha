@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ebd3bc1f9f38c418d37df726eef530, type: 3}
+  m_Name: Almanac_Data_Shinkai
+  m_EditorClassIdentifier: 
+  characterId: 5
+  displayName: Shinkai
+  description: 'A little bit misterious. Nothing to say. I know nothing about him,
+    everything is so random. His face, mood, way to talk... Honestly, i''m even a
+    little bit scared! But, seems chill enough if I talk to him correctly. '
+  portrait: {fileID: 21300000, guid: 16a5533e38e6f9246b8cc8c5c504a238, type: 3}
+  gallerySprites:
+  - {fileID: 21300000, guid: 35b13f564603ce741a25dd9aea3eb634, type: 3}
+  - {fileID: 21300000, guid: c4a09ea1919eeab439e2af7203843ad4, type: 3}
+  - {fileID: 21300000, guid: 88dfde30dbe6acf4987fd28606e1f752, type: 3}
+  portraitScale: 7
+  portraitYPosition: 0
+  buttonBackground: {fileID: 21300000, guid: 642b3bdb84a75214b85d8d9f543557e5, type: 3}
+  buttonFont: {fileID: 0}
+  buttonTextColor: {r: 1, g: 1, b: 1, a: 1}
+  buttonFontSize: 24
+  engimonoNames:
+  - The red choice.
+  - The blue choice.
+  - None of them.
+  engimonoDescriptions:
+  - He gave me the choice of re-write things with friends! Like going back in time...
+  - He gave me the choice of having a feeling of choice again! Like remembering the
+    first time I found my puppy!
+  - But I choose none of them.
+  engimonoIcons:
+  - {fileID: 21300000, guid: 35b13f564603ce741a25dd9aea3eb634, type: 3}
+  - {fileID: 21300000, guid: c4a09ea1919eeab439e2af7203843ad4, type: 3}
+  - {fileID: 21300000, guid: 88dfde30dbe6acf4987fd28606e1f752, type: 3}
+  engimonoCredits:
+  - 
+  - 
+  - 

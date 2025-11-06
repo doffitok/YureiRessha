@@ -643,7 +643,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 891503128}
   m_HandleRect: {fileID: 891503127}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -1314,8 +1314,8 @@ MonoBehaviour:
   engimonos:
   - {fileID: 11400000, guid: e3c91b56e1b04e64ab7d216cbcfe9039, type: 2}
   - {fileID: 11400000, guid: 4d8229dbd94d5f644adee6274a680601, type: 2}
-  - {fileID: 11400000, guid: 71586ef42f0f8d143907ee835545db30, type: 2}
   - {fileID: 11400000, guid: 92f9f591b488f074da6edc42ed823055, type: 2}
+  - {fileID: 11400000, guid: 71586ef42f0f8d143907ee835545db30, type: 2}
   - {fileID: 11400000, guid: 7fb1e34258d6bc741a94ba1bbbe276cd, type: 2}
   - {fileID: 11400000, guid: 58029e206039ab0428a92b9e3a805d19, type: 2}
   - {fileID: 11400000, guid: dc1c87e2d2aabd34f9edc384420c5f27, type: 2}

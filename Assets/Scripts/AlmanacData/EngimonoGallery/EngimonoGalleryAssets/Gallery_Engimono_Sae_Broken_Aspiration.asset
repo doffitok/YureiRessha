@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42345c0616838074894ae73527ecb772, type: 3}
+  m_Name: Gallery_Engimono_Sae_Broken_Aspiration
+  m_EditorClassIdentifier: 
+  engimonoName: Broke Aspiration
+  engimonoDescription: If this item is sold at the moment you need to pay Taxes,
+    the cost of the tax will be decreased by 25%
+  engimonoIcon: {fileID: 21300000, guid: 5f3af472df05ebf4ebd4a46859ec7c4e, type: 3}
+  engimonoMainSprite: {fileID: 21300000, guid: 5f3af472df05ebf4ebd4a46859ec7c4e, type: 3}
+  backgroundSprite: {fileID: 21300000, guid: f8b7942377a71cb4caef0f78d9afd54e, type: 3}
+  backgroundColor: {r: 1, g: 1, b: 1, a: 1}
+  highlightOnHover: 1
+  panelOffset: {x: 400, y: 0}

@@ -14,13 +14,16 @@ public class MainMenuAnimator : MonoBehaviour
     public AudioClip buttonClickSFX;    // SFX al hacer click en cualquier botón
 
     [Header("Ajustes de animación")]
-    public float spacing = 150f; 
-    public float animationTime = 0.8f; 
+    public float spacing = 150f;
+    public float animationTime = 0.8f;
     public float delayBetweenButtons = 0.1f;
 
     [Header("Posiciones")]
     public Vector2 startOffset = new Vector2(-800f, 0f);
     public Vector2 basePosition = new Vector2(0f, 100f);
+
+    [Header("Excepciones de transición")]
+    public string[] buttonsWithoutTransition = { "Credits" }; // 🔹 botones que no activan transición
 
     void Start()
     {
@@ -61,9 +64,38 @@ public class MainMenuAnimator : MonoBehaviour
                     if (audioSource != null && buttonClickSFX != null)
                         audioSource.PlayOneShot(buttonClickSFX);
 
-                    // Cambiar escena o salir después de un pequeño delay
-                    if (sceneNames != null && index < sceneNames.Length)
-                        StartCoroutine(LoadSceneAfterDelay(sceneNames[index], 0.2f)); // 0.2s de espera
+                    // Nombre del botón actual
+                    string buttonName = btn.gameObject.name;
+                    string nextScene = (sceneNames != null && index < sceneNames.Length) ? sceneNames[index] : "";
+
+                    // 🔹 Si el botón está en la lista sin transición → no hacer fade ni cambio de escena
+                    if (IsButtonWithoutTransition(buttonName))
+                    {
+                        Debug.Log($"[MenuAnimator] Botón '{buttonName}' no activa transición ni cambio de escena.");
+                        return;
+                    }
+
+                    // 🔹 Si es EXIT, cierra el juego
+                    if (nextScene == "EXIT")
+                    {
+                        Application.Quit();
+                        return;
+                    }
+
+                    // 🔹 Buscar si hay una transición en la escena
+                    SceneTransition transition = FindObjectOfType<SceneTransition>();
+
+                    if (!string.IsNullOrEmpty(nextScene))
+                    {
+                        if (transition != null)
+                        {
+                            transition.Play(nextScene);
+                        }
+                        else
+                        {
+                            StartCoroutine(LoadSceneAfterDelay(nextScene, 0.2f));
+                        }
+                    }
                 });
             }
 
@@ -72,6 +104,16 @@ public class MainMenuAnimator : MonoBehaviour
 
         // Cuando termina todo, inicia la animación flotante
         StartCoroutine(IdleFloat());
+    }
+
+    bool IsButtonWithoutTransition(string buttonName)
+    {
+        foreach (string name in buttonsWithoutTransition)
+        {
+            if (buttonName == name)
+                return true;
+        }
+        return false;
     }
 
     IEnumerator IdleFloat()

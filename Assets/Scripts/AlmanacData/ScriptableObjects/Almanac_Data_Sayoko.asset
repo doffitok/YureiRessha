@@ -32,16 +32,17 @@ MonoBehaviour:
   engimonoNames:
   - The Old One
   - The Last Outfit
-  - 
+  - Hiromi's letter
   engimonoDescriptions:
   - An old friend of hers. Always carring it on her side. Be careful, it seems it
     hasn't been used in a long time.
   - The last things Sayoko used before that day. Tired apart. It's missing one sleeve.
-  - 
+  - A letter hand written by someone called Hiromi ... Better to do not read it without
+    permission. I will just let it there.
   engimonoIcons:
   - {fileID: 21300000, guid: 3ecc5186f8ef1a94d9069cae5f12783e, type: 3}
   - {fileID: 21300000, guid: b4b810dafca8c0d47b7e8885aa6e07e2, type: 3}
-  - {fileID: 0}
+  - {fileID: 21300000, guid: b20a9f24c148a754fb4c3c306a2c378b, type: 3}
   engimonoCredits:
   - 
   - 

@@ -10,10 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 42345c0616838074894ae73527ecb772, type: 3}
-  m_Name: Gallery_Engimono_Hanagumi_Acevichado_Roll
+  m_Name: Gallery_Engimono_Hamaguri_Acevichado_Roll
   m_EditorClassIdentifier: 
   engimonoName: Acevichado Roll
-  engimonoDescription: Each Engimono in the Rating category will work two times.
+  engimonoDescription: The first ticket of the station will trigger Engimonos in
+    slots #4 and #7
   engimonoIcon: {fileID: 21300000, guid: 83bba02ded33c96478b5f9e38f6ba95f, type: 3}
   engimonoMainSprite: {fileID: 21300000, guid: 83bba02ded33c96478b5f9e38f6ba95f, type: 3}
   backgroundSprite: {fileID: 21300000, guid: d47ac3f68ead54047b89de231d7cba5f, type: 3}

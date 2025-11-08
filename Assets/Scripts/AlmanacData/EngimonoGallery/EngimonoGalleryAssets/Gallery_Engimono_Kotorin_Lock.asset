@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   engimonoName: Lock
   engimonoDescription: 0.4 rating for each Engimono slot free
-  engimonoIcon: {fileID: 21300000, guid: 09bba20d2f14864468aef7195bd04b32, type: 3}
-  engimonoMainSprite: {fileID: 21300000, guid: 09bba20d2f14864468aef7195bd04b32, type: 3}
-  backgroundSprite: {fileID: 21300000, guid: 556fdeefc013f5a41b58555f940b2c13, type: 3}
+  engimonoIcon: {fileID: 21300000, guid: e82e2c781756dc649a88d492678d085d, type: 3}
+  engimonoMainSprite: {fileID: 21300000, guid: e82e2c781756dc649a88d492678d085d, type: 3}
+  backgroundSprite: {fileID: 21300000, guid: 25b42be77bc42cb4fb83f0d562e5e639, type: 3}
   backgroundColor: {r: 1, g: 1, b: 1, a: 1}
   highlightOnHover: 1
   panelOffset: {x: 400, y: 0}

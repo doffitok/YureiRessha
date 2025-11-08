@@ -36,13 +36,14 @@ MonoBehaviour:
   engimonoDescriptions:
   - 'A very fun game! It''s like a boss rush with music and combat mechanics! I should
     try it later today, but first I gotta fix the train! '
-  - It's a game about egyptian folklore... There are monsters and spirits! Maybe
-    someday I can invite them to the Yurei Ressha if they want.
-  - 
+  - It's a game about egyptian folklore. There are monsters and spirits! Maybe someday
+    I can invite them to the Yurei Ressha if they want...
+  - Seems like a narrative game about walking... and walking... Why don't that guy
+    just hop on the train already?!
   engimonoIcons:
   - {fileID: 21300000, guid: e3f038a60ca1e0a4c919254c25c66a8d, type: 3}
   - {fileID: 21300000, guid: d347565f93663b543b193767214bb019, type: 3}
-  - {fileID: 21300000, guid: ea8f56c43254d41728f5ac4e8299b6c9, type: 3}
+  - {fileID: 21300000, guid: 1658615c7ef35c54d9710703cae554cb, type: 3}
   engimonoCredits:
   - Fiorellarts
   - Ani-Myruuu

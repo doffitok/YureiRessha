@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 458d4dc113d1b29419ae7c870c932060, type: 3}
-  m_Name: Item_Sayoko_Himaris_Letter
+  m_Name: Item_Sayoko_Hiromis_Letter
   m_EditorClassIdentifier: 
   ID: itemSayoko03
   Nombre: Himari's letter

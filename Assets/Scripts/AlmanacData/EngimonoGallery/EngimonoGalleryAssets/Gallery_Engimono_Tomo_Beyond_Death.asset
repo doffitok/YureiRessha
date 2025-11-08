@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Gallery_Engimono_Tomo_Beyond_Death
   m_EditorClassIdentifier: 
   engimonoName: Beyond Death
-  engimonoDescription: The camount of friendship earned is increased by 0.5x but
-    if it's negative -0.5x
+  engimonoDescription: The amount of friendship earned is increased by 0.5x by any
+    means.
   engimonoIcon: {fileID: 21300000, guid: d347565f93663b543b193767214bb019, type: 3}
   engimonoMainSprite: {fileID: 21300000, guid: d347565f93663b543b193767214bb019, type: 3}
   backgroundSprite: {fileID: 21300000, guid: 182c8b0beb6d1bb4cb02e97bc84525d2, type: 3}

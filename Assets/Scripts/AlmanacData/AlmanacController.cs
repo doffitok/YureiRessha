@@ -14,6 +14,11 @@ public class AlmanacController : MonoBehaviour
     public Transform buttonsContainer;
     public GameObject buttonPrefab;
 
+    [Header("Button Styling - Persona 5 Style")]
+    public bool enableHoverEffects = true;
+    public Color selectedButtonColor = Color.white;
+    public Color normalButtonColor = Color.gray;
+
     [Header("ScrollView Fallback (opcional)")]
     public ScrollRect scrollView;
 
@@ -60,9 +65,11 @@ public class AlmanacController : MonoBehaviour
 
     [Range(0.1f, 100f)] public float scrollSpeed = 100f;
     private List<Button> spawnedButtons = new List<Button>();
+    private List<ButtonWithStyle> styledButtons = new List<ButtonWithStyle>(); // 🔥 NUEVO
 
     // 🔥 NUEVO: Guardar la posición Y original
     private float originalPortraitY;
+    private int currentSelectedIndex = -1; // 🔥 NUEVO: Para tracking de selección
 
     void Start()
     {
@@ -105,6 +112,7 @@ public class AlmanacController : MonoBehaviour
         foreach (Transform child in buttonsContainer)
             Destroy(child.gameObject);
         spawnedButtons.Clear();
+        styledButtons.Clear(); // 🔥 NUEVO
 
         for (int i = 0; i < characters.Count; i++)
         {
@@ -143,6 +151,27 @@ public class AlmanacController : MonoBehaviour
                 }
             }
 
+            // 🔥 NUEVO: Configurar ButtonWithStyle si existe
+            ButtonWithStyle styleComponent = newButton.GetComponent<ButtonWithStyle>();
+            if (styleComponent != null && enableHoverEffects)
+            {
+                // Buscar el highlight frame automáticamente si no está asignado
+                if (styleComponent.highlightFrame == null)
+                {
+                    Transform frameTransform = newButton.transform.Find("HighlightFrame");
+                    if (frameTransform != null)
+                        styleComponent.highlightFrame = frameTransform.GetComponent<Image>();
+                }
+                
+                // Buscar el texto automáticamente si no está asignado
+                if (styleComponent.nameText == null)
+                {
+                    styleComponent.nameText = newButton.GetComponentInChildren<TextMeshProUGUI>();
+                }
+                
+                styledButtons.Add(styleComponent);
+            }
+
             Button btn = newButton.GetComponent<Button>();
             if (btn != null)
             {
@@ -178,8 +207,13 @@ public class AlmanacController : MonoBehaviour
             return;
         }
 
-        CharacterAlmaData c = characters[index];
+        // 🔥 NUEVO: Actualizar estilos de botones
+        UpdateButtonStyles(index);
 
+        CharacterAlmaData c = characters[index];
+        currentSelectedIndex = index; // 🔥 NUEVO: Guardar índice actual
+
+        // ... (el resto de tu código EXISTENTE se mantiene igual) ...
         if (portraitImage != null)
         {
             if (c.portrait != null)
@@ -193,12 +227,10 @@ public class AlmanacController : MonoBehaviour
             }
             else portraitImage.gameObject.SetActive(false);
 
-            // 🔥 ESCALA - Exactamente igual que antes
             float scaleToUse = c.portraitScale > 0 ? c.portraitScale : basePortraitScale;
             portraitImage.rectTransform.localScale = Vector3.one * scaleToUse;
 
-            // 🔥 POSICIÓN - Mismo sistema que la escala
-            float yPositionToUse = c.portraitYPosition; // Usar directamente el valor del personaje
+            float yPositionToUse = c.portraitYPosition;
             Vector2 currentPosition = portraitImage.rectTransform.anchoredPosition;
             portraitImage.rectTransform.anchoredPosition = new Vector2(currentPosition.x, originalPortraitY + yPositionToUse);
 
@@ -263,16 +295,39 @@ public class AlmanacController : MonoBehaviour
 
         if (artCreditTMP != null)
             artCreditTMP.gameObject.SetActive(false);
+    }
 
+    // 🔥 NUEVO: Método para actualizar estilos de botones
+    private void UpdateButtonStyles(int selectedIndex)
+    {
         for (int i = 0; i < spawnedButtons.Count; i++)
         {
             if (spawnedButtons[i] == null) continue;
+            
+            // Sistema de colores original (se mantiene)
             ColorBlock colors = spawnedButtons[i].colors;
-            colors.normalColor = (i == index) ? Color.white : Color.gray;
+            colors.normalColor = (i == selectedIndex) ? selectedButtonColor : normalButtonColor;
             spawnedButtons[i].colors = colors;
+
+            // 🔥 NUEVO: Resaltado estilo Persona 5 para el botón seleccionado
+            if (i < styledButtons.Count && styledButtons[i] != null)
+            {
+                // Si es el botón seleccionado, forzar el efecto de hover
+                if (i == selectedIndex)
+                {
+                    // Activar manualmente el efecto de selección
+                    styledButtons[i].ForceHighlight(true);
+                }
+                else
+                {
+                    // Desactivar el efecto para los demás
+                    styledButtons[i].ForceHighlight(false);
+                }
+            }
         }
     }
 
+    // ... (el resto de tus métodos se mantienen IGUAL) ...
     public void ShowEngimonoInfo(int index)
     {
         if (engimonoPanel == null || index < 0 || index >= currentEngimonoNames.Length)

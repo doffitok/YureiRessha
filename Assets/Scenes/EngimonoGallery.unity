@@ -6045,6 +6045,14 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: -876546973899608171, guid: 45a371004309d46448e903d1db02a3cf, type: 3}
+    - target: {fileID: -1294892128559850198, guid: de43e9e30d79f7f48937f92daa4f7543, type: 3}
+      propertyPath: m_Intensity
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: -206254283356321021, guid: de43e9e30d79f7f48937f92daa4f7543, type: 3}
+      propertyPath: m_Intensity
+      value: 0.8
+      objectReference: {fileID: 0}
     - target: {fileID: 68368969766091620, guid: de43e9e30d79f7f48937f92daa4f7543, type: 3}
       propertyPath: m_LocalPosition.x
       value: 2.38
@@ -6097,6 +6105,14 @@ PrefabInstance:
       propertyPath: m_CastShadows
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 5958438921693756439, guid: de43e9e30d79f7f48937f92daa4f7543, type: 3}
+      propertyPath: m_Intensity
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6800325588945520740, guid: de43e9e30d79f7f48937f92daa4f7543, type: 3}
+      propertyPath: m_Intensity
+      value: 0.8
+      objectReference: {fileID: 0}
     - target: {fileID: 6820312760149037930, guid: de43e9e30d79f7f48937f92daa4f7543, type: 3}
       propertyPath: m_CastShadows
       value: 1
@@ -6104,6 +6120,10 @@ PrefabInstance:
     - target: {fileID: 7378703552226458104, guid: de43e9e30d79f7f48937f92daa4f7543, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8912049515002365231, guid: de43e9e30d79f7f48937f92daa4f7543, type: 3}
+      propertyPath: m_Intensity
+      value: 0.8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:

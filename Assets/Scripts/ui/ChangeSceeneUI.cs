@@ -5,6 +5,12 @@ using UnityEngine.SceneManagement;
 public class SceneChanger : MonoBehaviour
 {
     private UIDocument uiDocument;
+    
+    // Referencias a los botones para poder remover los eventos correctamente
+    private Button changeSceneButton;
+    private Button changeAlmanaque;
+    private Button changeQuit;
+    private Button tutorial;
 
     void OnEnable()
     {
@@ -16,44 +22,31 @@ public class SceneChanger : MonoBehaviour
         }
 
         var root = uiDocument.rootVisualElement;
+    }
+    // Métodos separados para cada evento
+    void OnChangeSceneButtonClicked()
+    {
+        SceneManager.LoadScene("Tren");
+    }
 
-        // Jugar al juego
-        var changeSceneButton = root.Q<Button>("changeSceneButton");
-        if (changeSceneButton != null)
-        {
-            changeSceneButton.clicked += () => SceneManager.LoadScene("Tren");
-        }
-        else Debug.LogWarning("No se encontró el botón 'changeSceneButton'.");
+    void OnChangeAlmanaqueClicked()
+    {
+        SceneManager.LoadScene("Fungu test");
+    }
 
-        // Almanaque de personajes
-        var changeAlmanaque = root.Q<Button>("changeAlmanaque");
-        if (changeAlmanaque != null)
-        {
-            changeAlmanaque.clicked += () => SceneManager.LoadScene("Fungu test");
-        }
-        else Debug.LogWarning("No se encontró el botón 'changealmanaque'.");
+    void OnChangeQuitClicked()
+    {
+        QuitGame();
+    }
 
-        // Salir
-        var changeQuit = root.Q<Button>("changeQuit");
-        if (changeQuit != null)
-        {
-            changeQuit.clicked += () => QuitGame();
-        }
-        else Debug.LogWarning("No se encontró el botón 'changeQuit'.");
-
-        // Tutorial (asegúrate que en tu UXML el botón tenga nombre/id "tutorial")
-        var tutorial = root.Q<Button>("tutorial");
-        if (tutorial != null)
-        {
-            tutorial.clicked += () => SceneManager.LoadScene("Tutorial");
-        }
-        else Debug.LogWarning("No se encontró el botón 'tutorial'.");
+    void OnTutorialClicked()
+    {
+        SceneManager.LoadScene("Tutorial");
     }
 
     void ShowOptions()
     {
         Debug.Log("Mostrar opciones (no implementado)");
-        // Aquí puedes activar un nuevo panel con más configuraciones
     }
 
     void QuitGame()
@@ -68,21 +61,27 @@ public class SceneChanger : MonoBehaviour
 
     void OnDisable()
     {
-        // Opcional: quitar listeners para evitar duplicados si el objeto se habilita/deshabilita varias veces
-        if (uiDocument == null) return;
+        // Verificar que uiDocument y rootVisualElement no sean nulos
+        if (uiDocument == null || uiDocument.rootVisualElement == null) 
+            return;
 
-        var root = uiDocument.rootVisualElement;
+        // Remover eventos usando los métodos nombrados
+        if (changeSceneButton != null) 
+            changeSceneButton.clicked -= OnChangeSceneButtonClicked;
 
-        var changeSceneButton = root.Q<Button>("changeSceneButton");
-        if (changeSceneButton != null) changeSceneButton.clicked -= () => SceneManager.LoadScene("Tren");
+        if (changeAlmanaque != null) 
+            changeAlmanaque.clicked -= OnChangeAlmanaqueClicked;
 
-        var changeAlmanaque = root.Q<Button>("changealmanaque");
-        if (changeAlmanaque != null) changeAlmanaque.clicked -= () => ShowOptions();
+        if (changeQuit != null) 
+            changeQuit.clicked -= OnChangeQuitClicked;
 
-        var changeQuit = root.Q<Button>("changeQuit");
-        if (changeQuit != null) changeQuit.clicked -= () => QuitGame();
+        if (tutorial != null) 
+            tutorial.clicked -= OnTutorialClicked;
+    }
 
-        var tutorial = root.Q<Button>("tutorial");
-        if (tutorial != null) tutorial.clicked -= () => SceneManager.LoadScene("Tutorial");
+    void OnDestroy()
+    {
+        // También es buena práctica limpiar en OnDestroy
+        OnDisable();
     }
 }

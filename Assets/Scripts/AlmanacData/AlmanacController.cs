@@ -65,15 +65,13 @@ public class AlmanacController : MonoBehaviour
 
     [Range(0.1f, 100f)] public float scrollSpeed = 100f;
     private List<Button> spawnedButtons = new List<Button>();
-    private List<ButtonWithStyle> styledButtons = new List<ButtonWithStyle>(); // 🔥 NUEVO
+    private List<ButtonWithStyle> styledButtons = new List<ButtonWithStyle>();
 
-    // 🔥 NUEVO: Guardar la posición Y original
     private float originalPortraitY;
-    private int currentSelectedIndex = -1; // 🔥 NUEVO: Para tracking de selección
+    private int currentSelectedIndex = -1;
 
     void Start()
     {
-        // 🔥 Guardar la posición Y original del portrait
         if (portraitImage != null)
         {
             originalPortraitY = portraitImage.rectTransform.anchoredPosition.y;
@@ -112,7 +110,7 @@ public class AlmanacController : MonoBehaviour
         foreach (Transform child in buttonsContainer)
             Destroy(child.gameObject);
         spawnedButtons.Clear();
-        styledButtons.Clear(); // 🔥 NUEVO
+        styledButtons.Clear();
 
         for (int i = 0; i < characters.Count; i++)
         {
@@ -139,23 +137,23 @@ public class AlmanacController : MonoBehaviour
             if (label != null) label.gameObject.SetActive(false);
             if (labelTMP != null) labelTMP.gameObject.SetActive(false);
 
-            Image[] imgs = newButton.GetComponentsInChildren<Image>();
-            if (imgs != null && imgs.Length > 0 && c.portrait != null)
+            // Buscar específicamente la imagen del portrait
+            Transform portraitTransform = newButton.transform.Find("Portrait");
+            if (portraitTransform != null)
             {
-                foreach (var img in imgs)
+                Image portraitImg = portraitTransform.GetComponent<Image>();
+                if (portraitImg != null && c.portrait != null)
                 {
-                    if (img.gameObject == newButton) continue;
-                    img.sprite = c.portrait;
-                    img.preserveAspect = true;
-                    break;
+                    portraitImg.sprite = c.portrait;
+                    portraitImg.preserveAspect = true;
                 }
             }
 
-            // 🔥 NUEVO: Configurar ButtonWithStyle si existe
+            // Configurar ButtonWithStyle
             ButtonWithStyle styleComponent = newButton.GetComponent<ButtonWithStyle>();
             if (styleComponent != null && enableHoverEffects)
             {
-                // Buscar el highlight frame automáticamente si no está asignado
+                // Buscar el highlight frame
                 if (styleComponent.highlightFrame == null)
                 {
                     Transform frameTransform = newButton.transform.Find("HighlightFrame");
@@ -163,7 +161,15 @@ public class AlmanacController : MonoBehaviour
                         styleComponent.highlightFrame = frameTransform.GetComponent<Image>();
                 }
                 
-                // Buscar el texto automáticamente si no está asignado
+                // Buscar el flash effect
+                if (styleComponent.flashEffect == null)
+                {
+                    Transform flashTransform = newButton.transform.Find("FlashEffect");
+                    if (flashTransform != null)
+                        styleComponent.flashEffect = flashTransform.GetComponent<Image>();
+                }
+                
+                // Buscar el texto
                 if (styleComponent.nameText == null)
                 {
                     styleComponent.nameText = newButton.GetComponentInChildren<TextMeshProUGUI>();
@@ -207,13 +213,11 @@ public class AlmanacController : MonoBehaviour
             return;
         }
 
-        // 🔥 NUEVO: Actualizar estilos de botones
         UpdateButtonStyles(index);
 
         CharacterAlmaData c = characters[index];
-        currentSelectedIndex = index; // 🔥 NUEVO: Guardar índice actual
+        currentSelectedIndex = index;
 
-        // ... (el resto de tu código EXISTENTE se mantiene igual) ...
         if (portraitImage != null)
         {
             if (c.portrait != null)
@@ -297,37 +301,31 @@ public class AlmanacController : MonoBehaviour
             artCreditTMP.gameObject.SetActive(false);
     }
 
-    // 🔥 NUEVO: Método para actualizar estilos de botones
     private void UpdateButtonStyles(int selectedIndex)
     {
         for (int i = 0; i < spawnedButtons.Count; i++)
         {
             if (spawnedButtons[i] == null) continue;
             
-            // Sistema de colores original (se mantiene)
             ColorBlock colors = spawnedButtons[i].colors;
             colors.normalColor = (i == selectedIndex) ? selectedButtonColor : normalButtonColor;
             spawnedButtons[i].colors = colors;
 
-            // 🔥 NUEVO: Resaltado estilo Persona 5 para el botón seleccionado
             if (i < styledButtons.Count && styledButtons[i] != null)
             {
-                // Si es el botón seleccionado, forzar el efecto de hover
+                // 🔥 CAMBIADO: Usar SetHighlight en lugar de ForceHighlight
                 if (i == selectedIndex)
                 {
-                    // Activar manualmente el efecto de selección
-                    styledButtons[i].ForceHighlight(true);
+                    styledButtons[i].SetHighlight(true);
                 }
                 else
                 {
-                    // Desactivar el efecto para los demás
-                    styledButtons[i].ForceHighlight(false);
+                    styledButtons[i].SetHighlight(false);
                 }
             }
         }
     }
 
-    // ... (el resto de tus métodos se mantienen IGUAL) ...
     public void ShowEngimonoInfo(int index)
     {
         if (engimonoPanel == null || index < 0 || index >= currentEngimonoNames.Length)

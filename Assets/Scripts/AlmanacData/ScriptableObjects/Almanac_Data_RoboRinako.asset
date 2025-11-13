@@ -23,7 +23,7 @@ MonoBehaviour:
   - {fileID: 0}
   portraitScale: 5
   portraitYPosition: 0
-  buttonBackground: {fileID: 21300000, guid: d839d02f04dc08045b5f919e7801eed8, type: 3}
+  buttonBackground: {fileID: 21300000, guid: ddf6c415de8941e4faf76615ec4f5ae3, type: 3}
   buttonFont: {fileID: 0}
   buttonTextColor: {r: 1, g: 1, b: 1, a: 1}
   buttonFontSize: 24

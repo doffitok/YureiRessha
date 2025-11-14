@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 9167102069346071201}
   - component: {fileID: 7944231391976859165}
   - component: {fileID: 7743988320618365037}
+  - component: {fileID: 5115987269997571551}
   m_Layer: 0
   m_Name: passengerNomu
   m_TagString: Untagged
@@ -122,3 +123,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterData: {fileID: 11400000, guid: 7107624334c8e9b4fae4ab14df84e58b, type: 2}
+--- !u!114 &5115987269997571551
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 618542321095490944}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a3eaf6d505b513499ee5cb7096e633f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterData: {fileID: 11400000, guid: 7107624334c8e9b4fae4ab14df84e58b, type: 2}
+  flowchart: {fileID: 0}
+  variableAmistad: AmistadActual
+  variableEstado: EstadoEmocional
+  variableCharacterID: CharacterID

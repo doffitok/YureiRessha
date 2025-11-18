@@ -17565,19 +17565,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   version: 1
-  scrollPos: {x: 1839.2236, y: 698.96136}
+  scrollPos: {x: 1572.7295, y: 647.64777}
   variablesScrollPos: {x: 0, y: 0}
   variablesExpanded: 1
   blockViewHeight: 280
-  zoom: 0.31
+  zoom: 0.8499996
   scrollViewRect:
     serializedVersion: 2
     x: -343
     y: -340
     width: 1114
     height: 859
-  selectedBlocks:
-  - {fileID: 39990525}
+  selectedBlocks: []
   selectedCommands: []
   variables:
   - {fileID: 39990561}
@@ -32926,7 +32925,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nodeRect:
     serializedVersion: 2
-    x: -753.7735
+    x: -752.59705
     y: 177.90927
     width: 209.91
     height: 40
@@ -37844,7 +37843,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   version: 1
-  scrollPos: {x: 1695.0825, y: 878.236}
+  scrollPos: {x: 1696.259, y: 710.0007}
   variablesScrollPos: {x: 0, y: 0}
   variablesExpanded: 1
   blockViewHeight: 752
@@ -37856,9 +37855,8 @@ MonoBehaviour:
     width: 1114
     height: 859
   selectedBlocks:
-  - {fileID: 494345804}
-  selectedCommands:
-  - {fileID: 494345802}
+  - {fileID: 494345829}
+  selectedCommands: []
   variables:
   - {fileID: 494345878}
   - {fileID: 494345877}
@@ -46400,19 +46398,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   version: 1
-  scrollPos: {x: 1689.832, y: 1607.0768}
+  scrollPos: {x: 1695.0825, y: 878.236}
   variablesScrollPos: {x: 0, y: 0}
   variablesExpanded: 1
   blockViewHeight: 653
-  zoom: 0.28
+  zoom: 0.8499996
   scrollViewRect:
     serializedVersion: 2
     x: -343
     y: -340
     width: 1114
     height: 859
-  selectedBlocks:
-  - {fileID: 505325188}
+  selectedBlocks: []
   selectedCommands: []
   variables:
   - {fileID: 505325205}
@@ -47171,7 +47168,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61dddfdc5e0e44ca298d8f46f7f5a915, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedFlowchart: {fileID: 505325206}
+  selectedFlowchart: {fileID: 1040216171}
 --- !u!4 &564812863
 Transform:
   m_ObjectHideFlags: 1
@@ -57160,11 +57157,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   version: 1
-  scrollPos: {x: 950.4755, y: 1393.4587}
+  scrollPos: {x: 1385.2977, y: 670.9501}
   variablesScrollPos: {x: 0, y: 0}
   variablesExpanded: 1
-  blockViewHeight: 733
-  zoom: 0.28000045
+  blockViewHeight: 803
+  zoom: 0.5499999
   scrollViewRect:
     serializedVersion: 2
     x: -343
@@ -57172,8 +57169,9 @@ MonoBehaviour:
     width: 1114
     height: 859
   selectedBlocks:
-  - {fileID: 708398065}
-  selectedCommands: []
+  - {fileID: 708398093}
+  selectedCommands:
+  - {fileID: 708398089}
   variables:
   - {fileID: 708398030}
   - {fileID: 708398082}
@@ -58990,8 +58988,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nodeRect:
     serializedVersion: 2
-    x: 678.404
-    y: 452.64047
+    x: 678.40405
+    y: 452.64053
     width: 171.01001
     height: 40
   tint: {r: 1, g: 1, b: 1, a: 1}
@@ -61359,8 +61357,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nodeRect:
     serializedVersion: 2
-    x: 495.86343
-    y: -273.8014
+    x: 487.4208
+    y: -277.08008
     width: 168.13
     height: 40
   tint: {r: 1, g: 1, b: 1, a: 1}
@@ -63543,6 +63541,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 558e5e18198dfdf4b9abd6c30bd46ba7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  passengers: []
   passengerPrefabs:
   - {fileID: 7529655200778128035, guid: 05bcc941575b72b4681fad85041150c6, type: 3}
   - {fileID: 172376899591694313, guid: 03ca0604afec7474ba939345596ecb76, type: 3}
@@ -63551,8 +63550,8 @@ MonoBehaviour:
   - {fileID: 2046608415895934198, guid: cefb3267ff78a5b44b15032c1f80fa2c, type: 3}
   - {fileID: 618542321095490944, guid: 07e947557bc38b149ac9d26c95a421d9, type: 3}
   - {fileID: 618542321095490944, guid: fac4324aa8412c24ca509949af324855, type: 3}
-  defaultPassengers: []
   spawnPoints: []
+  defaultPassengers: []
   minRatingRoll: 0
   maxRatingRoll: 100
 --- !u!1 &734711414
@@ -74387,11 +74386,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   version: 1
-  scrollPos: {x: 1302.9636, y: 1094.0415}
+  scrollPos: {x: 1810.5497, y: 776.13495}
   variablesScrollPos: {x: 0, y: 0}
   variablesExpanded: 1
   blockViewHeight: 653
-  zoom: 0.45999992
+  zoom: 0.69999975
   scrollViewRect:
     serializedVersion: 2
     x: -343
@@ -74400,7 +74399,8 @@ MonoBehaviour:
     height: 859
   selectedBlocks:
   - {fileID: 1040216096}
-  selectedCommands: []
+  selectedCommands:
+  - {fileID: 1040216094}
   variables:
   - {fileID: 1040216170}
   - {fileID: 1040216169}
@@ -101918,18 +101918,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   version: 1
-  scrollPos: {x: 2121.789, y: 2039.6409}
+  scrollPos: {x: 1695.0825, y: 878.236}
   variablesScrollPos: {x: 0, y: 0}
   variablesExpanded: 1
   blockViewHeight: 653
-  zoom: 0.25
+  zoom: 0.8499996
   scrollViewRect:
     serializedVersion: 2
     x: -343
     y: -340
     width: 1114
     height: 859
-  selectedBlocks: []
+  selectedBlocks:
+  - {fileID: 1429663123}
   selectedCommands:
   - {fileID: 1429663121}
   variables:
@@ -112931,6 +112932,7 @@ GameObject:
   - component: {fileID: 1849539145}
   - component: {fileID: 1849539144}
   - component: {fileID: 1849539143}
+  - component: {fileID: 1849539142}
   - component: {fileID: 1849539141}
   - component: {fileID: 1849539140}
   - component: {fileID: 1849539139}
@@ -112943,7 +112945,6 @@ GameObject:
   - component: {fileID: 1849539132}
   - component: {fileID: 1849539131}
   - component: {fileID: 1849539130}
-  - component: {fileID: 1849539230}
   m_Layer: 0
   m_Name: Flowchart_Tomo
   m_TagString: Untagged
@@ -113275,6 +113276,22 @@ MonoBehaviour:
   commandList:
   - {fileID: 1849539140}
   suppressAllAutoSelections: 0
+--- !u!114 &1849539142
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1849539129}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a49012bdc794e429686c1eff7d9ced90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parentBlock: {fileID: 1849539153}
+  suppressBlockAutoSelect: 0
+  clickableObject: {fileID: 1422711016}
+  waitFrames: 1
 --- !u!114 &1849539143
 MonoBehaviour:
   m_ObjectHideFlags: 2
@@ -114531,7 +114548,7 @@ MonoBehaviour:
   itemId: 66
   blockName: "Conversaci\xF3n_Tomo"
   description: 
-  eventHandler: {fileID: 1849539230}
+  eventHandler: {fileID: 1849539142}
   commandList:
   - {fileID: 1849539152}
   - {fileID: 1849539151}
@@ -121331,18 +121348,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   version: 1
-  scrollPos: {x: 1050.4181, y: 727.0083}
+  scrollPos: {x: 1555.0824, y: 617.0594}
   variablesScrollPos: {x: 0, y: 0}
   variablesExpanded: 1
   blockViewHeight: 626
-  zoom: 0.5199998
+  zoom: 0.8499996
   scrollViewRect:
     serializedVersion: 2
     x: -343
     y: -340
     width: 1114
     height: 859
-  selectedBlocks: []
+  selectedBlocks:
+  - {fileID: 1849539191}
   selectedCommands: []
   variables:
   - {fileID: 1849539227}
@@ -121374,22 +121392,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1849539230
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1849539129}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a49012bdc794e429686c1eff7d9ced90, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  parentBlock: {fileID: 1849539153}
-  suppressBlockAutoSelect: 0
-  clickableObject: {fileID: 0}
-  waitFrames: 1
 --- !u!1 &1850488905
 GameObject:
   m_ObjectHideFlags: 0

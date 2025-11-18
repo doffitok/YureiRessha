@@ -1,31 +1,16 @@
 using System.Collections.Generic;
 using UnityEngine;
-[System.Serializable]
-public class Profile
-{
-    [Header("Datos")]
-    public string ID;
-    [Header("Variables")]
-    [Range(0, 20)] public int rating;
-    [Range(0, 20)] public int dinero;
-    [Header("Demanda")]
-    [Range(0, 100)] public int demandaMin = 1;   // valor minimo para el roll
-    [Range(0, 100)] public int demandaMax = 100;  // valor maximo para el roll
-
-    [Range(0, 20)] public int exigencia;
-}
 
 public class PassengerPlacementLogic : MonoBehaviour
 {
-    public List<Profile> passengers;
     [Header("Prefabs de pasajeros")]
     public List<GameObject> passengerPrefabs = new List<GameObject>();
 
-    [Header("Posiciones donde se colocarán los pasajeros (detectadas automáticamente)")]
-    public List<Transform> spawnPoints = new List<Transform>();
-
     [Header("Personajes default (usados si no hay prefabs disponibles)")]
     public List<GameObject> defaultPassengers = new List<GameObject>();
+
+    [Header("Posiciones donde se colocaran los pasajeros (detectadas automaticamente)")]
+    public List<Transform> spawnPoints = new List<Transform>();
 
     [Header("Rango de tirada para el rating")]
     [Range(0, 100)] public int minRatingRoll = 0;
@@ -37,7 +22,7 @@ public class PassengerPlacementLogic : MonoBehaviour
     {
         gameStats = FindFirstObjectByType<GameStats>();
         if (gameStats == null)
-            Debug.LogError("[PassengerPlacementLogic] No se encontró GameStats en la escena.");
+            Debug.LogError("[PassengerPlacementLogic] No se encontro GameStats en la escena.");
 
         AutoDetectSpawnPoints();
     }
@@ -50,11 +35,12 @@ public class PassengerPlacementLogic : MonoBehaviour
             spawnPoints.Clear();
             foreach (Transform child in parent.transform)
                 spawnPoints.Add(child);
-            Debug.Log($"[PassengerPlacementLogic] Detectados {spawnPoints.Count} spawn points en 'passengerSpawns'.");
+
+            Debug.Log("[PassengerPlacementLogic] Detectados " + spawnPoints.Count + " spawn points en 'passengerSpawns'.");
         }
         else
         {
-            Debug.LogError("[PassengerPlacementLogic] No se encontró el objeto 'passengerSpawns' en la escena.");
+            Debug.LogError("[PassengerPlacementLogic] No se encontro el objeto 'passengerSpawns' en la escena.");
         }
     }
 
@@ -64,7 +50,7 @@ public class PassengerPlacementLogic : MonoBehaviour
 
         if (prefabsToUse == null || prefabsToUse.Count == 0)
         {
-            Debug.LogWarning("[PassengerPlacementLogic] No se encontraron pasajeros, se usarán personajes default.");
+            Debug.LogWarning("[PassengerPlacementLogic] No se encontraron pasajeros, se usaran personajes default.");
             prefabsToUse = defaultPassengers;
         }
 
@@ -79,14 +65,17 @@ public class PassengerPlacementLogic : MonoBehaviour
             Destroy(child.gameObject);
 
         int spawnCount = spawnPoints.Count;
-        int passengersToSpawn = 2; // mínimo garantizado
 
+        // minimo garantizado
+        int passengersToSpawn = 2;
+
+        // se agregan pasajeros extra dependiendo del rating del jugador
         if (gameStats != null)
         {
             int extraSeats = spawnCount - 2;
             for (int i = 0; i < extraSeats; i++)
             {
-                int roll = Random.Range(minRatingRoll, maxRatingRoll + 1); // ahora usamos sliders
+                int roll = Random.Range(minRatingRoll, maxRatingRoll + 1);
                 if (roll <= gameStats.rating)
                     passengersToSpawn++;
             }
@@ -114,12 +103,28 @@ public class PassengerPlacementLogic : MonoBehaviour
             availableSpawns.RemoveAt(indexSpawn);
 
             GameObject instance = Instantiate(prefab, spawnPoint.position, spawnPoint.rotation, transform);
+
+            // obtener PassengerData
+            PassengerData data = instance.GetComponent<PassengerData>();
+            if (data == null)
+            {
+                Debug.LogWarning("[PassengerPlacementLogic] El prefab " + prefab.name + " no tiene PassengerData.");
+            }
+            else
+            {
+                // aplicar el debugColor al cubo
+                Renderer r = instance.GetComponentInChildren<Renderer>();
+                if (r != null)
+                {
+                    r.material.color = data.debugColor;
+                }
+            }
+
             instantiatedPassengers.Add(instance);
-            CharacterData c = instance.GetComponent<itemIdentifier>().characterData;
-            AddProfilePassenger(c.ID, c);
         }
 
-        Debug.Log($"[PassengerPlacementLogic] Se han generado {instantiatedPassengers.Count} pasajeros (mínimo 2, rating {gameStats?.rating ?? 0}).");
+        Debug.Log("[PassengerPlacementLogic] Se han generado " + instantiatedPassengers.Count + " pasajeros (minimo 2, rating " + (gameStats?.rating ?? 0) + ").");
+
         return instantiatedPassengers;
     }
 
@@ -127,32 +132,4 @@ public class PassengerPlacementLogic : MonoBehaviour
     {
         return spawnPoints != null ? spawnPoints.Count : 0;
     }
-    // lo agrego el profe, y es para tener una clase auxiliar para cambiar los datos del juego durante el gameplay
-    // Recordemos ir sumando todas las stats que vayamos creando (si es que creamos mas)
-    public void AddProfilePassenger(string id, CharacterData newData)
-    {
-        if (ExistProfile(id))
-        {
-            return;
-        }
-        Profile newProfile = new Profile();
-        newProfile.ID = id;
-        newProfile.rating = newData.rating;
-        newProfile.dinero = newData.dinero;
-        newProfile.exigencia = newData.exigencia;
-        newProfile.demandaMin = newData.demandaMin;
-        newProfile.demandaMax = newData.demandaMax;
-        passengers.Add(newProfile);
-    }
-    public bool ExistProfile(string id)
-     {
-         foreach (Profile p in passengers)
-         {
-             if (id == p.ID)
-             {
-                 return true;
-             }
-         }
-         return false;
-       }
 }

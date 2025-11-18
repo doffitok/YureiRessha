@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 4955454301108745130}
   - component: {fileID: 7102087676005548796}
   - component: {fileID: 985478883200934958}
-  - component: {fileID: 3548706384945747742}
+  - component: {fileID: -2249136674607753366}
+  - component: {fileID: -8770443150687830247}
   m_Layer: 0
   m_Name: passengerShinkai
   m_TagString: Untagged
@@ -109,7 +110,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &3548706384945747742
+--- !u!114 &-2249136674607753366
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -118,7 +119,33 @@ MonoBehaviour:
   m_GameObject: {fileID: 2611211793170235259}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 33d1c6b75dfebdb4c800e9a18b0ecab0, type: 3}
+  m_Script: {fileID: 11500000, guid: 36dd04aa4ea970b4391ce289cc91b3ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterData: {fileID: 11400000, guid: a14468eb89bd1094389366d56c6aac15, type: 2}
+  ID: passengerShinkai
+  nombre: Shinkai
+  rating: 0
+  dinero: 0
+  amistad: 0
+  demandaMin: 1
+  demandaMax: 100
+  exigencia: 0
+  debugColor: {r: 1, g: 0.3726415, b: 0.61769414, a: 0}
+  debugTexture: {fileID: 2800000, guid: 16a5533e38e6f9246b8cc8c5c504a238, type: 3}
+  notas: 
+--- !u!114 &-8770443150687830247
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2611211793170235259}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97ec65e031913664a8adc8184df37f9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogueIconPrefab: {fileID: 4990436597533907343, guid: e0a7147ee30f2324f8690e9f0b8a867a, type: 3}
+  minSpawnDelay: 4
+  maxSpawnDelay: 8
+  heightOffset: 2

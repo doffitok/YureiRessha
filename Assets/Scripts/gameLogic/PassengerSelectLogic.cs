@@ -8,15 +8,13 @@ public class PassengerSelectLogic : MonoBehaviour
     [Header("Referencias")]
     public PassengerPlacementLogic placementLogic;
 
-    [Header("Ejecución")]
-    [Tooltip("Si está activo, la selección corre sola al iniciar la escena")]
+    [Header("Ejecucion")]
     public bool autoRunOnStart = false;
 
     private bool hasRun = false;
 
     private void Awake()
     {
-        // Resolver placementLogic en Awake: corre aunque el componente esté deshabilitado
         if (placementLogic == null)
             placementLogic = FindFirstObjectByType<PassengerPlacementLogic>();
     }
@@ -25,20 +23,16 @@ public class PassengerSelectLogic : MonoBehaviour
     {
         if (autoRunOnStart)
         {
-            Debug.Log("[PassengerSelectLogic] autoRunOnStart=TRUE → ejecutando selección al inicio.");
+            Debug.Log("[PassengerSelectLogic] autoRunOnStart TRUE → ejecutando seleccion al inicio.");
             RunSelectionSafe();
         }
     }
 
-    /// <summary>
-    /// Permite ejecutar la selección de forma segura, resolviendo referencias si hace falta
-    /// y garantizando que solo corre una vez por ciclo (hasta ResetSelectionState()).
-    /// </summary>
     public void RunSelectionSafe()
     {
         if (hasRun)
         {
-            Debug.Log("[PassengerSelectLogic] RunSelectionSafe llamado pero ya corrió este ciclo. Ignorado.");
+            Debug.Log("[PassengerSelectLogic] RunSelectionSafe llamado pero ya corrio este ciclo.");
             return;
         }
 
@@ -47,16 +41,13 @@ public class PassengerSelectLogic : MonoBehaviour
 
         if (placementLogic == null)
         {
-            Debug.LogError("[PassengerSelectLogic] No se encontró PassengerPlacementLogic en la escena.");
+            Debug.LogError("[PassengerSelectLogic] No se encontro PassengerPlacementLogic en la escena.");
             return;
         }
 
         StartCoroutine(DelayedSetup());
     }
 
-    /// <summary>
-    /// Permite volver a ejecutar la selección en un nuevo día.
-    /// </summary>
     public void ResetSelectionState()
     {
         hasRun = false;
@@ -66,18 +57,18 @@ public class PassengerSelectLogic : MonoBehaviour
     {
         hasRun = true;
 
-        // Esperar 1 frame por si otros Awake/Start (como AutoDetectSpawnPoints) aún no terminan
         yield return null;
 
         List<GameObject> prefabs = placementLogic.passengerPrefabs;
 
         if (prefabs == null || prefabs.Count == 0)
         {
-            Debug.LogWarning("[PassengerSelectLogic] No hay prefabs de pasajeros asignados. Se usarán personajes default.");
+            Debug.LogWarning("[PassengerSelectLogic] No hay prefabs asignados. Usando default.");
             prefabs = placementLogic.defaultPassengers;
+
             if (prefabs == null || prefabs.Count == 0)
             {
-                Debug.LogError("[PassengerSelectLogic] Tampoco hay personajes default disponibles.");
+                Debug.LogError("[PassengerSelectLogic] No hay personajes default disponibles.");
                 yield break;
             }
         }
@@ -85,20 +76,19 @@ public class PassengerSelectLogic : MonoBehaviour
         int maxSpawn = placementLogic.GetSpawnPointCount();
         int numToSpawn = Mathf.Min(prefabs.Count, maxSpawn);
 
-        // 🔹 Tiradas y separación en listas de prioridad
         List<(GameObject prefab, int roll, int demandaMin)> candidateRolls = new List<(GameObject, int, int)>();
         List<GameObject> prioritized = new List<GameObject>();
         List<GameObject> nonPrioritized = new List<GameObject>();
 
         foreach (GameObject candidate in prefabs)
         {
-            itemIdentifier identifier = candidate.GetComponent<itemIdentifier>();
+            PassengerData data = candidate.GetComponent<PassengerData>();
+
             int roll = 0;
             int demandaMin = 0;
 
-            if (identifier != null && identifier.characterData != null)
+            if (data != null)
             {
-                var data = identifier.characterData;
                 roll = Random.Range(data.demandaMin, data.demandaMax + 1);
                 demandaMin = data.demandaMin;
             }
@@ -106,14 +96,10 @@ public class PassengerSelectLogic : MonoBehaviour
             candidateRolls.Add((candidate, roll, demandaMin));
         }
 
-        // Mostrar todos los rolls
-        Debug.Log("[PassengerSelectLogic] Rolls de todos los candidatos:");
+        Debug.Log("[PassengerSelectLogic] Rolls generados:");
         foreach (var c in candidateRolls)
-        {
-            Debug.Log($"- {c.prefab.name}: Roll={c.roll}, DemandaMin={c.demandaMin}");
-        }
+            Debug.Log("- " + c.prefab.name + ": Roll=" + c.roll + ", DemandaMin=" + c.demandaMin);
 
-        // Separar prioridades
         foreach (var c in candidateRolls)
         {
             if (c.demandaMin >= 40)
@@ -122,27 +108,23 @@ public class PassengerSelectLogic : MonoBehaviour
                 nonPrioritized.Add(c.prefab);
         }
 
-        // Ordenar descendente según roll
         prioritized = prioritized.OrderByDescending(p => candidateRolls.First(c => c.prefab == p).roll).ToList();
         nonPrioritized = nonPrioritized.OrderByDescending(p => candidateRolls.First(c => c.prefab == p).roll).ToList();
 
-        // Seleccionar hasta numToSpawn
         List<GameObject> finalSelection = new List<GameObject>();
         finalSelection.AddRange(prioritized);
+
         if (finalSelection.Count < numToSpawn)
             finalSelection.AddRange(nonPrioritized.Take(numToSpawn - finalSelection.Count));
 
         finalSelection = finalSelection.Take(numToSpawn).ToList();
 
-        // Mostrar selección final
-        Debug.Log("[PassengerSelectLogic] Selección final de pasajeros:");
+        Debug.Log("[PassengerSelectLogic] Seleccion final:");
         foreach (var p in finalSelection)
-        {
-            Debug.Log($"- {p.name}");
-        }
+            Debug.Log("- " + p.name);
 
-        // Instanciar
         placementLogic.SpawnPassengers(finalSelection);
-        Debug.Log($"[PassengerSelectLogic] ✅ Spawn solicitado ({finalSelection.Count}).");
+
+        Debug.Log("[PassengerSelectLogic] Spawn solicitado de " + finalSelection.Count + " pasajeros.");
     }
 }

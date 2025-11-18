@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 1312914807285079029}
   - component: {fileID: 9167102069346071201}
   - component: {fileID: 7944231391976859165}
-  - component: {fileID: 7743988320618365037}
-  - component: {fileID: 5115987269997571551}
+  - component: {fileID: 5840976247642527825}
+  - component: {fileID: -3829557352900174001}
   m_Layer: 0
   m_Name: passengerNomu
   m_TagString: Untagged
@@ -110,7 +110,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &7743988320618365037
+--- !u!114 &5840976247642527825
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -119,11 +119,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 618542321095490944}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 33d1c6b75dfebdb4c800e9a18b0ecab0, type: 3}
+  m_Script: {fileID: 11500000, guid: 36dd04aa4ea970b4391ce289cc91b3ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterData: {fileID: 11400000, guid: 7107624334c8e9b4fae4ab14df84e58b, type: 2}
---- !u!114 &5115987269997571551
+  ID: passengerNomu
+  nombre: Nomu
+  rating: 0
+  dinero: 0
+  amistad: 0
+  demandaMin: 1
+  demandaMax: 100
+  exigencia: 0
+  debugColor: {r: 0.14438558, g: 1, b: 0, a: 0}
+  debugTexture: {fileID: 0}
+  notas: 
+--- !u!114 &-3829557352900174001
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -132,11 +142,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 618542321095490944}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a3eaf6d505b513499ee5cb7096e633f, type: 3}
+  m_Script: {fileID: 11500000, guid: 97ec65e031913664a8adc8184df37f9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterData: {fileID: 11400000, guid: 7107624334c8e9b4fae4ab14df84e58b, type: 2}
-  flowchart: {fileID: 0}
-  variableAmistad: AmistadActual
-  variableEstado: EstadoEmocional
-  variableCharacterID: CharacterID
+  dialogueIconPrefab: {fileID: 4990436597533907343, guid: e0a7147ee30f2324f8690e9f0b8a867a, type: 3}
+  minSpawnDelay: 4
+  maxSpawnDelay: 8
+  heightOffset: 2

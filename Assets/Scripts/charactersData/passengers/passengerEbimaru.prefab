@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 4768387735182777058}
   - component: {fileID: 1819801851067671287}
   - component: {fileID: 7587584497351107879}
-  - component: {fileID: 6624531600450222836}
+  - component: {fileID: 3922279235764158325}
+  - component: {fileID: 7222213368833499028}
   m_Layer: 0
   m_Name: passengerEbimaru
   m_TagString: Untagged
@@ -109,7 +110,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &6624531600450222836
+--- !u!114 &3922279235764158325
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -118,7 +119,35 @@ MonoBehaviour:
   m_GameObject: {fileID: 172376899591694313}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 33d1c6b75dfebdb4c800e9a18b0ecab0, type: 3}
+  m_Script: {fileID: 11500000, guid: 36dd04aa4ea970b4391ce289cc91b3ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterData: {fileID: 11400000, guid: 8e988a9b16fb521439ca3cd8723fe42e, type: 2}
+  ID: passengerEbimaru
+  nombre: Ebimaru
+  rating: 0
+  dinero: 0
+  amistad: 0
+  demandaMin: 1
+  demandaMax: 100
+  exigencia: 0
+  debugColor: {r: 1, g: 0, b: 0, a: 0}
+  debugTexture: {fileID: 0}
+  notas: 
+--- !u!114 &7222213368833499028
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 172376899591694313}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97ec65e031913664a8adc8184df37f9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogueIconPrefab: {fileID: 271836322782582777, guid: dd07e589a17ea064b81bcc2e3c3ae3c6, type: 3}
+  offsetX: 0.61
+  offsetY: 0.85
+  offsetZ: 0
+  minSpawnDelay: 4
+  maxSpawnDelay: 8

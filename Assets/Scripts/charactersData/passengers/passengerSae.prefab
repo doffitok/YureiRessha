@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 1135216563356862105}
   - component: {fileID: 8708299596259443134}
   - component: {fileID: 2825250496964535914}
-  - component: {fileID: 1810993269101979491}
+  - component: {fileID: -5029753803893735365}
+  - component: {fileID: -5180890426516478275}
   m_Layer: 0
   m_Name: passengerSae
   m_TagString: Untagged
@@ -109,7 +110,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1810993269101979491
+--- !u!114 &-5029753803893735365
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -118,7 +119,33 @@ MonoBehaviour:
   m_GameObject: {fileID: 2046608415895934198}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 33d1c6b75dfebdb4c800e9a18b0ecab0, type: 3}
+  m_Script: {fileID: 11500000, guid: 36dd04aa4ea970b4391ce289cc91b3ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterData: {fileID: 11400000, guid: 508f63d9687ee87418a3a5229661289b, type: 2}
+  ID: passengerSae
+  nombre: Sae
+  rating: 0
+  dinero: 0
+  amistad: 0
+  demandaMin: 1
+  demandaMax: 100
+  exigencia: 0
+  debugColor: {r: 1, g: 0.4292453, b: 0.4292453, a: 0}
+  debugTexture: {fileID: 2800000, guid: 587ed9b1270c89c488bb2c0ae3c4c0f4, type: 3}
+  notas: 
+--- !u!114 &-5180890426516478275
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2046608415895934198}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97ec65e031913664a8adc8184df37f9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogueIconPrefab: {fileID: 4990436597533907343, guid: e0a7147ee30f2324f8690e9f0b8a867a, type: 3}
+  minSpawnDelay: 4
+  maxSpawnDelay: 8
+  heightOffset: 2

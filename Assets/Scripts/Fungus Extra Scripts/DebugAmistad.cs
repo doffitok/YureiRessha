@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public class DebugAmistad : MonoBehaviour
 {
     [Header("Referencias")]
-    public CharacterData characterData;
+    public PassengerData passengerData;
     public Button botonSubirAmistad;
     public Button botonBajarAmistad;
     public Text textoEstado;
@@ -14,29 +14,32 @@ public class DebugAmistad : MonoBehaviour
         // Configurar botones
         botonSubirAmistad.onClick.AddListener(SubirAmistad);
         botonBajarAmistad.onClick.AddListener(BajarAmistad);
-        
+
         ActualizarUI();
     }
 
     public void SubirAmistad()
     {
-        characterData.CambiarAmistad(1);
+        passengerData.CambiarAmistad(1);
         ActualizarUI();
-        Debug.Log($"{characterData.nombre}: Amistad +1 = {characterData.amistad} ({characterData.EstadoActual})");
+        Debug.Log(passengerData.nombre + ": Amistad +1 = " + passengerData.amistad + " (" + passengerData.EstadoActual + ")");
     }
 
     public void BajarAmistad()
     {
-        characterData.CambiarAmistad(-1);
+        passengerData.CambiarAmistad(-1);
         ActualizarUI();
-        Debug.Log($"{characterData.nombre}: Amistad -1 = {characterData.amistad} ({characterData.EstadoActual})");
+        Debug.Log(passengerData.nombre + ": Amistad -1 = " + passengerData.amistad + " (" + passengerData.EstadoActual + ")");
     }
 
     void ActualizarUI()
     {
         if (textoEstado != null)
         {
-            textoEstado.text = $"{characterData.nombre}\nAmistad: {characterData.amistad}\nEstado: {characterData.EstadoActual}";
+            textoEstado.text =
+                passengerData.nombre +
+                "\nAmistad: " + passengerData.amistad +
+                "\nEstado: " + passengerData.EstadoActual;
         }
     }
 }

@@ -1,5 +1,5 @@
 using UnityEngine;
-using UnityEngine.InputSystem; // ✅ Nuevo Input System
+using UnityEngine.InputSystem; // Nuevo Input System
 using TMPro;
 using System.Collections;
 
@@ -9,6 +9,7 @@ public class EndscreenResults : MonoBehaviour
     [Header("Referencias principales")]
     [SerializeField] private DayLogic dayLogic;
     [SerializeField] private GoalsManager goalsManager;
+    [SerializeField] private EndScreenBehaviour endScreenBehaviour;
 
     [Header("UI de resultados")]
     [SerializeField] private GameObject panelResultados;
@@ -25,17 +26,17 @@ public class EndscreenResults : MonoBehaviour
     [SerializeField] private float tiempoEntreAnimaciones = 0.75f;
     [SerializeField] private float delayAntesDeCalcular = 0.75f;
 
-    [Header("Animación de Ingresos")]
+    [Header("Animacion de Ingresos")]
     [SerializeField] private float segundosPorMil = 2f;
     [SerializeField] private float escalaExtra = 0.05f;
     [SerializeField] private float duracionMaximaIngresos = 8f;
     [Range(0f, 1f)] [SerializeField] private float porcentajeEscalaFinalIngresos = 0.5f;
 
     [Header("Rebote final de Ingresos")]
-    [SerializeField] private float reboteEscalaFactor = 0.9f; // 🔹 cuánto se encoge (0.9 = 90%)
-    [SerializeField] private float reboteDuracion = 0.25f;    // 🔹 duración del rebote
+    [SerializeField] private float reboteEscalaFactor = 0.9f;
+    [SerializeField] private float reboteDuracion = 0.25f;
 
-    [Header("Animación de Balance")]
+    [Header("Animacion de Balance")]
     [SerializeField] private float duracionAleatoriaBalance = 3f;
     [SerializeField] private float rangoBalanceAleatorio = 3000f;
     [SerializeField] private float escalaBalanceDuranteAnimacion = 0.1f;
@@ -55,6 +56,8 @@ public class EndscreenResults : MonoBehaviour
             dayLogic = FindFirstObjectByType<DayLogic>();
         if (goalsManager == null)
             goalsManager = FindFirstObjectByType<GoalsManager>();
+        if (endScreenBehaviour == null)
+            endScreenBehaviour = FindFirstObjectByType<EndScreenBehaviour>();
 
         if (dayLogic != null)
         {
@@ -123,7 +126,7 @@ public class EndscreenResults : MonoBehaviour
             textoBalance.rectTransform.localScale = escalaBaseBalance;
         }
 
-        Debug.Log("[EndscreenResults] 🔄 Día reiniciado: pantalla de resultados oculta y escalas restauradas.");
+        Debug.Log("[EndscreenResults] Dia reiniciado: pantalla de resultados oculta y escalas restauradas.");
     }
 
     private IEnumerator MostrarSecuencia()
@@ -154,11 +157,29 @@ public class EndscreenResults : MonoBehaviour
         estadoActual = EstadoPantalla.MostrandoBalance;
         yield return StartCoroutine(AnimarBalanceAleatorio(textoBalance, balance));
 
+        // 🔔 AQUI TERMINO REALMENTE LA ANIMACION DEL BALANCE
+        if (endScreenBehaviour != null && goalsManager != null)
+        {
+            Debug.Log("[EndscreenResults] 🔔 Balance termino de contar. Avisando a EndScreenBehaviour.");
+            if (goalsManager.JugadorPerdio())
+            {
+                endScreenBehaviour.OnBalanceAnimationCompletada();
+            }
+            else
+            {
+                Debug.Log("[EndscreenResults] El jugador no perdio, no se hace shake.");
+            }
+        }
+        else
+        {
+            Debug.LogWarning("[EndscreenResults] Falta GoalsManager o EndScreenBehaviour, no se puede avisar del balance.");
+        }
+
         estadoActual = EstadoPantalla.Finalizada;
         yield return new WaitForSeconds(delayAntesDeCalcular);
 
         goalsManager.IniciarCierreFinal();
-        Debug.Log("[EndscreenResults] 🎬 Secuencia completada.");
+        Debug.Log("[EndscreenResults] Secuencia completada.");
     }
 
     private IEnumerator AparecerGrupos(float impuestos)
@@ -211,9 +232,6 @@ public class EndscreenResults : MonoBehaviour
         if (textoBalance != null) textoBalance.text = "¥0";
     }
 
-    //───────────────────────────────────────────────
-    //  Animación de ingresos con rebote final
-    //───────────────────────────────────────────────
     private IEnumerator AnimarNumeroConEscala(TextMeshProUGUI texto, float objetivo)
     {
         float duracionCalculada = Mathf.Max(2f, (objetivo / 1000f) * segundosPorMil);
@@ -225,7 +243,6 @@ public class EndscreenResults : MonoBehaviour
         float escalaFinalExtra = escalaExtra * porcentajeEscalaFinalIngresos;
         Vector3 escalaFinal = escalaBase * (1f + escalaFinalExtra);
 
-        // Fase de conteo + escala ascendente
         while (tiempo < duracionFinal && !skipSolicitado)
         {
             tiempo += Time.deltaTime;
@@ -236,7 +253,6 @@ public class EndscreenResults : MonoBehaviour
             yield return null;
         }
 
-        // Rebote final (encoge → escala final)
         float t = 0f;
         Vector3 escalaMenor = escalaFinal * reboteEscalaFactor;
         while (t < 1f)

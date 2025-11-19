@@ -3,63 +3,99 @@ using UnityEngine;
 [DisallowMultipleComponent]
 public class EndScreenBehaviour : MonoBehaviour
 {
-    [Header("Prefab del Game Over")]
+    [Header("Prefab del Game Over (diario)")]
     [SerializeField] private GameObject endScreenPrefab;
 
     [Header("HUD que se va a sacudir")]
     [SerializeField] private RectTransform hudRoot;
 
     [Header("Shake del HUD")]
-    [SerializeField] private float shakeFuerza = 15f;
+    [SerializeField] private float shakeFuerza = 0.5f;
     [SerializeField] private float shakeDuracion = 0.5f;
 
     [Header("Sonido de ruptura")]
     [SerializeField] private AudioClip sonidoRuptura;
     [SerializeField] private float volumenSonido = 1f;
 
-    [Header("Animacion del Game Over")]
+    [Header("Animacion del diario")]
     [SerializeField] private Vector3 escalaInicial = Vector3.zero;
-    [SerializeField] private Vector3 escalaFinal = new Vector3(1f, 1f, 1f);
+    [SerializeField] private Vector3 escalaFinal = Vector3.one;
     [SerializeField] private float vueltasCompletas = 2f;
     [SerializeField] private float duracionAnimacion = 1.5f;
 
-    private RectTransform endScreenRect;
     private Canvas canvasPadre;
-
     private AudioSource audioSource;
 
-    private float animTimer = 0f;
-    private bool animandoEndScreen = false;
+    private bool jugadorPerdio = false;
 
+    // Shake
     private bool shaking = false;
     private float shakeTimer = 0f;
-    private Vector2 hudPosOriginal;
+    private Vector2 hudOriginal;
+    private bool shakeYaHecho = false;
+
+    // Diario
+    private RectTransform diarioRect;
+    private bool animandoDiario = false;
+    private float diarioTimer = 0f;
+    private bool diarioYaMostrado = false;
 
     private void Awake()
     {
         canvasPadre = GetComponentInParent<Canvas>();
         if (canvasPadre == null)
-            canvasPadre = FindAnyObjectByType<Canvas>();
+            canvasPadre = FindFirstObjectByType<Canvas>();
 
         if (hudRoot == null && canvasPadre != null)
             hudRoot = canvasPadre.GetComponent<RectTransform>();
 
         if (hudRoot != null)
-            hudPosOriginal = hudRoot.anchoredPosition;
+            hudOriginal = hudRoot.anchoredPosition;
 
         audioSource = gameObject.AddComponent<AudioSource>();
         audioSource.playOnAwake = false;
+
+        Debug.Log("[EndScreenBehaviour] Awake completado.");
     }
 
-    // Llamar apenas termines de mostrar el balance (SI perdio)
-    public void TriggerShake()
+    // GoalsManager llama esto despues de calcular el dia
+    public void SetResultadoDelDia(bool perdio)
     {
-        if (hudRoot == null)
+        jugadorPerdio = perdio;
+        shakeYaHecho = false;
+        Debug.Log("[EndScreenBehaviour] SetResultadoDelDia llamado. Perdio=" + jugadorPerdio);
+    }
+
+    // EndscreenResults llama esto cuando TERMINA la animacion del balance
+    public void OnBalanceAnimationCompletada()
+    {
+        Debug.Log("[EndScreenBehaviour] OnBalanceAnimationCompletada llamado.");
+
+        if (!jugadorPerdio)
         {
-            Debug.LogWarning("[EndScreenBehaviour] No hay HUD asignado para shake.");
+            Debug.Log("[EndScreenBehaviour] El jugador NO perdio, no se hace shake.");
             return;
         }
 
+        if (shakeYaHecho)
+        {
+            Debug.Log("[EndScreenBehaviour] Shake ya se hizo antes, se ignora.");
+            return;
+        }
+
+        TriggerShake();
+        shakeYaHecho = true;
+    }
+
+    private void TriggerShake()
+    {
+        if (hudRoot == null)
+        {
+            Debug.LogWarning("[EndScreenBehaviour] hudRoot es null, no se puede sacudir HUD.");
+            return;
+        }
+
+        Debug.Log("[EndScreenBehaviour] TriggerShake: comenzando temblor + sonido.");
         shakeTimer = 0f;
         shaking = true;
 
@@ -68,62 +104,84 @@ public class EndScreenBehaviour : MonoBehaviour
             audioSource.volume = volumenSonido;
             audioSource.PlayOneShot(sonidoRuptura);
         }
-
-        Debug.Log("[EndScreenBehaviour] Shake activado.");
     }
 
-    // Llamar despues en el cierre final para mostrar el diario
     public void ActivarEndScreen()
     {
-        InstanciarEndScreenSiEsNecesario();
+        Debug.Log("[EndScreenBehaviour] ActivarEndScreen llamado. Perdio=" + jugadorPerdio + ", diarioYaMostrado=" + diarioYaMostrado);
 
-        if (endScreenRect == null)
+        if (!jugadorPerdio)
+        {
+            Debug.Log("[EndScreenBehaviour] El jugador no perdio, no se muestra diario.");
             return;
+        }
 
-        animTimer = 0f;
-        endScreenRect.localScale = escalaInicial;
-        endScreenRect.localRotation = Quaternion.identity;
+        if (diarioYaMostrado)
+        {
+            Debug.Log("[EndScreenBehaviour] El diario ya fue mostrado, se ignora.");
+            return;
+        }
 
-        animandoEndScreen = true;
+        InstanciarDiarioSiEsNecesario();
+        if (diarioRect == null)
+        {
+            Debug.LogError("[EndScreenBehaviour] No se pudo instanciar el diario.");
+            return;
+        }
+
+        diarioRect.localScale = escalaInicial;
+        diarioRect.localRotation = Quaternion.identity;
+
+        diarioTimer = 0f;
+        animandoDiario = true;
+        diarioYaMostrado = true;
 
         Debug.Log("[EndScreenBehaviour] Animacion del diario iniciada.");
     }
 
-    private void InstanciarEndScreenSiEsNecesario()
+    private void InstanciarDiarioSiEsNecesario()
     {
+        if (diarioRect != null)
+            return;
+
         if (endScreenPrefab == null)
         {
-            Debug.LogError("[EndScreenBehaviour] No hay prefab asignado.");
+            Debug.LogError("[EndScreenBehaviour] endScreenPrefab es null, no puedo instanciar.");
             return;
         }
 
-        if (endScreenRect != null)
-            return;
+        if (canvasPadre == null)
+        {
+            canvasPadre = FindFirstObjectByType<Canvas>();
+            if (canvasPadre == null)
+            {
+                Debug.LogError("[EndScreenBehaviour] No hay Canvas en la escena.");
+                return;
+            }
+        }
 
-        GameObject instancia = Object.Instantiate(endScreenPrefab, canvasPadre.transform);
-        instancia.name = "EndScreenInstancia";
+        GameObject instancia = Instantiate(endScreenPrefab, canvasPadre.transform);
+        instancia.name = "EndScreenDiario";
 
-        endScreenRect = instancia.GetComponent<RectTransform>();
-        if (endScreenRect == null)
+        diarioRect = instancia.GetComponent<RectTransform>();
+        if (diarioRect == null)
         {
             Debug.LogError("[EndScreenBehaviour] El prefab no tiene RectTransform.");
             return;
         }
 
-        instancia.SetActive(true);
+        diarioRect.anchorMin = new Vector2(0.5f, 0.5f);
+        diarioRect.anchorMax = new Vector2(0.5f, 0.5f);
+        diarioRect.pivot = new Vector2(0.5f, 0.5f);
+        diarioRect.anchoredPosition = Vector2.zero;
 
-        endScreenRect.anchorMin = new Vector2(0.5f, 0.5f);
-        endScreenRect.anchorMax = new Vector2(0.5f, 0.5f);
-        endScreenRect.pivot = new Vector2(0.5f, 0.5f);
-        endScreenRect.anchoredPosition = Vector2.zero;
-
-        Debug.Log("[EndScreenBehaviour] Instancia del diario creada.");
+        Debug.Log("[EndScreenBehaviour] Diario instanciado y centrado.");
     }
 
     private void Update()
     {
         ActualizarShake();
-        ActualizarAnimacion();
+        ActualizarAnimacionDiario();
     }
 
     private void ActualizarShake()
@@ -135,36 +193,37 @@ public class EndScreenBehaviour : MonoBehaviour
         {
             shakeTimer += Time.deltaTime;
 
-            float offsetX = Random.Range(-shakeFuerza, shakeFuerza);
-            float offsetY = Random.Range(-shakeFuerza, shakeFuerza);
-
-            hudRoot.anchoredPosition = hudPosOriginal + new Vector2(offsetX, offsetY);
+            float x = Random.Range(-shakeFuerza, shakeFuerza);
+            float y = Random.Range(-shakeFuerza, shakeFuerza);
+            hudRoot.anchoredPosition = hudOriginal + new Vector2(x, y);
         }
         else
         {
-            hudRoot.anchoredPosition = hudPosOriginal;
             shaking = false;
+            hudRoot.anchoredPosition = hudOriginal;
+            Debug.Log("[EndScreenBehaviour] Shake terminado.");
         }
     }
 
-    private void ActualizarAnimacion()
+    private void ActualizarAnimacionDiario()
     {
-        if (!animandoEndScreen || endScreenRect == null)
+        if (!animandoDiario || diarioRect == null)
             return;
 
-        if (animTimer < duracionAnimacion)
+        if (diarioTimer < duracionAnimacion)
         {
-            animTimer += Time.deltaTime;
-            float t = Mathf.Clamp01(animTimer / duracionAnimacion);
+            diarioTimer += Time.deltaTime;
 
-            endScreenRect.localScale = Vector3.Lerp(escalaInicial, escalaFinal, t);
+            float t = Mathf.Clamp01(diarioTimer / duracionAnimacion);
+            diarioRect.localScale = Vector3.Lerp(escalaInicial, escalaFinal, t);
 
             float grados = vueltasCompletas * 360f * t;
-            endScreenRect.localRotation = Quaternion.Euler(0f, 0f, grados);
+            diarioRect.localRotation = Quaternion.Euler(0f, 0f, grados);
         }
         else
         {
-            animandoEndScreen = false;
+            animandoDiario = false;
+            Debug.Log("[EndScreenBehaviour] Animacion del diario terminada.");
         }
     }
 }

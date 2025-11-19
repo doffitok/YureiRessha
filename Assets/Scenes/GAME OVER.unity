@@ -2705,6 +2705,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dayLogic: {fileID: 76587298}
   gameStats: {fileID: 648572419}
+  endScreenBehaviour: {fileID: 1829216215}
   impuestoBase: 11750
   exponenteInicial: 0.8
   incrementoExponentePorDia: 0.15
@@ -2728,6 +2729,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dayLogic: {fileID: 76587298}
   goalsManager: {fileID: 289786441}
+  endScreenBehaviour: {fileID: 1829216215}
   panelResultados: {fileID: 809759617}
   grupoIngresos: {fileID: 66545573}
   grupoImpuestos: {fileID: 691339643}
@@ -2786,6 +2788,7 @@ Transform:
   - {fileID: 627559425}
   - {fileID: 1376492743}
   - {fileID: 289786440}
+  - {fileID: 1829216214}
   m_Father: {fileID: 1254652153}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &376200572
@@ -12008,6 +12011,60 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1827130557}
   m_CullTransparentMesh: 1
+--- !u!1 &1829216213
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1829216214}
+  - component: {fileID: 1829216215}
+  m_Layer: 0
+  m_Name: EndScreenBehaviour
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1829216214
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1829216213}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 310524525}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1829216215
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1829216213}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33f815bc7216f03469e0b660253f8106, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  endScreenPrefab: {fileID: 1028595813880015682, guid: 63cce434c5503a84cb177729ce5fcf53, type: 3}
+  hudRoot: {fileID: 788491565}
+  shakeFuerza: 15
+  shakeDuracion: 0.5
+  sonidoRuptura: {fileID: 8300000, guid: a52aaeae63543e145aad23c250c6f0e2, type: 3}
+  volumenSonido: 1
+  escalaInicial: {x: 0, y: 0, z: 0}
+  escalaFinal: {x: 7, y: 7, z: 7}
+  vueltasCompletas: 8
+  duracionAnimacion: 0.8
 --- !u!1 &1830468106
 GameObject:
   m_ObjectHideFlags: 0

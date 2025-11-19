@@ -25,14 +25,11 @@ public class GoalsManager : MonoBehaviour
     [Range(0, 100)] public float suerteAltaGarantizada = 75f;
     [Range(0, 100)] public float suerteBajaGarantizada = 15f;
 
-    // Variables internas
-    private int ultimoDiaCalculado = -1;
     private float impuestoFinal;
     private float ultimoBalance;
     private float ultimosIngresos;
-
-    private bool cierreAplicado = false;
     private bool jugadorPerdioHoy = false;
+    private bool cierreAplicado = false;
 
     private void Start()
     {
@@ -45,15 +42,18 @@ public class GoalsManager : MonoBehaviour
         if (endScreenBehaviour == null)
             endScreenBehaviour = FindFirstObjectByType<EndScreenBehaviour>();
 
-        Debug.Log("[GoalsManager] Iniciado.");
+        Debug.Log("[GoalsManager] Start completado.");
     }
 
-    // Calculo principal
+    // Calculo principal del dia
     public void CalcularResultadosDia(int diaActual)
     {
-        if (gameStats == null) return;
+        if (gameStats == null)
+        {
+            Debug.LogError("[GoalsManager] GameStats es null en CalcularResultadosDia.");
+            return;
+        }
 
-        cierreAplicado = false;
         jugadorPerdioHoy = false;
 
         float ingresos = gameStats.GetDineroTotal();
@@ -71,7 +71,8 @@ public class GoalsManager : MonoBehaviour
         float porcentajeSuerte = suerteNorm * 100f;
 
         float deudaBase = deudaExtraMin + (deudaExtraMax - deudaExtraMin) * suerteNorm;
-        deudaBase += Random.Range(-(deudaExtraMax - deudaExtraMin) * 0.15f, (deudaExtraMax - deudaExtraMin) * 0.15f);
+        deudaBase += Random.Range(-(deudaExtraMax - deudaExtraMin) * 0.15f,
+                                  (deudaExtraMax - deudaExtraMin) * 0.15f);
         deudaBase = Mathf.Clamp(deudaBase, deudaExtraMin, deudaExtraMax);
 
         bool restaDeuda;
@@ -94,52 +95,47 @@ public class GoalsManager : MonoBehaviour
         impuestoFinal = Mathf.Max(0f, impuestoBaseCrecido + deudaFinal);
 
         ultimoBalance = ingresos - impuestoFinal;
-        ultimoDiaCalculado = diaActual;
+        jugadorPerdioHoy = (ultimoBalance < 0f);
 
-        Debug.Log("[GoalsManager] Dia " + diaActual +
-                  " → Ingresos: " + ingresos +
-                  " Impuestos: " + impuestoFinal +
-                  " Balance: " + ultimoBalance);
+        Debug.Log($"[GoalsManager] Dia {diaActual} calculado. Ingresos={ingresos}, Impuestos={impuestoFinal}, Balance={ultimoBalance}, Perdio={jugadorPerdioHoy}");
 
-        // Solo marcamos si el jugador perdio
-        if (ultimoBalance < 0f)
+        if (endScreenBehaviour != null)
         {
-            Debug.Log("[GoalsManager] El jugador no puede pagar la deuda. PERDIO EL DIA.");
-            jugadorPerdioHoy = true;
+            Debug.Log("[GoalsManager] Enviando resultado del dia a EndScreenBehaviour.");
+            endScreenBehaviour.SetResultadoDelDia(jugadorPerdioHoy);
+        }
+        else
+        {
+            Debug.LogWarning("[GoalsManager] endScreenBehaviour es null, no puedo enviar resultado.");
         }
     }
 
-    // Aplicar resultados + mostrar diario si perdio
+    // Cierre final del dia
     public void IniciarCierreFinal()
     {
-        if (gameStats == null || cierreAplicado)
+        if (cierreAplicado)
+        {
+            Debug.Log("[GoalsManager] IniciarCierreFinal llamado pero ya estaba aplicado.");
             return;
+        }
 
         cierreAplicado = true;
 
-        float balance = GetBalanceFinal();
-        int nuevoDinero = Mathf.Max(0, Mathf.RoundToInt(balance));
+        int nuevoDinero = Mathf.Max(0, Mathf.RoundToInt(ultimoBalance));
         gameStats.dinero = nuevoDinero;
 
-        Debug.Log("[GoalsManager] Cierre final aplicado. Dinero final: " + nuevoDinero);
+        Debug.Log("[GoalsManager] Cierre final aplicado. Dinero final: " + nuevoDinero + ". Perdio=" + jugadorPerdioHoy);
 
-        if (jugadorPerdioHoy)
+        if (jugadorPerdioHoy && endScreenBehaviour != null)
         {
-            if (endScreenBehaviour != null)
-            {
-                endScreenBehaviour.ActivarEndScreen();
-            }
+            Debug.Log("[GoalsManager] Jugador perdio, activando EndScreen (diario).");
+            endScreenBehaviour.ActivarEndScreen();
         }
-
-        OnCierreFinalizado?.Invoke();
     }
 
-    public event System.Action OnCierreFinalizado;
-
+    // Getters
     public float GetIngresosFinales() => ultimosIngresos;
     public float GetImpuestosFinales() => impuestoFinal;
     public float GetBalanceFinal() => ultimoBalance;
-
-    // Getter para la UI
     public bool JugadorPerdio() => jugadorPerdioHoy;
 }

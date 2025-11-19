@@ -12,10 +12,10 @@ GameObject:
   - component: {fileID: 1312914807285079029}
   - component: {fileID: 9167102069346071201}
   - component: {fileID: 7944231391976859165}
-  - component: {fileID: 5840976247642527825}
-  - component: {fileID: -3829557352900174001}
+  - component: {fileID: 4513277228627929422}
+  - component: {fileID: -6105828467592267180}
   m_Layer: 0
-  m_Name: passengerNomu
+  m_Name: passenger_Kitsu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -110,7 +110,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &5840976247642527825
+--- !u!114 &4513277228627929422
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -122,18 +122,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36dd04aa4ea970b4391ce289cc91b3ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ID: passengerNomu
-  nombre: Nomu
-  rating: 0
-  dinero: 0
+  ID: passengerKitsu
+  nombre: Kitsu
+  rating: 2
+  dinero: 17
   amistad: 0
-  demandaMin: 1
+  demandaMin: 28
   demandaMax: 100
-  exigencia: 0
-  debugColor: {r: 0.14438558, g: 1, b: 0, a: 0}
-  debugTexture: {fileID: 0}
-  notas: 
---- !u!114 &-3829557352900174001
+  exigencia: 17
+  debugColor: {r: 0.51290494, g: 0.86263067, b: 0.9622642, a: 0}
+  debugTexture: {fileID: 2800000, guid: 02be84403c7b90a4c8a884aa88ec7af0, type: 3}
+  notas: 'Veterinario:
+
+    Es algo serio, tiene su dinero pero su rating es un asco
+    junto a que va a muchisimos lugares'
+--- !u!114 &-6105828467592267180
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -145,7 +148,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97ec65e031913664a8adc8184df37f9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueIconPrefab: {fileID: 4990436597533907343, guid: e0a7147ee30f2324f8690e9f0b8a867a, type: 3}
+  dialogueIconPrefab: {fileID: 1292822602587377570, guid: 0faf443d098bfa64c9cfa9b1ecad98f8, type: 3}
+  offsetX: 0
+  offsetY: 0
+  offsetZ: 0
   minSpawnDelay: 4
   maxSpawnDelay: 8
-  heightOffset: 2
+  flowchartName: Flowchart_Kitsu
+  blockName: Conversacion_Kitsu

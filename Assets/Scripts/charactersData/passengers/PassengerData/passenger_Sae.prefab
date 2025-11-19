@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: -5029753803893735365}
   - component: {fileID: -5180890426516478275}
   m_Layer: 0
-  m_Name: passengerSae
+  m_Name: passenger_Sae
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -124,15 +124,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: passengerSae
   nombre: Sae
-  rating: 0
-  dinero: 0
-  amistad: 0
-  demandaMin: 1
+  rating: 7
+  dinero: 18
+  amistad: 2
+  demandaMin: 50
   demandaMax: 100
-  exigencia: 0
+  exigencia: 12
   debugColor: {r: 1, g: 0.4292453, b: 0.4292453, a: 0}
   debugTexture: {fileID: 2800000, guid: 587ed9b1270c89c488bb2c0ae3c4c0f4, type: 3}
-  notas: 
+  notas: 'Contadora:
+
+    Tiene muchisima plata y rating sube poco, es muy piola
+    en todo sentido'
 --- !u!114 &-5180890426516478275
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -145,7 +148,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97ec65e031913664a8adc8184df37f9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueIconPrefab: {fileID: 4990436597533907343, guid: e0a7147ee30f2324f8690e9f0b8a867a, type: 3}
+  dialogueIconPrefab: {fileID: 1292822602587377570, guid: 2215cbfe67d520f40a22d1a12086a522, type: 3}
+  offsetX: 0
+  offsetY: 0
+  offsetZ: 0
   minSpawnDelay: 4
   maxSpawnDelay: 8
-  heightOffset: 2
+  flowchartName: Flowchart_Sae
+  blockName: Conversacion_Sae

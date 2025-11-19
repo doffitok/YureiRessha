@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 4513277228627929422}
   - component: {fileID: -6105828467592267180}
   m_Layer: 0
-  m_Name: passengerTomo
+  m_Name: passenger_Hamaguri
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -122,17 +122,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36dd04aa4ea970b4391ce289cc91b3ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ID: passengerTomo
-  nombre: Tomo
-  rating: 0
-  dinero: 0
-  amistad: 0
-  demandaMin: 1
+  ID: passengerHamaguri
+  nombre: Hamaguri
+  rating: 6
+  dinero: 11
+  amistad: 6
+  demandaMin: 86
   demandaMax: 100
-  exigencia: 0
-  debugColor: {r: 0.5021805, g: 0.5754717, b: 0.52401143, a: 0}
-  debugTexture: {fileID: 2800000, guid: c392e57abc26eae409fea90827301982, type: 3}
-  notas: 
+  exigencia: 8
+  debugColor: {r: 0.7854179, g: 0.8018868, b: 0.1021271, a: 0}
+  debugTexture: {fileID: 2800000, guid: 55dfaf8718ab79242b0e6d575790b249, type: 3}
+  notas: "Cocinera/Discapacitada:\nDebido a su movilidad reducida, pide mucha asistencia,
+    pero subir\xE1 poco al vag\xF3n. Adem\xE1s de ser muy amigable."
 --- !u!114 &-6105828467592267180
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -145,7 +146,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97ec65e031913664a8adc8184df37f9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueIconPrefab: {fileID: 4990436597533907343, guid: e0a7147ee30f2324f8690e9f0b8a867a, type: 3}
+  dialogueIconPrefab: {fileID: 1292822602587377570, guid: 4d24887ef29a86c4f89fab5066998f21, type: 3}
+  offsetX: 0
+  offsetY: 0
+  offsetZ: 0
   minSpawnDelay: 4
   maxSpawnDelay: 8
-  heightOffset: 2
+  flowchartName: Flowchart_Hamaguri
+  blockName: Conversacion_Hamaguri

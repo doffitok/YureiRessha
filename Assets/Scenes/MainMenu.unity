@@ -6791,7 +6791,7 @@ MonoBehaviour:
   buttonClickSFX: {fileID: 8300000, guid: c18ae2c530c264a6880266d5e0a71337, type: 3}
   spacing: 95
   animationTime: 0.3
-  delayBetweenButtons: 0.2
+  delayBetweenButtons: 0.12
   startOffset: {x: -1200, y: 0}
   basePosition: {x: 0, y: 100}
   buttonsWithoutTransition:

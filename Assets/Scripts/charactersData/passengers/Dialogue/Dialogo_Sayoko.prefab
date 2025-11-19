@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3206848865381940785}
   - component: {fileID: 2306083342434955002}
   m_Layer: 0
-  m_Name: DialogoKanae
+  m_Name: Dialogo_Sayoko
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 42345c0616838074894ae73527ecb772, type: 3}
-  m_Name: Gallery_Engimono_Antu_Boat_Sail
+  m_Name: Gallery_Engimono_Antu_Broom
   m_EditorClassIdentifier: 
   engimonoName: Broom
   engimonoDescription: Removes all type of Ofuda in this Engimono. It transform that
     Ofuda into +0.5 rating for that day.
-  engimonoIcon: {fileID: 21300000, guid: 242b890a2a15a374e997b733f4e1aab0, type: 3}
-  engimonoMainSprite: {fileID: 21300000, guid: 242b890a2a15a374e997b733f4e1aab0, type: 3}
-  backgroundSprite: {fileID: 21300000, guid: 26f401054ae2f5b4b95885d95862c512, type: 3}
+  engimonoIcon: {fileID: 21300000, guid: 26f401054ae2f5b4b95885d95862c512, type: 3}
+  engimonoMainSprite: {fileID: 21300000, guid: 26f401054ae2f5b4b95885d95862c512, type: 3}
+  backgroundSprite: {fileID: 21300000, guid: 242b890a2a15a374e997b733f4e1aab0, type: 3}
   backgroundColor: {r: 1, g: 1, b: 1, a: 1}
   highlightOnHover: 1
   panelOffset: {x: 400, y: 0}

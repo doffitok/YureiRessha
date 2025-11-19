@@ -15,9 +15,9 @@ MonoBehaviour:
   engimonoName: Klein's Bottle
   engimonoDescription: 'Negates any type of re-activation to the item on the right
     instead giving a second activation to the Item in the Left. '
-  engimonoIcon: {fileID: 21300000, guid: e39886676bb42b847847f8687b76cdb0, type: 3}
-  engimonoMainSprite: {fileID: 21300000, guid: e39886676bb42b847847f8687b76cdb0, type: 3}
-  backgroundSprite: {fileID: 0}
+  engimonoIcon: {fileID: 21300000, guid: 802c62409b54c8a44a6e72a3117b09a3, type: 3}
+  engimonoMainSprite: {fileID: 21300000, guid: 802c62409b54c8a44a6e72a3117b09a3, type: 3}
+  backgroundSprite: {fileID: 21300000, guid: 802c62409b54c8a44a6e72a3117b09a3, type: 3}
   backgroundColor: {r: 1, g: 1, b: 1, a: 1}
   highlightOnHover: 1
   panelOffset: {x: 400, y: 0}

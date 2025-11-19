@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   engimonoName: Kokeshi Doll
   engimonoDescription: It does nothing... But-
-  engimonoIcon: {fileID: 21300000, guid: e39886676bb42b847847f8687b76cdb0, type: 3}
-  engimonoMainSprite: {fileID: 21300000, guid: e39886676bb42b847847f8687b76cdb0, type: 3}
-  backgroundSprite: {fileID: 0}
+  engimonoIcon: {fileID: 21300000, guid: 0f30bb6771ff1ed4e805229dae188b2d, type: 3}
+  engimonoMainSprite: {fileID: 21300000, guid: 0f30bb6771ff1ed4e805229dae188b2d, type: 3}
+  backgroundSprite: {fileID: 21300000, guid: 0f30bb6771ff1ed4e805229dae188b2d, type: 3}
   backgroundColor: {r: 1, g: 1, b: 1, a: 1}
   highlightOnHover: 1
   panelOffset: {x: 400, y: 0}

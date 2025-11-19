@@ -145,7 +145,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97ec65e031913664a8adc8184df37f9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueIconPrefab: {fileID: 4990436597533907343, guid: e0a7147ee30f2324f8690e9f0b8a867a, type: 3}
+  dialogueIconPrefab: {fileID: 1292822602587377570, guid: 724f2fd0c8eb1e74c96ddbc8eecf781d, type: 3}
+  offsetX: 0.61
+  offsetY: 0.85
+  offsetZ: 0
   minSpawnDelay: 4
   maxSpawnDelay: 8
-  heightOffset: 2
+  flowchartName: Flowchart_Kanae
+  blockName: Conversacion_Kanae

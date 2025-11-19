@@ -132,7 +132,8 @@ MonoBehaviour:
   exigencia: 0
   debugColor: {r: 1, g: 0, b: 0, a: 0}
   debugTexture: {fileID: 0}
-  notas: 
+  notas: Kanae es muy bonita y es de plATA o de rating lol ok google kane futanari
+    jarvis asme una knae futaanr
 --- !u!114 &7222213368833499028
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -145,9 +146,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97ec65e031913664a8adc8184df37f9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueIconPrefab: {fileID: 271836322782582777, guid: dd07e589a17ea064b81bcc2e3c3ae3c6, type: 3}
+  dialogueIconPrefab: {fileID: 1292822602587377570, guid: 98ba5d97c4f66934f921ba2951f897df, type: 3}
   offsetX: 0.61
   offsetY: 0.85
   offsetZ: 0
-  minSpawnDelay: 4
-  maxSpawnDelay: 8
+  minSpawnDelay: 1
+  maxSpawnDelay: 2
+  flowchartName: Flowchart_Ebimaru
+  blockName: Conversacion_Ebimaru

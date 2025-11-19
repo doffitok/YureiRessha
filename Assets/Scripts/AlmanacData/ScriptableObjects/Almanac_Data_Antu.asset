@@ -31,17 +31,18 @@ MonoBehaviour:
   buttonFontSize: 24
   engimonoNames:
   - Book of Spirits
-  - 
-  - 
+  - Cannon Ball
+  - Broom
   engimonoDescriptions:
   - 'A beautiful book, a story about two lovers and... can''t undertand a thing of
     it.. It''s in spanish.. Okay, at least is not heavy at all.. '
-  - 
-  - 
+  - It's super heavy! Why is he with this thing on the train! I should charge him
+    extra money for this!
+  - He likes to have everything perfect and clean! So he got his own broom... Great
   engimonoIcons:
   - {fileID: 21300000, guid: f96b0e7327db31f459fdd49b41046fad, type: 3}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 21300000, guid: af40abf01e31d01448661ed3a24044c9, type: 3}
+  - {fileID: 21300000, guid: 26f401054ae2f5b4b95885d95862c512, type: 3}
   engimonoCredits:
   - 
   - 

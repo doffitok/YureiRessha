@@ -126,7 +126,7 @@ MonoBehaviour:
   nombre: Sayoko
   rating: 13
   dinero: 6
-  amistad: 6
+  amistad: 3
   demandaMin: 49
   demandaMax: 100
   exigencia: 1

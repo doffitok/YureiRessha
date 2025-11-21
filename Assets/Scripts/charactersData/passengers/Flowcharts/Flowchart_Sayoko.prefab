@@ -85,8 +85,6 @@ GameObject:
   - component: {fileID: 6409936169217058865}
   - component: {fileID: 2117257886012197512}
   - component: {fileID: 2087470149166268740}
-  - component: {fileID: 9020808164275465887}
-  - component: {fileID: 8595353776837572788}
   - component: {fileID: 3760867875784714407}
   - component: {fileID: 472763482623704348}
   - component: {fileID: 5389560724084346690}
@@ -143,10 +141,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   version: 1
-  scrollPos: {x: 1821.376, y: 815.039}
+  scrollPos: {x: 1771.3757, y: 775.039}
   variablesScrollPos: {x: 0, y: 0}
   variablesExpanded: 1
-  blockViewHeight: 791
+  blockViewHeight: 767
   zoom: 0.69999975
   scrollViewRect:
     serializedVersion: 2
@@ -157,7 +155,7 @@ MonoBehaviour:
   selectedBlocks:
   - {fileID: 2087470149166268740}
   selectedCommands:
-  - {fileID: 9020808164275465887}
+  - {fileID: 0}
   variables:
   - {fileID: 5427200550170996869}
   - {fileID: 8240100655619106863}
@@ -1804,7 +1802,7 @@ MonoBehaviour:
   nodeRect:
     serializedVersion: 2
     x: -1286.015
-    y: -131.26245
+    y: -129.83388
     width: 129.85
     height: 40
   tint: {r: 1, g: 1, b: 1, a: 1}
@@ -1868,7 +1866,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemId: 181
   indentLevel: 0
-  variable: {fileID: 0}
+  variable: {fileID: 5427200550170996869}
   minValue:
     integerRef: {fileID: 0}
     integerVal: 1
@@ -1893,7 +1891,7 @@ MonoBehaviour:
   conditions:
   - compareOperator: 0
     anyVar:
-      variable: {fileID: 0}
+      variable: {fileID: 5427200550170996869}
       data:
         animatorData:
           animatorRef: {fileID: 0}
@@ -2187,7 +2185,7 @@ MonoBehaviour:
   conditions:
   - compareOperator: 0
     anyVar:
-      variable: {fileID: 0}
+      variable: {fileID: 5427200550170996869}
       data:
         animatorData:
           animatorRef: {fileID: 0}
@@ -2481,7 +2479,7 @@ MonoBehaviour:
   conditions:
   - compareOperator: 0
     anyVar:
-      variable: {fileID: 0}
+      variable: {fileID: 5427200550170996869}
       data:
         animatorData:
           animatorRef: {fileID: 0}
@@ -2775,7 +2773,7 @@ MonoBehaviour:
   conditions:
   - compareOperator: 0
     anyVar:
-      variable: {fileID: 0}
+      variable: {fileID: 5427200550170996869}
       data:
         animatorData:
           animatorRef: {fileID: 0}
@@ -3069,7 +3067,7 @@ MonoBehaviour:
   conditions:
   - compareOperator: 0
     anyVar:
-      variable: {fileID: 0}
+      variable: {fileID: 5427200550170996869}
       data:
         animatorData:
           animatorRef: {fileID: 0}
@@ -3588,7 +3586,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemId: 200
   indentLevel: 0
-  variable: {fileID: 0}
+  variable: {fileID: 5427200550170996869}
   minValue:
     integerRef: {fileID: 0}
     integerVal: 1
@@ -3613,7 +3611,7 @@ MonoBehaviour:
   conditions:
   - compareOperator: 0
     anyVar:
-      variable: {fileID: 0}
+      variable: {fileID: 5427200550170996869}
       data:
         animatorData:
           animatorRef: {fileID: 0}
@@ -3907,7 +3905,7 @@ MonoBehaviour:
   conditions:
   - compareOperator: 0
     anyVar:
-      variable: {fileID: 0}
+      variable: {fileID: 5427200550170996869}
       data:
         animatorData:
           animatorRef: {fileID: 0}
@@ -4201,7 +4199,7 @@ MonoBehaviour:
   conditions:
   - compareOperator: 0
     anyVar:
-      variable: {fileID: 0}
+      variable: {fileID: 5427200550170996869}
       data:
         animatorData:
           animatorRef: {fileID: 0}
@@ -4495,7 +4493,7 @@ MonoBehaviour:
   conditions:
   - compareOperator: 0
     anyVar:
-      variable: {fileID: 0}
+      variable: {fileID: 5427200550170996869}
       data:
         animatorData:
           animatorRef: {fileID: 0}
@@ -4789,7 +4787,7 @@ MonoBehaviour:
   conditions:
   - compareOperator: 0
     anyVar:
-      variable: {fileID: 0}
+      variable: {fileID: 5427200550170996869}
       data:
         animatorData:
           animatorRef: {fileID: 0}
@@ -5308,7 +5306,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemId: 219
   indentLevel: 0
-  variable: {fileID: 0}
+  variable: {fileID: 5427200550170996869}
   minValue:
     integerRef: {fileID: 0}
     integerVal: 1
@@ -5333,7 +5331,7 @@ MonoBehaviour:
   conditions:
   - compareOperator: 0
     anyVar:
-      variable: {fileID: 0}
+      variable: {fileID: 5427200550170996869}
       data:
         animatorData:
           animatorRef: {fileID: 0}
@@ -5627,7 +5625,7 @@ MonoBehaviour:
   conditions:
   - compareOperator: 0
     anyVar:
-      variable: {fileID: 0}
+      variable: {fileID: 5427200550170996869}
       data:
         animatorData:
           animatorRef: {fileID: 0}
@@ -5921,7 +5919,7 @@ MonoBehaviour:
   conditions:
   - compareOperator: 0
     anyVar:
-      variable: {fileID: 0}
+      variable: {fileID: 5427200550170996869}
       data:
         animatorData:
           animatorRef: {fileID: 0}
@@ -6215,7 +6213,7 @@ MonoBehaviour:
   conditions:
   - compareOperator: 0
     anyVar:
-      variable: {fileID: 0}
+      variable: {fileID: 5427200550170996869}
       data:
         animatorData:
           animatorRef: {fileID: 0}
@@ -6509,7 +6507,7 @@ MonoBehaviour:
   conditions:
   - compareOperator: 0
     anyVar:
-      variable: {fileID: 0}
+      variable: {fileID: 5427200550170996869}
       data:
         animatorData:
           animatorRef: {fileID: 0}
@@ -6972,8 +6970,7 @@ MonoBehaviour:
   description: 
   eventHandler: {fileID: 8365961237414237420}
   commandList:
-  - {fileID: 9020808164275465887}
-  - {fileID: 8595353776837572788}
+  - {fileID: 0}
   - {fileID: 3760867875784714407}
   - {fileID: 472763482623704348}
   - {fileID: 5389560724084346690}
@@ -6983,63 +6980,6 @@ MonoBehaviour:
   - {fileID: 7898157678509580557}
   - {fileID: 8643428960603272890}
   suppressAllAutoSelections: 0
---- !u!114 &9020808164275465887
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 419955928491886623}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3ac5ce55bc698fa4290939ef6e426501, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemId: 237
-  indentLevel: 0
-  display: 1
-  stage: {fileID: 0}
-  character: {fileID: 0}
-  replacedCharacter: {fileID: 0}
-  portrait: {fileID: 21300000, guid: 7ff87f46d160caa42a2da5514e022728, type: 3}
-  offset: 0
-  fromPosition: {fileID: 0}
-  toPosition: {fileID: 0}
-  facing: 0
-  useDefaultSettings: 1
-  fadeDuration: 0.5
-  moveDuration: 1
-  shiftOffset: {x: 0, y: 0}
-  move: 0
-  shiftIntoPlace: 0
-  waitUntilFinished: 0
---- !u!114 &8595353776837572788
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 419955928491886623}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec422cd568a9c4a31ad7c36d0572b9da, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemId: 238
-  indentLevel: 0
-  storyText: Hola
-  description: 
-  character: {fileID: 0}
-  portrait: {fileID: 0}
-  voiceOverClip: {fileID: 0}
-  showAlways: 1
-  showCount: 1
-  extendPrevious: 0
-  fadeWhenDone: 1
-  waitForClick: 1
-  stopVoiceover: 1
-  waitForVO: 0
-  setSayDialog: {fileID: 0}
 --- !u!114 &3760867875784714407
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7058,7 +6998,7 @@ MonoBehaviour:
   conditions:
   - compareOperator: 5
     anyVar:
-      variable: {fileID: 0}
+      variable: {fileID: 3054152051756216781}
       data:
         animatorData:
           animatorRef: {fileID: 0}
@@ -7352,7 +7292,7 @@ MonoBehaviour:
   conditions:
   - compareOperator: 4
     anyVar:
-      variable: {fileID: 5427200550170996869}
+      variable: {fileID: 3054152051756216781}
       data:
         animatorData:
           animatorRef: {fileID: 0}
@@ -7646,7 +7586,7 @@ MonoBehaviour:
   conditions:
   - compareOperator: 4
     anyVar:
-      variable: {fileID: 0}
+      variable: {fileID: 3054152051756216781}
       data:
         animatorData:
           animatorRef: {fileID: 0}
@@ -7940,7 +7880,7 @@ MonoBehaviour:
   conditions:
   - compareOperator: 5
     anyVar:
-      variable: {fileID: 0}
+      variable: {fileID: 3054152051756216781}
       data:
         animatorData:
           animatorRef: {fileID: 0}

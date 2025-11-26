@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 985478883200934958}
   - component: {fileID: -2249136674607753366}
   - component: {fileID: -8770443150687830247}
+  - component: {fileID: 1006284105989504872}
   m_Layer: 0
   m_Name: passenger_Shinkai
   m_TagString: Untagged
@@ -31,7 +32,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 13.517, y: 5.073, z: 4.224}
-  m_LocalScale: {x: 0.53154, y: 0.53154, z: 0.53154}
+  m_LocalScale: {x: 0.2, y: 0.15, z: 0.15}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -43,7 +44,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2611211793170235259}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!23 &7102087676005548796
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -130,6 +131,13 @@ MonoBehaviour:
   demandaMin: 52
   demandaMax: 100
   exigencia: 10
+  visuals:
+    animatorController: {fileID: 0}
+    characterMaterial: {fileID: 0}
+    textureTiling: {x: 1, y: 1}
+    textureOffset: {x: 0, y: 0}
+    planeSize: {x: 1, y: 1}
+    useBillboard: 1
   debugColor: {r: 1, g: 0.3726415, b: 0.61769414, a: 0}
   debugTexture: {fileID: 2800000, guid: 16a5533e38e6f9246b8cc8c5c504a238, type: 3}
   notas: 'Misterioso:
@@ -155,3 +163,28 @@ MonoBehaviour:
   maxSpawnDelay: 8
   flowchartName: Flowchart_Shinkai
   blockName: Conversacion_Shinkai
+--- !u!114 &1006284105989504872
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2611211793170235259}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e3f993a6dd904941ac57e2d6996774b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  frames:
+  - {fileID: 2800000, guid: 862084a0b81cfd74bb81c971e7873ea7, type: 3}
+  - {fileID: 2800000, guid: a2f4bb7e37dad7844bf598f3fb030ab1, type: 3}
+  - {fileID: 2800000, guid: c51b452b72d2412478c89f29240ac5de, type: 3}
+  - {fileID: 2800000, guid: 52d5a603c8f15084795bbaad75c118f2, type: 3}
+  - {fileID: 2800000, guid: 410b658d0a31fa646a113aef575a5614, type: 3}
+  - {fileID: 2800000, guid: a2b429e8b76eccc498cd3e016c4ae420, type: 3}
+  - {fileID: 2800000, guid: 3995d128f5b366941a4bcea2ced827aa, type: 3}
+  - {fileID: 2800000, guid: 303f0cfb7bd1ae54ca9d91153a70ad20, type: 3}
+  - {fileID: 2800000, guid: c97848fa91c292c4da34c1cc93cc778c, type: 3}
+  - {fileID: 2800000, guid: 013353d86be61e4409aaf9bb3f591355, type: 3}
+  - {fileID: 2800000, guid: d2e2f5e787828e34999b8c154167039a, type: 3}
+  speed: 0.1

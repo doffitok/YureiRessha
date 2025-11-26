@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 7944231391976859165}
   - component: {fileID: 4513277228627929422}
   - component: {fileID: -6105828467592267180}
+  - component: {fileID: -5230826067279590942}
   m_Layer: 0
   m_Name: passenger_Tomo
   m_TagString: Untagged
@@ -31,7 +32,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 12.86, y: 5.073, z: 4.224}
-  m_LocalScale: {x: 0.53154, y: 0.53154, z: 0.53154}
+  m_LocalScale: {x: 0.3, y: 0.2, z: 0.2}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -43,7 +44,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 618542321095490944}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!23 &9167102069346071201
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -130,6 +131,13 @@ MonoBehaviour:
   demandaMin: 49
   demandaMax: 100
   exigencia: 16
+  visuals:
+    animatorController: {fileID: 0}
+    characterMaterial: {fileID: 0}
+    textureTiling: {x: 1, y: 1}
+    textureOffset: {x: 0, y: 0}
+    planeSize: {x: 1, y: 1}
+    useBillboard: 1
   debugColor: {r: 0.5021805, g: 0.5754717, b: 0.52401143, a: 0}
   debugTexture: {fileID: 2800000, guid: c392e57abc26eae409fea90827301982, type: 3}
   notas: "Nerd:\ncarece de dinero \ny le cuesta ahcer amigos\npero puede venir varias
@@ -154,3 +162,28 @@ MonoBehaviour:
   maxSpawnDelay: 8
   flowchartName: Flowchart_Tomo
   blockName: Conversacion_Tomo
+--- !u!114 &-5230826067279590942
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 618542321095490944}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e3f993a6dd904941ac57e2d6996774b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  frames:
+  - {fileID: 2800000, guid: 092e781cf5db13348be4cc8b776701d3, type: 3}
+  - {fileID: 2800000, guid: 6b0d9faba35cc454689bf4bb2f94f9e2, type: 3}
+  - {fileID: 2800000, guid: 51baf33ec8707d64a8ab407307f4a7b5, type: 3}
+  - {fileID: 2800000, guid: 7d593aeb42374604095417e6ce29f2c5, type: 3}
+  - {fileID: 2800000, guid: 191272b5cc0f91b4a9be3b4c73f8a5a8, type: 3}
+  - {fileID: 2800000, guid: 53278acdc16d60748b3205a55dd44a7b, type: 3}
+  - {fileID: 2800000, guid: d8e313143bf56e14baf1aaa2a8a4da38, type: 3}
+  - {fileID: 2800000, guid: 5793d02fa9dff0e498534c05291d5fc5, type: 3}
+  - {fileID: 2800000, guid: 5feff3be1878f2149b10d6627a28c8d0, type: 3}
+  - {fileID: 2800000, guid: 07af2ff41f3c14546b32689fb5ae3de3, type: 3}
+  - {fileID: 2800000, guid: 553244217880d3041b8630635e4fad4d, type: 3}
+  speed: 0.1

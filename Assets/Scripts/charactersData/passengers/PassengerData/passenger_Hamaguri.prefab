@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 7944231391976859165}
   - component: {fileID: 4513277228627929422}
   - component: {fileID: -6105828467592267180}
+  - component: {fileID: 4360105670634923810}
   m_Layer: 0
   m_Name: passenger_Hamaguri
   m_TagString: Untagged
@@ -31,7 +32,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 12.86, y: 5.073, z: 4.224}
-  m_LocalScale: {x: 0.53154, y: 0.53154, z: 0.53154}
+  m_LocalScale: {x: 0.3, y: 0.2, z: 0.2}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -43,7 +44,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 618542321095490944}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!23 &9167102069346071201
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -108,7 +109,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 0.17, y: 0.16, z: 0.16}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &4513277228627929422
 MonoBehaviour:
@@ -130,6 +131,13 @@ MonoBehaviour:
   demandaMin: 86
   demandaMax: 100
   exigencia: 8
+  visuals:
+    animatorController: {fileID: 0}
+    characterMaterial: {fileID: 0}
+    textureTiling: {x: 1, y: 1}
+    textureOffset: {x: 0, y: 0}
+    planeSize: {x: 1, y: 1}
+    useBillboard: 1
   debugColor: {r: 0.7854179, g: 0.8018868, b: 0.1021271, a: 0}
   debugTexture: {fileID: 2800000, guid: 55dfaf8718ab79242b0e6d575790b249, type: 3}
   notas: "Cocinera/Discapacitada:\nDebido a su movilidad reducida, pide mucha asistencia,
@@ -154,3 +162,28 @@ MonoBehaviour:
   maxSpawnDelay: 8
   flowchartName: Flowchart_Hamaguri
   blockName: Conversacion_Hamaguri
+--- !u!114 &4360105670634923810
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 618542321095490944}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e3f993a6dd904941ac57e2d6996774b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  frames:
+  - {fileID: 2800000, guid: 53aa0f7d394c516469a5393b9f4be213, type: 3}
+  - {fileID: 2800000, guid: 2561d15fb5177b34ca4f6e1222a75320, type: 3}
+  - {fileID: 2800000, guid: 6707e641c2fabc84a93ebfc3ab4991a8, type: 3}
+  - {fileID: 2800000, guid: 6c41e25fa4fc8504ba82415d351889f5, type: 3}
+  - {fileID: 2800000, guid: d580dc0c8a21e7a43a8ef975151014ba, type: 3}
+  - {fileID: 2800000, guid: 917e87fef6184de43a06cabd225f920f, type: 3}
+  - {fileID: 2800000, guid: af9c3b67580f29e4d9209d3b06512b4e, type: 3}
+  - {fileID: 2800000, guid: 261e308910f2de948afc9fda7d134b3d, type: 3}
+  - {fileID: 2800000, guid: 940442cacfdd9ef4198e2e831c019d84, type: 3}
+  - {fileID: 2800000, guid: 4757efd18023bf14e9521acf86bc73f9, type: 3}
+  - {fileID: 2800000, guid: cefd7dcb22026a34ab06aabc1a06858a, type: 3}
+  speed: 0.1

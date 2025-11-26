@@ -14,6 +14,9 @@ GameObject:
   - component: {fileID: 7944231391976859165}
   - component: {fileID: 4513277228627929422}
   - component: {fileID: -6105828467592267180}
+  - component: {fileID: -7732313683911683091}
+  - component: {fileID: 8346898382594814021}
+  - component: {fileID: -3920113263720680223}
   m_Layer: 0
   m_Name: passenger_Antu
   m_TagString: Untagged
@@ -31,7 +34,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 12.86, y: 5.073, z: 4.224}
-  m_LocalScale: {x: 0.53154, y: 0.53154, z: 0.53154}
+  m_LocalScale: {x: 0.3, y: 0.2, z: 0.2}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -43,7 +46,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 618542321095490944}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!23 &9167102069346071201
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -130,8 +133,15 @@ MonoBehaviour:
   demandaMin: 72
   demandaMax: 100
   exigencia: 10
-  debugColor: {r: 0.16233535, g: 0.6037736, b: 0.21464862, a: 0}
-  debugTexture: {fileID: 2800000, guid: 2c8bfbd25493e3347a5e6656176e6243, type: 3}
+  visuals:
+    animatorController: {fileID: 9100000, guid: a98317a71dca7074ab9cf409734a5b6f, type: 2}
+    characterMaterial: {fileID: 2100000, guid: 3f672067794f5a542908d5e2acf3b2af, type: 2}
+    textureTiling: {x: 1, y: 1}
+    textureOffset: {x: 0, y: 0}
+    planeSize: {x: 1, y: 1}
+    useBillboard: 1
+  debugColor: {r: 1, g: 1, b: 1, a: 0}
+  debugTexture: {fileID: 0}
   notas: "Escritor:\nSabe escribir ratings, no tanto dinero, estar\xE1 concentrado
     en sus cosas"
 --- !u!114 &-6105828467592267180
@@ -154,3 +164,67 @@ MonoBehaviour:
   maxSpawnDelay: 8
   flowchartName: Flowchart_Antu
   blockName: Conversacion_Antu
+--- !u!111 &-7732313683911683091
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 618542321095490944}
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Animation: {fileID: 7400000, guid: 668fe387db8c0564eaec7a939fcc75ed, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 668fe387db8c0564eaec7a939fcc75ed, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_UpdateMode: 0
+  m_CullingType: 0
+--- !u!95 &8346898382594814021
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 618542321095490944}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a98317a71dca7074ab9cf409734a5b6f, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &-3920113263720680223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 618542321095490944}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e3f993a6dd904941ac57e2d6996774b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  frames:
+  - {fileID: 2800000, guid: 0098a7e58ad5a384484dd2a5c9ec611c, type: 3}
+  - {fileID: 2800000, guid: a757a5d77a47c514689cc9be06f68b0e, type: 3}
+  - {fileID: 2800000, guid: fa6b75bf2bc2c9941898f5953498a769, type: 3}
+  - {fileID: 2800000, guid: e228fc95c66a01746909a8b914b13dd5, type: 3}
+  - {fileID: 2800000, guid: 8d38ca6e5df617c4087eb760cde59483, type: 3}
+  - {fileID: 2800000, guid: cea3c9471d29d6b4882a504206bbb800, type: 3}
+  - {fileID: 2800000, guid: 458ed7673a733bd4ea4f8ca4edac9bff, type: 3}
+  - {fileID: 2800000, guid: 988a5c8f8e94fe4469f7a6090669755c, type: 3}
+  - {fileID: 2800000, guid: 8cfeff3693436f740b80b85791b79643, type: 3}
+  - {fileID: 2800000, guid: 6d9ded9e65b229b4981593bc75d7f86c, type: 3}
+  - {fileID: 2800000, guid: a5211297627f984488a8c655c2f958de, type: 3}
+  speed: 0.1

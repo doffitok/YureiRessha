@@ -31,7 +31,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 12.86, y: 5.073, z: 4.224}
-  m_LocalScale: {x: 0.53154, y: 0.53154, z: 0.53154}
+  m_LocalScale: {x: 0.3, y: 0.2, z: 0.2}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -130,6 +130,13 @@ MonoBehaviour:
   demandaMin: 1
   demandaMax: 100
   exigencia: 0
+  visuals:
+    animatorController: {fileID: 0}
+    characterMaterial: {fileID: 0}
+    textureTiling: {x: 1, y: 1}
+    textureOffset: {x: 0, y: 0}
+    planeSize: {x: 1, y: 1}
+    useBillboard: 1
   debugColor: {r: 1, g: 1, b: 1, a: 0}
   debugTexture: {fileID: 2800000, guid: 58a8f66ede252f04f98afc598567b85f, type: 3}
   notas: Nothing.

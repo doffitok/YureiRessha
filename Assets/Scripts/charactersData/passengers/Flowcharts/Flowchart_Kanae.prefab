@@ -130,11 +130,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   version: 1
-  scrollPos: {x: 1076.5297, y: 1085.1478}
+  scrollPos: {x: 779.8441, y: 432.2439}
   variablesScrollPos: {x: 0, y: 0}
   variablesExpanded: 1
-  blockViewHeight: 733
-  zoom: 0.52000046
+  blockViewHeight: 591
+  zoom: 0.7000003
   scrollViewRect:
     serializedVersion: 2
     x: -343
@@ -142,7 +142,7 @@ MonoBehaviour:
     width: 1114
     height: 859
   selectedBlocks:
-  - {fileID: 5892454671137415347}
+  - {fileID: 1109856465146080733}
   selectedCommands: []
   variables:
   - {fileID: 1303773634016974481}
@@ -1333,9 +1333,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afb91b566ceda411bad1e9d3c3243ecc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scope: 0
-  key: AmistadActual
-  value: 20
+  scope: 1
+  key: Amistad_Kana
+  value: 30
 --- !u!114 &4180891183391056192
 MonoBehaviour:
   m_ObjectHideFlags: 0

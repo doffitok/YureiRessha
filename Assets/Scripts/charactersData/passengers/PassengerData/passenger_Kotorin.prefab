@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 7944231391976859165}
   - component: {fileID: 4513277228627929422}
   - component: {fileID: -6105828467592267180}
+  - component: {fileID: 4802556838567172131}
   m_Layer: 0
   m_Name: passenger_Kotorin
   m_TagString: Untagged
@@ -31,7 +32,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 12.86, y: 5.073, z: 4.224}
-  m_LocalScale: {x: 0.53154, y: 0.53154, z: 0.53154}
+  m_LocalScale: {x: 0.3, y: 0.2, z: 0.2}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -43,7 +44,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 618542321095490944}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!23 &9167102069346071201
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -130,6 +131,13 @@ MonoBehaviour:
   demandaMin: 12
   demandaMax: 100
   exigencia: 3
+  visuals:
+    animatorController: {fileID: 0}
+    characterMaterial: {fileID: 0}
+    textureTiling: {x: 1, y: 1}
+    textureOffset: {x: 0, y: 0}
+    planeSize: {x: 1, y: 1}
+    useBillboard: 1
   debugColor: {r: 0.38679248, g: 0.26090246, b: 0.23529412, a: 0}
   debugTexture: {fileID: 2800000, guid: 28c7324c63e4cfd4498f7df2a8b8f25c, type: 3}
   notas: 'Aficionada:
@@ -156,3 +164,28 @@ MonoBehaviour:
   maxSpawnDelay: 8
   flowchartName: Flowchart_Kotorin
   blockName: Conversacion_Kotorin
+--- !u!114 &4802556838567172131
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 618542321095490944}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e3f993a6dd904941ac57e2d6996774b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  frames:
+  - {fileID: 2800000, guid: a20a9bca501e3794f9fc321aff3c6a8e, type: 3}
+  - {fileID: 2800000, guid: 04729502c04ea674081510f06885eb4a, type: 3}
+  - {fileID: 2800000, guid: c6550d88c7b2dcf4793856d95e95caf3, type: 3}
+  - {fileID: 2800000, guid: e18a42f11a87f9a448be1e9b450a940d, type: 3}
+  - {fileID: 2800000, guid: 42c1f79bc41148a4694e86477e8c88b0, type: 3}
+  - {fileID: 2800000, guid: 42bdf6d03026eb245a80c34593ec71a5, type: 3}
+  - {fileID: 2800000, guid: d389692c7122bb34d9192f41bb52ef50, type: 3}
+  - {fileID: 2800000, guid: 193f998de7a6c78499c3ef2e1888e7d6, type: 3}
+  - {fileID: 2800000, guid: 8a014519685d1fc498425ea62a189723, type: 3}
+  - {fileID: 2800000, guid: ce3dab27d26681f4f90d8f3e40a8668c, type: 3}
+  - {fileID: 2800000, guid: fa59a1ddf38bed74e92a44032b590178, type: 3}
+  speed: 0.1

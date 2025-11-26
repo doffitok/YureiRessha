@@ -125,12 +125,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: passengerKotorin
   nombre: Kotorin
-  rating: 16
-  dinero: 16
-  amistad: 3
-  demandaMin: 12
+  rating: 15
+  dinero: 3
+  amistad: -4
+  demandaMin: 60
   demandaMax: 100
-  exigencia: 3
+  exigencia: 16
   visuals:
     animatorController: {fileID: 0}
     characterMaterial: {fileID: 0}

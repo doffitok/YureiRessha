@@ -130,9 +130,9 @@ MonoBehaviour:
   rating: 10
   dinero: 8
   amistad: -1
-  demandaMin: 72
+  demandaMin: 60
   demandaMax: 100
-  exigencia: 10
+  exigencia: 15
   visuals:
     animatorController: {fileID: 9100000, guid: a98317a71dca7074ab9cf409734a5b6f, type: 2}
     characterMaterial: {fileID: 2100000, guid: 3f672067794f5a542908d5e2acf3b2af, type: 2}

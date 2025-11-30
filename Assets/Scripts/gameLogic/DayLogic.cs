@@ -29,10 +29,10 @@ public class DayLogic : MonoBehaviour
 
     [Header("Configuración del sol (Day/Night Cycle)")]
     public Light sun;
-    private Color startColor = new Color(202f / 255f, 88f / 255f, 0f / 255f);
-    private Color endColor = new Color(30f / 255f, 79f / 255f, 78f / 255f);
-    private float startRotationX = 25f;
-    private float endRotationX = 40f;
+    public Color startColor = new Color(202f / 255f, 88f / 255f, 0f / 255f);
+    public Color endColor = new Color(30f / 255f, 79f / 255f, 78f / 255f);
+    public float startRotationX = 25f;
+    public float endRotationX = 40f;
 
     [SerializeField, Tooltip("Velocidad de transición del sol (0 = instantáneo)")]
     private float sunSmoothSpeed = 2f;

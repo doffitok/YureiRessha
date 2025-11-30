@@ -43,7 +43,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 172376899591694313}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!23 &1819801851067671287
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -124,12 +124,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: passengerEbimaru
   nombre: Ebimaru
-  rating: 16
-  dinero: 13
-  amistad: 2
-  demandaMin: 29
+  rating: 15
+  dinero: 3
+  amistad: -4
+  demandaMin: 60
   demandaMax: 100
-  exigencia: 4
+  exigencia: 20
   visuals:
     animatorController: {fileID: 0}
     characterMaterial: {fileID: 0}
@@ -142,7 +142,11 @@ MonoBehaviour:
   notas: 'Actor:
 
     Bueno pal chacoteo, habla mucho. Da mucha rating mucha plata
-    y habla mucho, pero su amistad y exigencia son bajas'
+    y habla mucho, pero su amistad y exigencia son bajas
+
+
+    IMPORTANTE: Al parecer
+    la DEMANDA MINIMA MUY BAJA QUIZA ES DEMASIADO BAJA XD'
 --- !u!114 &7222213368833499028
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -68,7 +68,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 2bf9fc378d9aac841813a11ce0130d79, type: 2}
+  - {fileID: 2100000, guid: ce3d2006fb7d2a247bacacfd6f30a471, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -125,12 +125,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: passengerKitsu
   nombre: Kitsu
-  rating: 2
-  dinero: 17
-  amistad: 0
-  demandaMin: 28
+  rating: 15
+  dinero: 3
+  amistad: -4
+  demandaMin: 60
   demandaMax: 100
-  exigencia: 17
+  exigencia: 16
   visuals:
     animatorController: {fileID: 0}
     characterMaterial: {fileID: 0}

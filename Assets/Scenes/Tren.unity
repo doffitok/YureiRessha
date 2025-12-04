@@ -146,14 +146,14 @@ RectTransform:
   m_GameObject: {fileID: 15539378}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 9.361035}
-  m_LocalScale: {x: 0.5475415, y: 0.16864584, z: 2.1757}
+  m_LocalScale: {x: 0.46525696, y: 0.14330174, z: 1.8487358}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 682695348}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 4.193054, y: -19.5}
+  m_AnchoredPosition: {x: 4.193054, y: -19.6}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &15539380
@@ -176,7 +176,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Balance
+  m_text: Final statement
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -241,7 +241,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 15.5119705, w: 0}
+  m_margin: {x: -43.65326, y: 0, z: -31.163132, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -1180,6 +1180,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxSeconds: 300
   sun: {fileID: 1279070911}
+  startColor: {r: 0.7921569, g: 0.34509805, b: 0, a: 1}
+  endColor: {r: 0.11764706, g: 0.30980393, b: 0.30588236, a: 1}
+  startRotationX: 25
+  endRotationX: 40
   sunSmoothSpeed: 2
   startButton: {fileID: 1496626018}
   buttonTransform: {fileID: 1496626017}
@@ -5091,7 +5095,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 0}
+  m_Texture: {fileID: 2800000, guid: 619f5bb9db2f39c4a8530ab5a4beb922, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -7628,8 +7632,8 @@ MonoBehaviour:
   - {fileID: 618542321095490944, guid: 679dd1ca63a50964b983337712b17289, type: 3}
   - {fileID: 2611211793170235259, guid: 96bbd01f6839cfb47abad5a4f56b526d, type: 3}
   - {fileID: 2046608415895934198, guid: cefb3267ff78a5b44b15032c1f80fa2c, type: 3}
-  - {fileID: 86341387967933143, guid: 4020acd5ec02e384c8494c2246787d19, type: 3}
   - {fileID: 618542321095490944, guid: 07e947557bc38b149ac9d26c95a421d9, type: 3}
+  - {fileID: 86341387967933143, guid: af14129fff098ab4bb965389dfe36dd9, type: 3}
   defaultPassengers: []
   spawnPoints: []
   minRatingRoll: 0
@@ -14907,7 +14911,7 @@ RectTransform:
   m_GameObject: {fileID: 920311089}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 9.361035}
-  m_LocalScale: {x: 0.5475415, y: 0.16864584, z: 2.1757}
+  m_LocalScale: {x: 0.47838154, y: 0.15183017, z: 2.1757}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 66545574}
@@ -14937,7 +14941,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Ingresos de ruta
+  m_text: 'Route revenues:'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -17490,7 +17494,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Impuestos
+  m_text: 'TAXES:'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -28034,7 +28038,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fa3cc2918c62ad468bcf5dfff2b8a7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  placementLogic: {fileID: 0}
+  placementLogic: {fileID: 718991118}
   autoRunOnStart: 0
 --- !u!1 &1895134706
 GameObject:
@@ -36268,7 +36272,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7464319100561820449, guid: 18937b1cf9a2c9349a026ebffa003d5c, type: 3}
       propertyPath: blockViewHeight
-      value: 596
+      value: 280
       objectReference: {fileID: 0}
     - target: {fileID: 7464319100561820449, guid: 18937b1cf9a2c9349a026ebffa003d5c, type: 3}
       propertyPath: selectedBlocks.Array.size

@@ -23,6 +23,11 @@ public class EndScreenBehaviour : MonoBehaviour
     [SerializeField] private float vueltasCompletas = 2f;
     [SerializeField] private float duracionAnimacion = 1.5f;
 
+    // Nuevo: Sprite de fondo para Game Over
+    [Header("Sprite de fondo Game Over")]
+    [SerializeField] private GameObject fondoGameOverSprite; // Asigna el GameObject con el SpriteRenderer o Image
+    [SerializeField] private bool mostrarFondoInmediatamente = true; // Mostrar al detectar game over
+
     private Canvas canvasPadre;
     private AudioSource audioSource;
 
@@ -55,6 +60,12 @@ public class EndScreenBehaviour : MonoBehaviour
         audioSource = gameObject.AddComponent<AudioSource>();
         audioSource.playOnAwake = false;
 
+        // Ocultar el sprite de fondo al inicio
+        if (fondoGameOverSprite != null)
+        {
+            fondoGameOverSprite.SetActive(false);
+        }
+
         Debug.Log("[EndScreenBehaviour] Awake completado.");
     }
 
@@ -63,6 +74,14 @@ public class EndScreenBehaviour : MonoBehaviour
     {
         jugadorPerdio = perdio;
         shakeYaHecho = false;
+        
+        // Mostrar sprite de fondo si el jugador perdió
+        if (jugadorPerdio && mostrarFondoInmediatamente && fondoGameOverSprite != null)
+        {
+            fondoGameOverSprite.SetActive(true);
+            Debug.Log("[EndScreenBehaviour] Sprite de fondo Game Over activado.");
+        }
+
         Debug.Log("[EndScreenBehaviour] SetResultadoDelDia llamado. Perdio=" + jugadorPerdio);
     }
 
@@ -104,6 +123,13 @@ public class EndScreenBehaviour : MonoBehaviour
             audioSource.volume = volumenSonido;
             audioSource.PlayOneShot(sonidoRuptura);
         }
+
+        // Mostrar sprite de fondo si no se mostró inmediatamente
+        if (!mostrarFondoInmediatamente && fondoGameOverSprite != null)
+        {
+            fondoGameOverSprite.SetActive(true);
+            Debug.Log("[EndScreenBehaviour] Sprite de fondo Game Over activado durante shake.");
+        }
     }
 
     public void ActivarEndScreen()
@@ -135,6 +161,12 @@ public class EndScreenBehaviour : MonoBehaviour
         diarioTimer = 0f;
         animandoDiario = true;
         diarioYaMostrado = true;
+
+        // Asegurar que el sprite de fondo esté visible
+        if (fondoGameOverSprite != null && !fondoGameOverSprite.activeSelf)
+        {
+            fondoGameOverSprite.SetActive(true);
+        }
 
         Debug.Log("[EndScreenBehaviour] Animacion del diario iniciada.");
     }
@@ -224,6 +256,16 @@ public class EndScreenBehaviour : MonoBehaviour
         {
             animandoDiario = false;
             Debug.Log("[EndScreenBehaviour] Animacion del diario terminada.");
+        }
+    }
+
+    // Método público para ocultar el sprite si es necesario
+    public void OcultarFondoGameOver()
+    {
+        if (fondoGameOverSprite != null)
+        {
+            fondoGameOverSprite.SetActive(false);
+            Debug.Log("[EndScreenBehaviour] Sprite de fondo Game Over ocultado.");
         }
     }
 }

@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 42345c0616838074894ae73527ecb772, type: 3}
-  m_Name: Gallery_Graffiti_Ratwawa
+  m_Name: Gallery_Graffiti_Toquedemiidas
   m_EditorClassIdentifier: 
-  engimonoName: Kotorin my beloved
-  engimonoDescription: 'Art by: Ratwawa'
-  engimonoIcon: {fileID: 21300000, guid: 50ea1b88193e5e74c9e1b18e619e7580, type: 3}
-  engimonoMainSprite: {fileID: 21300000, guid: 50ea1b88193e5e74c9e1b18e619e7580, type: 3}
-  backgroundSprite: {fileID: 21300000, guid: 50ea1b88193e5e74c9e1b18e619e7580, type: 3}
+  engimonoName: Otto Rules
+  engimonoDescription: 'Art by: Toquedemiidas'
+  engimonoIcon: {fileID: 21300000, guid: abb6771a11baa5047b998ec70629d9f5, type: 3}
+  engimonoMainSprite: {fileID: 21300000, guid: abb6771a11baa5047b998ec70629d9f5, type: 3}
+  backgroundSprite: {fileID: 21300000, guid: abb6771a11baa5047b998ec70629d9f5, type: 3}
   backgroundColor: {r: 1, g: 1, b: 1, a: 1}
   highlightOnHover: 1
   panelOffset: {x: 400, y: 0}

@@ -6172,6 +6172,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: bb97fa306c47b734cb4276f02dabcfc4, type: 2}
   - {fileID: 11400000, guid: 4a7271330edd4b34a8c0fc59f8aea0dd, type: 2}
   - {fileID: 11400000, guid: 21e1aa60fe2d5bf4da931a775b4b0b3a, type: 2}
+  - {fileID: 11400000, guid: 7fa88f0a673910e459a3ff2ec76a8912, type: 2}
   gridContainer: {fileID: 1068734144}
   engimonoCardPrefab: {fileID: 1621734841}
   engimonoPanel: {fileID: 561810515}

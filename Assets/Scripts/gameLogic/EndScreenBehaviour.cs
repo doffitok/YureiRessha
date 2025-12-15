@@ -4,36 +4,31 @@ using UnityEngine;
 public class EndScreenBehaviour : MonoBehaviour
 {
     [Header("Prefab del Game Over (diario)")]
-    [SerializeField] private GameObject endScreenPrefab;
+    public GameObject endScreenPrefab;
 
     [Header("HUD que se va a sacudir")]
-    [SerializeField] private RectTransform hudRoot;
+    public RectTransform hudRoot;
 
     [Header("Shake del HUD")]
-    [SerializeField] private float shakeFuerza = 0.5f;
-    [SerializeField] private float shakeDuracion = 0.5f;
+    public float shakeFuerza = 0.5f;
+    public float shakeDuracion = 0.5f;
 
     [Header("Sonido de ruptura")]
-    [SerializeField] private AudioClip sonidoRuptura;
-    [SerializeField] private float volumenSonido = 1f;
+    public AudioClip sonidoRuptura;
+    public float volumenSonido = 1f;
 
-    [Header("Animacion del diario")]
-    [SerializeField] private Vector3 escalaInicial = Vector3.zero;
-    [SerializeField] private Vector3 escalaFinal = Vector3.one;
-    [SerializeField] private float vueltasCompletas = 2f;
-    [SerializeField] private float duracionAnimacion = 1.5f;
-
-    // Nuevo: Sprite de fondo para Game Over
-    [Header("Sprite de fondo Game Over")]
-    [SerializeField] private GameObject fondoGameOverSprite; // Asigna el GameObject con el SpriteRenderer o Image
-    [SerializeField] private bool mostrarFondoInmediatamente = true; // Mostrar al detectar game over
+    [Header("Animación del diario")]
+    public Vector3 escalaInicial = Vector3.zero;
+    public Vector3 escalaFinal = Vector3.one;
+    public float vueltasCompletas = 2f;
+    public float duracionAnimacion = 1.5f;
 
     private Canvas canvasPadre;
     private AudioSource audioSource;
 
     private bool jugadorPerdio = false;
 
-    // Shake
+    // Shake HUD
     private bool shaking = false;
     private float shakeTimer = 0f;
     private Vector2 hudOriginal;
@@ -59,48 +54,20 @@ public class EndScreenBehaviour : MonoBehaviour
 
         audioSource = gameObject.AddComponent<AudioSource>();
         audioSource.playOnAwake = false;
-
-        // Ocultar el sprite de fondo al inicio
-        if (fondoGameOverSprite != null)
-        {
-            fondoGameOverSprite.SetActive(false);
-        }
-
-        Debug.Log("[EndScreenBehaviour] Awake completado.");
     }
 
-    // GoalsManager llama esto despues de calcular el dia
+    // Llamado desde el sistema de resultados
     public void SetResultadoDelDia(bool perdio)
     {
         jugadorPerdio = perdio;
         shakeYaHecho = false;
-        
-        // Mostrar sprite de fondo si el jugador perdió
-        if (jugadorPerdio && mostrarFondoInmediatamente && fondoGameOverSprite != null)
-        {
-            fondoGameOverSprite.SetActive(true);
-            Debug.Log("[EndScreenBehaviour] Sprite de fondo Game Over activado.");
-        }
-
-        Debug.Log("[EndScreenBehaviour] SetResultadoDelDia llamado. Perdio=" + jugadorPerdio);
     }
 
-    // EndscreenResults llama esto cuando TERMINA la animacion del balance
+    // Llamado cuando termina la animación del balance
     public void OnBalanceAnimationCompletada()
     {
-        Debug.Log("[EndScreenBehaviour] OnBalanceAnimationCompletada llamado.");
-
-        if (!jugadorPerdio)
-        {
-            Debug.Log("[EndScreenBehaviour] El jugador NO perdio, no se hace shake.");
+        if (!jugadorPerdio || shakeYaHecho)
             return;
-        }
-
-        if (shakeYaHecho)
-        {
-            Debug.Log("[EndScreenBehaviour] Shake ya se hizo antes, se ignora.");
-            return;
-        }
 
         TriggerShake();
         shakeYaHecho = true;
@@ -109,12 +76,8 @@ public class EndScreenBehaviour : MonoBehaviour
     private void TriggerShake()
     {
         if (hudRoot == null)
-        {
-            Debug.LogWarning("[EndScreenBehaviour] hudRoot es null, no se puede sacudir HUD.");
             return;
-        }
 
-        Debug.Log("[EndScreenBehaviour] TriggerShake: comenzando temblor + sonido.");
         shakeTimer = 0f;
         shaking = true;
 
@@ -123,37 +86,17 @@ public class EndScreenBehaviour : MonoBehaviour
             audioSource.volume = volumenSonido;
             audioSource.PlayOneShot(sonidoRuptura);
         }
-
-        // Mostrar sprite de fondo si no se mostró inmediatamente
-        if (!mostrarFondoInmediatamente && fondoGameOverSprite != null)
-        {
-            fondoGameOverSprite.SetActive(true);
-            Debug.Log("[EndScreenBehaviour] Sprite de fondo Game Over activado durante shake.");
-        }
     }
 
+    // Llamado para mostrar el diario de Game Over
     public void ActivarEndScreen()
     {
-        Debug.Log("[EndScreenBehaviour] ActivarEndScreen llamado. Perdio=" + jugadorPerdio + ", diarioYaMostrado=" + diarioYaMostrado);
-
-        if (!jugadorPerdio)
-        {
-            Debug.Log("[EndScreenBehaviour] El jugador no perdio, no se muestra diario.");
+        if (!jugadorPerdio || diarioYaMostrado)
             return;
-        }
-
-        if (diarioYaMostrado)
-        {
-            Debug.Log("[EndScreenBehaviour] El diario ya fue mostrado, se ignora.");
-            return;
-        }
 
         InstanciarDiarioSiEsNecesario();
         if (diarioRect == null)
-        {
-            Debug.LogError("[EndScreenBehaviour] No se pudo instanciar el diario.");
             return;
-        }
 
         diarioRect.localScale = escalaInicial;
         diarioRect.localRotation = Quaternion.identity;
@@ -161,14 +104,6 @@ public class EndScreenBehaviour : MonoBehaviour
         diarioTimer = 0f;
         animandoDiario = true;
         diarioYaMostrado = true;
-
-        // Asegurar que el sprite de fondo esté visible
-        if (fondoGameOverSprite != null && !fondoGameOverSprite.activeSelf)
-        {
-            fondoGameOverSprite.SetActive(true);
-        }
-
-        Debug.Log("[EndScreenBehaviour] Animacion del diario iniciada.");
     }
 
     private void InstanciarDiarioSiEsNecesario()
@@ -177,37 +112,25 @@ public class EndScreenBehaviour : MonoBehaviour
             return;
 
         if (endScreenPrefab == null)
-        {
-            Debug.LogError("[EndScreenBehaviour] endScreenPrefab es null, no puedo instanciar.");
             return;
-        }
 
         if (canvasPadre == null)
-        {
             canvasPadre = FindFirstObjectByType<Canvas>();
-            if (canvasPadre == null)
-            {
-                Debug.LogError("[EndScreenBehaviour] No hay Canvas en la escena.");
-                return;
-            }
-        }
+
+        if (canvasPadre == null)
+            return;
 
         GameObject instancia = Instantiate(endScreenPrefab, canvasPadre.transform);
         instancia.name = "EndScreenDiario";
 
         diarioRect = instancia.GetComponent<RectTransform>();
         if (diarioRect == null)
-        {
-            Debug.LogError("[EndScreenBehaviour] El prefab no tiene RectTransform.");
             return;
-        }
 
         diarioRect.anchorMin = new Vector2(0.5f, 0.5f);
         diarioRect.anchorMax = new Vector2(0.5f, 0.5f);
         diarioRect.pivot = new Vector2(0.5f, 0.5f);
         diarioRect.anchoredPosition = Vector2.zero;
-
-        Debug.Log("[EndScreenBehaviour] Diario instanciado y centrado.");
     }
 
     private void Update()
@@ -233,7 +156,6 @@ public class EndScreenBehaviour : MonoBehaviour
         {
             shaking = false;
             hudRoot.anchoredPosition = hudOriginal;
-            Debug.Log("[EndScreenBehaviour] Shake terminado.");
         }
     }
 
@@ -255,17 +177,6 @@ public class EndScreenBehaviour : MonoBehaviour
         else
         {
             animandoDiario = false;
-            Debug.Log("[EndScreenBehaviour] Animacion del diario terminada.");
-        }
-    }
-
-    // Método público para ocultar el sprite si es necesario
-    public void OcultarFondoGameOver()
-    {
-        if (fondoGameOverSprite != null)
-        {
-            fondoGameOverSprite.SetActive(false);
-            Debug.Log("[EndScreenBehaviour] Sprite de fondo Game Over ocultado.");
         }
     }
 }

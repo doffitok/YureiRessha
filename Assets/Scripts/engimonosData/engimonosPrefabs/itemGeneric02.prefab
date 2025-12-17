@@ -91,8 +91,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: default_id
-  Nombre: "A\xF1ade dinero cada X momento"
-  Descripcion: "Otorga aleatoriamente entre 15 y 100 de dinero seg\xFAn tu suerte"
+  Nombre: Paws!
+  Descripcion: Adds randomly between 15 and 100 money.
   Icono: {fileID: 21300000, guid: 6e6121a5f3b7bf24a8aee09a8076da14, type: 3}
   PrecioCompra: 500
   PrecioVenta: 250

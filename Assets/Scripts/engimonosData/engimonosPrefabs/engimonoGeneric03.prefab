@@ -13,8 +13,9 @@ GameObject:
   - component: {fileID: 3201446104376612187}
   - component: {fileID: -6173995657898340003}
   - component: {fileID: 8435048558224002031}
+  - component: {fileID: 615387992818320281}
   m_Layer: 5
-  m_Name: engimonoPlaceholder
+  m_Name: engimonoGeneric03
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -107,13 +108,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8b6123c60b7efd4188e4497ba77a526, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  engimonoData: {fileID: 11400000, guid: bbed90e758b44ef4ea7f4854b3cee0b0, type: 2}
+  engimonoData: {fileID: 11400000, guid: 063e8690f8d12ab4caab5750be7e8271, type: 2}
   Comprado: 0
   icono: {fileID: 0}
   nombreTexto: {fileID: 0}
   precioTexto: {fileID: 0}
   gameStats: {fileID: 0}
   inventory: {fileID: 0}
+--- !u!114 &615387992818320281
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1162188520849999511}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c87941252b8a1e418bbac67e6c0da86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  porcentajeConversion: 0.00001
 --- !u!1 &1516378883624060644
 GameObject:
   m_ObjectHideFlags: 0

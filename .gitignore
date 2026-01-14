@@ -73,3 +73,13 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+Assets/TextMesh Pro/Examples & Extras/Resources/Fonts & Materials/Roboto-Bold SDF.asset
+Assets/Scenes/Tren.unity
+Assets/Scripts/charactersData/kanaeData.asset
+Assets/Scripts/charactersData/passengers/passengerAkane.prefab
+Assets/Scripts/charactersData/passengers/passengerAkane.prefab.meta
+Assets/Scripts/charactersData/passengers/passengerKanae.prefab
+Assets/Scripts/charactersData/passengers/passengerKanae.prefab.meta
+Assets/Sprites/hud/BubbleText.png
+Assets/Sprites/hud/BubbleText.png.meta
+Assets/Sprites/Personajes/Materials/shinkai.mat

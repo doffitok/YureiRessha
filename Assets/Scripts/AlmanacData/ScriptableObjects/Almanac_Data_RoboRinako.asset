@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ebd3bc1f9f38c418d37df726eef530, type: 3}
+  m_Name: Almanac_Data_RoboRinako
+  m_EditorClassIdentifier: 
+  characterId: 14
+  displayName: Robo-Rinako
+  description: That's... also me!  She is a robot version of me, with her I can remember
+    everything I need to do in the Train day-by-day even if I forget anything.
+  portrait: {fileID: 21300000, guid: b770de3ae3a5f8d499b12520756c84de, type: 3}
+  gallerySprites:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  portraitScale: 5
+  portraitYPosition: 0
+  buttonBackground: {fileID: 21300000, guid: ddf6c415de8941e4faf76615ec4f5ae3, type: 3}
+  buttonFont: {fileID: 0}
+  buttonTextColor: {r: 1, g: 1, b: 1, a: 1}
+  buttonFontSize: 24
+  engimonoNames:
+  - 
+  - 
+  - 
+  engimonoDescriptions:
+  - 
+  - 
+  - 
+  engimonoIcons:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  engimonoCredits:
+  - 
+  - 
+  - 

@@ -15,6 +15,15 @@ public class CharacterAlmaData : ScriptableObject
     [Header("Imágenes")]
     public Sprite portrait; // imagen grande (panel izquierdo)
     public Sprite[] gallerySprites = new Sprite[3]; // hasta 3 miniaturas abajo
+    
+    [Header("Escala del Retrato")]
+    [Tooltip("Escala personalizada para el retrato del personaje. 1 = tamaño normal")]
+    [Range(0.1f, 70f)]
+    public float portraitScale = 1f;
+
+    [Header("Posición Vertical del Retrato")]
+    [Tooltip("Ajuste vertical del retrato. 0 = posición normal, positivo = más arriba, negativo = más abajo")]
+    public float portraitYPosition = 0f;
 
     [Header("Botón del Almanaque")]
     public Sprite buttonBackground; // Fondo del botón
@@ -26,4 +35,7 @@ public class CharacterAlmaData : ScriptableObject
     public string[] engimonoNames = new string[3];
     [TextArea(2, 4)] public string[] engimonoDescriptions = new string[3];
     public Sprite[] engimonoIcons = new Sprite[3];
+
+    [Header("Créditos de Engimonos")]
+    public string[] engimonoCredits = new string[3];
 }

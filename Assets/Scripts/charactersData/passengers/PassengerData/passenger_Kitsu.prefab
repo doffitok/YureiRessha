@@ -1,0 +1,191 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &618542321095490944
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2123659486790864136}
+  - component: {fileID: 1312914807285079029}
+  - component: {fileID: 9167102069346071201}
+  - component: {fileID: 7944231391976859165}
+  - component: {fileID: 4513277228627929422}
+  - component: {fileID: -6105828467592267180}
+  - component: {fileID: 6371085659043232044}
+  m_Layer: 0
+  m_Name: passenger_Kitsu
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2123659486790864136
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 618542321095490944}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 12.86, y: 5.073, z: 4.224}
+  m_LocalScale: {x: 0.3, y: 0.2, z: 0.2}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &1312914807285079029
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 618542321095490944}
+  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &9167102069346071201
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 618542321095490944}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: ce3d2006fb7d2a247bacacfd6f30a471, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &7944231391976859165
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 618542321095490944}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &4513277228627929422
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 618542321095490944}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36dd04aa4ea970b4391ce289cc91b3ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ID: passengerKitsu
+  nombre: Kitsu
+  rating: 15
+  dinero: 3
+  amistad: -4
+  demandaMin: 60
+  demandaMax: 100
+  exigencia: 16
+  visuals:
+    animatorController: {fileID: 0}
+    characterMaterial: {fileID: 0}
+    textureTiling: {x: 1, y: 1}
+    textureOffset: {x: 0, y: 0}
+    planeSize: {x: 1, y: 1}
+    useBillboard: 1
+  debugColor: {r: 0.51290494, g: 0.86263067, b: 0.9622642, a: 0}
+  debugTexture: {fileID: 2800000, guid: 02be84403c7b90a4c8a884aa88ec7af0, type: 3}
+  notas: 'Veterinario:
+
+    Es algo serio, tiene su dinero pero su rating es un asco
+    junto a que va a muchisimos lugares'
+--- !u!114 &-6105828467592267180
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 618542321095490944}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97ec65e031913664a8adc8184df37f9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogueIconPrefab: {fileID: 1292822602587377570, guid: 0faf443d098bfa64c9cfa9b1ecad98f8, type: 3}
+  offsetX: 0
+  offsetY: 0
+  offsetZ: 0
+  minSpawnDelay: 4
+  maxSpawnDelay: 8
+  flowchartName: Flowchart_Kitsu
+  blockName: Conversacion_Kitsu
+--- !u!114 &6371085659043232044
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 618542321095490944}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e3f993a6dd904941ac57e2d6996774b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  frames:
+  - {fileID: 2800000, guid: db2cfd4e32a9b244e996b2573a1b2534, type: 3}
+  - {fileID: 2800000, guid: 8e86a6f37404a22409496f9bf8e65557, type: 3}
+  - {fileID: 2800000, guid: e36fa1d62b0a51d4294be5ce7d08b941, type: 3}
+  - {fileID: 2800000, guid: 2e4d4a87247dfe34eb19257dde1d6e29, type: 3}
+  - {fileID: 2800000, guid: 2e371863a05963548be8f1347b33ea80, type: 3}
+  - {fileID: 2800000, guid: 74aadfe6524618b47bce11d39d413ab7, type: 3}
+  - {fileID: 2800000, guid: 8b3ca9c119a380a46b6feca33de5a624, type: 3}
+  - {fileID: 2800000, guid: 9766552754d30e643b3c6adae12d13e2, type: 3}
+  - {fileID: 2800000, guid: 0973bc9d90c475c4fab0729b590c5252, type: 3}
+  - {fileID: 2800000, guid: edcee6e18d3a9fc42a04f56d1609d51b, type: 3}
+  - {fileID: 2800000, guid: 256dc40b55765f346a06cfb8ce8002a3, type: 3}
+  speed: 0.1

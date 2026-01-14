@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42345c0616838074894ae73527ecb772, type: 3}
+  m_Name: Gallery_Engimono_Nomu_Why_Don't_You_make_me_a_coffe
+  m_EditorClassIdentifier: 
+  engimonoName: Why dont' you make me a Coffee?
+  engimonoDescription: '50% off all items in the store and you earn a single coin. '
+  engimonoIcon: {fileID: 21300000, guid: 72ce4421b1d02094397256799c0f94c7, type: 3}
+  engimonoMainSprite: {fileID: 21300000, guid: 72ce4421b1d02094397256799c0f94c7, type: 3}
+  backgroundSprite: {fileID: 21300000, guid: 8b2f2398aa0e24e4997a0a2369f8c52e, type: 3}
+  backgroundColor: {r: 1, g: 1, b: 1, a: 1}
+  highlightOnHover: 1
+  panelOffset: {x: 400, y: 0}
